@@ -6,10 +6,10 @@
 Create virtual environment
 python3 -m venv venv
 
-Activate venv (Ubuntu command)
+ACTIVATE venv (Ubuntu command)
 source venv/bin/activate
 
-Deactivate venv (Ubuntu command)
+DEACTIVATE venv (Ubuntu command)
 deactivate
 
 ## FLASK APP
