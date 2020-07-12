@@ -37,3 +37,12 @@ pip freeze > requirements.txt
 
 touch Procfile and add this
 "web: gunicorn app:app"
+
+Deploy to Heroku
+git push heroku master
+
+Ensure that at least one instance of the app is running:
+heroku ps:scale web=1
+
+Open the website:
+heroku open
