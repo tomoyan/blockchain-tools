@@ -1,15 +1,25 @@
 # blockchain-tools
 
-# Create virtual environment
+# Getting Started
+
+## Python
+Create virtual environment
 python3 -m venv venv
 
-# Ubuntu Activate venv
+Activate venv (Ubuntu command)
 source venv/bin/activate
 
-# Ubuntu Deactivate venv
+Deactivate venv (Ubuntu command)
 deactivate
 
-# create a new repository on the command line
+## FLASK APP
+Run flask app on development
+* export FLASK_APP=app.py
+* export FLASK_ENV=development
+* flask run
+
+## Github
+Create a new repository on the command line
 * echo "# blockchain-tools" >> README.md
 * git init
 * git add README.md
@@ -17,7 +27,5 @@ deactivate
 * git remote add origin https://github.com/tomoyan/blockchain-tools.git
 * git push -u origin master
 
-# RUN FLASK APP
-export FLASK_APP=app.py
-export FLASK_ENV=development
-flask run
+## Heroku
+Deploy
