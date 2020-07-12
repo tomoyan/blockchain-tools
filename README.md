@@ -29,4 +29,11 @@ Create a new repository on the command line
 
 ## Heroku
 Deploy: https://devcenter.heroku.com/articles/getting-started-with-python
+(command prompt)
 heroku login
+heroku create
+
+pip freeze > requirements.txt
+
+touch Procfile and add this
+"web: gunicorn app:app"
