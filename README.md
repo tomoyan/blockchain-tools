@@ -28,4 +28,5 @@ Create a new repository on the command line
 * git push -u origin master
 
 ## Heroku
-Deploy
+Deploy: https://devcenter.heroku.com/articles/getting-started-with-python
+heroku login
