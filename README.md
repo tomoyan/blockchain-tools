@@ -14,28 +14,42 @@ deactivate
 
 ## FLASK APP
 Run flask app on development
-* export FLASK_APP=app.py
-* export FLASK_ENV=development
-* flask run
+export FLASK_APP=app.py
+<br>
+export FLASK_ENV=development
+<br>
+flask run
 
 ## Github
 Create a new repository on the command line
-* echo "# blockchain-tools" >> README.md
-* git init
-* git add README.md
-* git commit -m "first commit"
-* git remote add origin https://github.com/tomoyan/blockchain-tools.git
-* git push -u origin master
+echo "# blockchain-tools" >> README.md
+<br>
+git init
+<br>
+git add README.md
+<br>
+git commit -m "first commit"
+<br>
+git remote add origin https://github.com/tomoyan/blockchain-tools.git
+<br>
+git push -u origin master
+<br>
 
-## Heroku
-Deploy: https://devcenter.heroku.com/articles/getting-started-with-python
-(command prompt)
+## Heroku (Use windows command prompt)
+<br>
+Deploy Get Started:
+https://devcenter.heroku.com/articles/getting-started-with-python
+<br>
 heroku login
+<br>
 heroku create
 
+Create requirements file
 pip freeze > requirements.txt
+<br>
+add gunicorn==20.0.4
 
-touch Procfile and add this
+touch Procfile and add
 "web: gunicorn app:app"
 
 Deploy to Heroku
