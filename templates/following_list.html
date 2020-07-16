@@ -17,7 +17,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-        <title>Follower</title>
+        <title>Following</title>
     </head>
     <body>
 
@@ -43,33 +43,38 @@
             </nav>
 
             <div class="jumbotron">
-                <h1 class="display-4">Follower</h1>
-                <p class="lead">list of followers</p>
+                <h1 class="display-4">Following</h1>
+                {% if username %}
+                <p class="lead">{{ username }}'s following users</p>
+                {% else %}
+                <p class="lead">list of following users</p>
+                {% endif  %}
             </div>
 
-            <!-- Username Input Form -->
-            <form action="follower" method="post">
-                <!-- used to protect the form against csrf attacks -->
-                {{ form.hidden_tag() }}
-
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                        <label class="sr-only" for="inlineFormInputGroup">Username</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-                        </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroup"
-                            name="username" placeholder="Username" >
-                        <!-- {{ form.username }} -->
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                        <!-- <input type="submit" value="Go"> -->
-                    </div>
-                </div>
-            </form>
+            <!-- following list -->
+            {% if data %}
+            <ul class="list-group pb-2">
+                {% for element in data %}
+                <li class="list-group-item">
+                    <!-- FORMAT: image username link follows you(optional) -->
+                    <img src="https://images.hive.blog/u/{{ element }}/avatar"
+                        onerror="this.onerror=null;
+                        this.src='https://images.hive.blog/u/hiveonboard/avatar'"
+                        alt="avatar">
+                    <a  href="https://hive.blog/@{{ element }}"> @{{ element }}</a>
+                    {% if data[element] %}
+                    <label class="border rounded bg-primary text-white m-3 p-1">Follows you</label>
+                    {% else %}
+                    <!-- <label class="border rounded bg-light text-dark m-3 p-1">Follow</label> -->
+                    {% endif  %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <ul class="list-group pb-2">
+                <li class="list-group-item active">Nothing To See Here</li>
+            </ul>
+            {% endif  %}
 
         </div>
 

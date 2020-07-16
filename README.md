@@ -58,5 +58,5 @@ git push heroku master
 Ensure that at least one instance of the app is running:
 heroku ps:scale web=1
 
-Open the website:
+Open the website: https://floating-meadow-28045.herokuapp.com/
 heroku open
