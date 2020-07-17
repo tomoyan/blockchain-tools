@@ -42,16 +42,6 @@
                 </div>
             </nav>
 
-<!-- {% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{ message[1] }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %} -->
-
             <div class="jumbotron">
                 <h1 class="display-4">Follower</h1>
                 {% if username %}
@@ -73,7 +63,7 @@
                         alt="avatar">
                     <a  href="https://hive.blog/@{{ element }}"> @{{ element }}</a>
                     {% if data[element] %}
-                    <label class="border rounded bg-primary text-white m-3 p-1">Following</label>
+                    <label class="border rounded bg-primary text-white m-1 p-1">Following</label>
                     {% else %}
                     <!-- <label class="border rounded bg-light text-dark m-3 p-1">Follow</label> -->
                     {% endif  %}

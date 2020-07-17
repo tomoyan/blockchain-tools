@@ -29,11 +29,15 @@ def home():
 @app.route('/follower', methods=['GET', 'POST'])
 def follower():
     form = UserNameForm(request.form)
+
     if request.method == 'POST':
-        username = request.form['username'].lower()
-        logging.warning(username)
-        flash('follower')
-        return redirect('/follower/' + username)
+        if form.validate():
+            username = request.form['username'].lower()
+            logging.warning(username)
+
+            return redirect('/follower/' + username)
+        else:
+            flash('Error: Username is Required')
 
     return render_template('follower.html', form=form)
 
@@ -41,9 +45,6 @@ def follower():
 @app.route('/follower/<username>')
 @app.route('/follower/<username>/')
 def follower_list(username=None):
-
-    flash('follower_list')
-    flash('USERNAME: ' + username)
     data = []
     if username:
         username = escape(username).lower()
@@ -56,11 +57,15 @@ def follower_list(username=None):
 @app.route('/following', methods=['GET', 'POST'])
 def following():
     form = UserNameForm(request.form)
-    if request.method == 'POST':
-        username = request.form['username'].lower()
-        logging.warning(username)
 
-        return redirect('/following/' + username)
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+            logging.warning(username)
+
+            return redirect('/following/' + username)
+        else:
+            flash('Error: Username is Required')
 
     return render_template('following.html', form=form)
 
@@ -68,7 +73,7 @@ def following():
 @app.route('/following/<username>')
 @app.route('/following/<username>/')
 def following_list(username=None):
-    flash('USERNAME: ' + username)
+    # flash('USERNAME: ' + username)
     data = []
     if username:
         username = escape(username).lower()

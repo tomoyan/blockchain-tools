@@ -47,6 +47,20 @@
                 <p class="lead">list of followers</p>
             </div>
 
+            <!-- flash alert -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message[1] }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
             <!-- Username Input Form -->
             <form action="follower" method="post">
                 <!-- used to protect the form against csrf attacks -->
@@ -60,7 +74,7 @@
                             <div class="input-group-text">@</div>
                         </div>
                         <input type="text" class="form-control" id="inlineFormInputGroup"
-                            name="username" placeholder="Username" required>
+                            name="username" placeholder="Username">
                         <!-- {{ form.username }} -->
                       </div>
                     </div>
