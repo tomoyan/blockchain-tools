@@ -1,4 +1,5 @@
 from beem import Hive
+from beem import Steem
 from beem.nodelist import NodeList
 from beem.account import Account
 
@@ -26,70 +27,81 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/follower', methods=['GET', 'POST'])
+@app.route('/hive/follower', methods=['GET', 'POST'])
 def follower():
     form = UserNameForm(request.form)
 
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].lower()
-            logging.warning(username)
+            # logging.warning(username)
 
-            return redirect('/follower/' + username)
+            return redirect('/hive/follower/' + username)
         else:
             flash('Error: Username is Required')
 
-    return render_template('follower.html', form=form)
+    return render_template('hive/follower.html', form=form)
 
 
-@app.route('/follower/<username>')
-@app.route('/follower/<username>/')
+@app.route('/hive/follower/<username>')
+@app.route('/hive/follower/<username>/')
 def follower_list(username=None):
     data = []
     if username:
         username = escape(username).lower()
-        data = get_friends_data(username, 'followers')
+        data = get_hive_friends(username, 'followers')
     logging.warning(data)
 
-    return render_template('follower_list.html', username=username, data=data)
+    return render_template('hive/follower_list.html',
+                           username=username, data=data)
 
 
-@app.route('/following', methods=['GET', 'POST'])
+@app.route('/hive/following', methods=['GET', 'POST'])
 def following():
     form = UserNameForm(request.form)
 
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].lower()
-            logging.warning(username)
+            # logging.warning(username)
 
-            return redirect('/following/' + username)
+            return redirect('/hive/following/' + username)
         else:
             flash('Error: Username is Required')
 
-    return render_template('following.html', form=form)
+    return render_template('hive/following.html', form=form)
 
 
-@app.route('/following/<username>')
-@app.route('/following/<username>/')
+@app.route('/hive/following/<username>')
+@app.route('/hive/following/<username>/')
 def following_list(username=None):
-    # flash('USERNAME: ' + username)
     data = []
     if username:
         username = escape(username).lower()
-        data = get_friends_data(username, 'following')
+        data = get_hive_friends(username, 'following')
     logging.warning(data)
 
-    return render_template('following_list.html', username=username, data=data)
+    return render_template('hive/following_list.html',
+                           username=username, data=data)
 
 
-def get_friends_data(username, follow_type):
-    # Setup node list
+def get_hive_friends(username, follow_type):
+    # Setup hive node list
     nodelist = NodeList()
     nodelist.update_nodes()
-    nodes = nodelist.get_hive_nodes()
-    hive = Hive(node=nodes)
-    hive.set_default_nodes(nodes)
+    hive_nodes = nodelist.get_hive_nodes()
+    hive = Hive(node=hive_nodes)
+    hive.set_default_nodes(hive_nodes)
+    logging.warning(hive_nodes)
+
+    # Setup steemit node list
+    # nodelist = NodeList()
+    # nodelist.update_nodes()
+    # steem_nodes = nodelist.get_steem_nodes()
+    # steem = Steem(node=steem_nodes)
+    # steem.set_default_nodes(steem_nodes)
+    # logging.warning(steem_nodes)
+    # logging.warning(steem.is_steem)
 
     # Create account object
     try:
