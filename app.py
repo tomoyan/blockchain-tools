@@ -17,9 +17,10 @@ app.config.from_object(Config)
 # This handles 404 error
 @app.errorhandler(404)
 def not_found(e):
-    return redirect('/')
     # Need to make 404 page
     # return render_template('index.html')
+
+    return redirect('/')
 
 
 @app.route('/')
@@ -85,6 +86,63 @@ def following_list(username=None):
                            username=username, data=data)
 
 
+@app.route('/steemit/follower', methods=['GET', 'POST'])
+def steemit_follower():
+    form = UserNameForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+
+            return redirect('/steemit/follower/' + username)
+        else:
+            flash('Error: Username is Required')
+
+    return render_template('steemit/follower.html', form=form)
+
+
+@app.route('/steemit/follower/<username>')
+@app.route('/steemit/follower/<username>/')
+def steemit_follower_list(username=None):
+    data = []
+    if username:
+        username = escape(username).lower()
+        data = get_steemit_friends(username, 'followers')
+    logging.warning(data)
+
+    return render_template('steemit/follower_list.html',
+                           username=username, data=data)
+
+
+@app.route('/steemit/following', methods=['GET', 'POST'])
+def steemit_following():
+    form = UserNameForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+            # logging.warning(username)
+
+            return redirect('/steemit/following/' + username)
+        else:
+            flash('Error: Username is Required')
+
+    return render_template('steemit/following.html', form=form)
+
+
+@app.route('/steemit/following/<username>')
+@app.route('/steemit/following/<username>/')
+def steemit_following_list(username=None):
+    data = []
+    if username:
+        username = escape(username).lower()
+        data = get_steemit_friends(username, 'following')
+    logging.warning(data)
+
+    return render_template('steemit/following_list.html',
+                           username=username, data=data)
+
+
 def get_hive_friends(username, follow_type):
     # Setup hive node list
     nodelist = NodeList()
@@ -92,16 +150,33 @@ def get_hive_friends(username, follow_type):
     hive_nodes = nodelist.get_hive_nodes()
     hive = Hive(node=hive_nodes)
     hive.set_default_nodes(hive_nodes)
-    logging.warning(hive_nodes)
+    # logging.warning(hive_nodes)
 
-    # Setup steemit node list
-    # nodelist = NodeList()
-    # nodelist.update_nodes()
-    # steem_nodes = nodelist.get_steem_nodes()
-    # steem = Steem(node=steem_nodes)
-    # steem.set_default_nodes(steem_nodes)
+    # Create account object
+    try:
+        account = Account(username)
+        logging.warning(account)
+    except Exception as e:
+        logging.warning(e)
+        return {}
+
+    followers = account.get_followers()
+    following = account.get_following()
+
+    if follow_type == 'followers':
+        return make_dict(followers, following)
+    else:
+        return make_dict(following, followers)
+
+
+def get_steemit_friends(username, follow_type):
+    # Setup hive node list
+    nodelist = NodeList()
+    nodelist.update_nodes()
+    steem_nodes = nodelist.get_steem_nodes()
+    steem = Steem(node=steem_nodes)
+    steem.set_default_nodes(steem_nodes)
     # logging.warning(steem_nodes)
-    # logging.warning(steem.is_steem)
 
     # Create account object
     try:
