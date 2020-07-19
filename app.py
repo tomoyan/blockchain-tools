@@ -2,6 +2,7 @@ from beem import Hive
 from beem import Steem
 from beem.nodelist import NodeList
 from beem.account import Account
+from beem.instance import set_shared_blockchain_instance
 
 from flask import Flask, render_template, redirect, request, flash
 from config import Config
@@ -150,7 +151,10 @@ def get_hive_friends(username, follow_type):
     hive_nodes = nodelist.get_hive_nodes()
     hive = Hive(node=hive_nodes)
     hive.set_default_nodes(hive_nodes)
+    set_shared_blockchain_instance(hive)
     # logging.warning(hive_nodes)
+    # logging.warning(hive.is_hive)
+    # logging.warning(hive.is_steem)
 
     # Create account object
     try:
@@ -176,7 +180,10 @@ def get_steemit_friends(username, follow_type):
     steem_nodes = nodelist.get_steem_nodes()
     steem = Steem(node=steem_nodes)
     steem.set_default_nodes(steem_nodes)
+    set_shared_blockchain_instance(steem)
     # logging.warning(steem_nodes)
+    # logging.warning(steem.is_hive)
+    # logging.warning(steem.is_steem)
 
     # Create account object
     try:
