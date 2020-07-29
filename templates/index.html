@@ -27,22 +27,34 @@
 
             <!-- card list -->
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 pb-1">
                     <!-- hive list -->
+                    <div class="card list-group-item-danger">
+                        <!-- coingecko widget hive -->
+                        <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+                        <coingecko-coin-price-chart-widget  coin-id="hive" currency="usd" height="250" locale="en"></coingecko-coin-price-chart-widget>
+                    </div>
                     <div class="card list-group-item-danger">
                         <div class="card-header">Hive</div>
                         <ul class="list-group list-group-flush">
+                            <a href="/hive/profile" class="list-group-item list-group-item-action">Profile</a>
                             <a href="/hive/follower" class="list-group-item list-group-item-action">Follower</a>
                             <a href="/hive/following" class="list-group-item list-group-item-action">Following</a>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-6 pb-1">
                     <!-- steemit list -->
+                    <div class="card list-group-item-success">
+                        <!-- coingecko widget steemit-->
+                        <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+                        <coingecko-coin-price-chart-widget  coin-id="steem" currency="usd" height="250" locale="en"></coingecko-coin-price-chart-widget>
+                    </div>
                     <div class="card list-group-item-success">
                         <div class="card-header">Steemit</div>
                         <ul class="list-group list-group-flush">
+                            <a href="/steemit/profile" class="list-group-item list-group-item-action">Profile</a>
                             <a href="/steemit/follower" class="list-group-item list-group-item-action">Follower</a>
                             <a href="/steemit/following" class="list-group-item list-group-item-action">Following</a>
                         </ul>

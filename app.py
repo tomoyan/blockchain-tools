@@ -18,10 +18,7 @@ app.config.from_object(Config)
 # This handles 404 error
 @app.errorhandler(404)
 def not_found(e):
-    # Need to make 404 page
-    # return render_template('index.html')
-
-    return redirect('/')
+    return render_template('404.html')
 
 
 @app.route('/')
@@ -30,28 +27,27 @@ def home():
 
 
 @app.route('/hive/follower', methods=['GET', 'POST'])
-def follower():
+def hive_follower():
     form = UserNameForm(request.form)
 
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].lower()
-            # logging.warning(username)
 
             return redirect('/hive/follower/' + username)
         else:
-            flash('Error: Username is Required')
+            flash('Username is Required')
 
     return render_template('hive/follower.html', form=form)
 
 
 @app.route('/hive/follower/<username>')
 @app.route('/hive/follower/<username>/')
-def follower_list(username=None):
+def hive_follower_list(username=None):
     data = []
     if username:
         username = escape(username).lower()
-        data = get_hive_friends(username, 'followers')
+        data = get_hive_friends(username, 'follower')
     logging.warning(data)
 
     return render_template('hive/follower_list.html',
@@ -59,24 +55,23 @@ def follower_list(username=None):
 
 
 @app.route('/hive/following', methods=['GET', 'POST'])
-def following():
+def hive_following():
     form = UserNameForm(request.form)
 
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].lower()
-            # logging.warning(username)
 
             return redirect('/hive/following/' + username)
         else:
-            flash('Error: Username is Required')
+            flash('Username is Required')
 
     return render_template('hive/following.html', form=form)
 
 
 @app.route('/hive/following/<username>')
 @app.route('/hive/following/<username>/')
-def following_list(username=None):
+def hive_following_list(username=None):
     data = []
     if username:
         username = escape(username).lower()
@@ -85,6 +80,72 @@ def following_list(username=None):
 
     return render_template('hive/following_list.html',
                            username=username, data=data)
+
+
+@app.route('/hive/profile', methods=['GET', 'POST'])
+def hive_profile():
+    form = UserNameForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+
+            return redirect('/hive/profile/' + username)
+        else:
+            flash('Username is Required')
+
+    return render_template('hive/profile.html', form=form)
+
+
+@app.route('/hive/profile/<username>')
+@app.route('/hive/profile/<username>/')
+def hive_profile_data(username=None):
+    data = {}
+    if username:
+        username = escape(username).lower()
+        data = get_user_profile('hive', username)
+
+    logging.warning('get_user_profile')
+    logging.warning(data)
+    if data:
+        return render_template('hive/profile_data.html',
+                               username=username, data=data)
+    else:
+        return render_template('hive/profile_data.html',
+                               username=None, data=data)
+
+
+@app.route('/steemit/profile', methods=['GET', 'POST'])
+def steemit_profile():
+    form = UserNameForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+
+            return redirect('/steemit/profile/' + username)
+        else:
+            flash('Username is Required')
+
+    return render_template('steemit/profile.html', form=form)
+
+
+@app.route('/steemit/profile/<username>')
+@app.route('/steemit/profile/<username>/')
+def steemit_profile_data(username=None):
+    data = {}
+    if username:
+        username = escape(username).lower()
+        data = get_user_profile('steemit', username)
+
+    logging.warning('get_user_profile')
+    logging.warning(data)
+    if data:
+        return render_template('steemit/profile_data.html',
+                               username=username, data=data)
+    else:
+        return render_template('steemit/profile_data.html',
+                               username=None, data=data)
 
 
 @app.route('/steemit/follower', methods=['GET', 'POST'])
@@ -97,7 +158,7 @@ def steemit_follower():
 
             return redirect('/steemit/follower/' + username)
         else:
-            flash('Error: Username is Required')
+            flash('Username is Required')
 
     return render_template('steemit/follower.html', form=form)
 
@@ -108,7 +169,7 @@ def steemit_follower_list(username=None):
     data = []
     if username:
         username = escape(username).lower()
-        data = get_steemit_friends(username, 'followers')
+        data = get_steemit_friends(username, 'follower')
     logging.warning(data)
 
     return render_template('steemit/follower_list.html',
@@ -122,11 +183,10 @@ def steemit_following():
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].lower()
-            # logging.warning(username)
 
             return redirect('/steemit/following/' + username)
         else:
-            flash('Error: Username is Required')
+            flash('Username is Required')
 
     return render_template('steemit/following.html', form=form)
 
@@ -144,18 +204,66 @@ def steemit_following_list(username=None):
                            username=username, data=data)
 
 
-def get_hive_friends(username, follow_type):
-    # Setup hive node list
-    nodelist = NodeList()
-    nodelist.update_nodes()
-    hive_nodes = nodelist.get_hive_nodes()
-    hive = Hive(node=hive_nodes)
-    hive.set_default_nodes(hive_nodes)
-    set_shared_blockchain_instance(hive)
-    # logging.warning(hive_nodes)
-    # logging.warning(hive.is_hive)
-    # logging.warning(hive.is_steem)
+def get_user_profile(chain_type, username):
+    chain = None
+    if chain_type == 'hive':
+        chain = set_node_list(chain_type='hive')
+        chain.is_hive
+    elif chain_type == 'steemit':
+        chain = set_node_list(chain_type='steemit')
+    else:
+        return None
 
+    # Create account object
+    try:
+        account = Account(username)
+    except Exception as e:
+        logging.warning(e)
+        return None
+
+    profile = account.profile
+
+    profile['balances'] = account.get_balances()
+    profile['voting_power'] = f"{account.get_voting_power(): .2f}"
+    profile['reputation'] = f"{account.get_reputation(): .1f}"
+
+    token_power = account.get_token_power()
+    profile['token_power'] = f"{token_power:.3f}"
+    logging.warning('token_power')
+    logging.warning(token_power)
+
+    # Get delegations
+    delegations = account.get_vesting_delegations()
+    if delegations:
+        profile['delegations'] = get_user_delegations(
+            chain, username, delegations)
+    else:
+        profile['delegations'] = []
+
+    return profile
+
+
+def get_user_delegations(chain, username, delegations):
+    # Convert vest to power
+    delegation_list = []
+    for d in delegations:
+        amount = d['vesting_shares']['amount']
+        precision = d['vesting_shares']['precision']
+        precision = 10 ** precision
+        delegatee = d['delegatee']
+        vest_amount = float(int(amount) / precision)
+        if chain.is_hive:
+            delegation_power = f"{chain.vests_to_hp(vest_amount):.3f}"
+        elif chain.is_steem:
+            delegation_power = f"{chain.vests_to_sp(vest_amount):.3f}"
+
+        delegation_list.append(
+            {'delegatee': delegatee, 'amount': delegation_power})
+
+    return delegation_list
+
+
+def get_friends(username, follow_type):
     # Create account object
     try:
         account = Account(username)
@@ -167,39 +275,49 @@ def get_hive_friends(username, follow_type):
     followers = account.get_followers()
     following = account.get_following()
 
-    if follow_type == 'followers':
+    if follow_type == 'follower':
         return make_dict(followers, following)
-    else:
+    elif follow_type == 'following':
         return make_dict(following, followers)
+    else:
+        return {}
+
+
+def get_hive_friends(username, follow_type):
+    set_node_list(chain_type='hive')
+
+    return get_friends(username, follow_type)
 
 
 def get_steemit_friends(username, follow_type):
-    # Setup hive node list
+    set_node_list(chain_type='steemit')
+
+    return get_friends(username, follow_type)
+
+
+# Setup node list for hive/steemit
+# depending on the chain_type
+def set_node_list(chain_type=None):
     nodelist = NodeList()
     nodelist.update_nodes()
-    steem_nodes = nodelist.get_steem_nodes()
-    steem = Steem(node=steem_nodes)
-    steem.set_default_nodes(steem_nodes)
-    set_shared_blockchain_instance(steem)
-    # logging.warning(steem_nodes)
-    # logging.warning(steem.is_hive)
-    # logging.warning(steem.is_steem)
+    chain = None
 
-    # Create account object
-    try:
-        account = Account(username)
-        logging.warning(account)
-    except Exception as e:
-        logging.warning(e)
-        return {}
+    if chain_type == 'steemit':
+        steem_nodes = nodelist.get_steem_nodes()
+        chain = Steem(node=steem_nodes)
+        chain.set_default_nodes(steem_nodes)
+    elif chain_type == 'hive':
+        nodelist = NodeList()
+        nodelist.update_nodes()
+        hive_nodes = nodelist.get_hive_nodes()
+        chain = Hive(node=hive_nodes)
+        chain.set_default_nodes(hive_nodes)
 
-    followers = account.get_followers()
-    following = account.get_following()
+    set_shared_blockchain_instance(chain)
+    return chain
 
-    if follow_type == 'followers':
-        return make_dict(followers, following)
-    else:
-        return make_dict(following, followers)
+# Create a dictionary from follower, following lists
+# Add a flag for who follows and following
 
 
 def make_dict(data_list, find_list):
@@ -211,3 +329,7 @@ def make_dict(data_list, find_list):
         else:
             my_dict[data] = 0
     return my_dict
+
+
+if __name__ == "__main__":
+    app.run()

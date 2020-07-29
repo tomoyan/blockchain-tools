@@ -1,15 +1,20 @@
 # blockchain-tools (steemit/hive)
+https://floating-meadow-28045.herokuapp.com
+hive/steemmit tools using beem (python library)
 
 # Getting Started
 
 ## Python
-Create virtual environment
+Install beem with pip:
+pip install -U beem
+
+Create virtual environment<br>
 python3 -m venv venv
 
-ACTIVATE venv (Ubuntu command)
+ACTIVATE venv (Ubuntu command)<br>
 source venv/bin/activate
 
-DEACTIVATE venv (Ubuntu command)
+DEACTIVATE venv (Ubuntu command)<br>
 deactivate
 
 ## FLASK APP

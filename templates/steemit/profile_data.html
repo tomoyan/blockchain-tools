@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <title>Profile</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-success text-white">
+                <h1 class="display-4">Steemit Profile</h1>
+                {% if username %}
+                <p class="lead">{{ username }}'s user information
+                    <b>( {{ data['reputation'] }} )</b>
+
+                    <!-- progress bar -->
+                    <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                    role="progressbar" style="width: {{ data['voting_power'] }}%"
+                    aria-valuenow="100"
+                    aria-valuemin="0" aria-valuemax="100">Voting Power {{ data['voting_power'] }}%</div>
+                    </div><br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg">
+                            STEEM: <b>{{ data['balances']['available'][0] }}</b>
+                        </div>
+                        <div class="col-sm">
+                            STEEM POWER: <b>{{ data['token_power'] }} SP</b>
+                        </div>
+                        <div class="col-md">
+                            STEEM DOLLARS: <b>{{ data['balances']['available'][1] }}</b>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <p class="lead">No user information</p>
+                {% endif  %}
+            </div>
+
+            {% if username %}
+            <!-- delegation list -->
+                <div class="container px-lg-5">
+                    <h1 class="display-4">Delegations</h1>
+                    <div class="row mx-lg-n5">
+                        <div class="col py-3 px-lg-5 border text-center list-group-item-success">Delegatee</div>
+                        <div class="col py-3 px-lg-5 border text-center list-group-item-success">Amount</div>
+                    </div>
+                </div>
+            {% if data['delegations'] %}
+            <ul class="list-group pb-2">
+                {% for element in data['delegations'] %}
+
+                <div class="container px-lg-5">
+                    <div class="row mx-lg-n5">
+                        <div class="col py-3 px-lg-5 border text-center bg-light">{{ element['delegatee'] }}</div>
+                        <div class="col py-3 px-lg-5 border text-center bg-light">{{ element['amount'] }} <b>SP</b></div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </ul>
+            {% else %}
+                <div class="container px-lg-5">
+                    <div class="row mx-lg-n5">
+                        <div class="col py-3 px-lg-5 border bg-light">No Delegations Found</div>
+                    </div>
+                </div>
+            {% endif  %}
+            {% endif  %}
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% include 'bootstrap_js.html' %}
+      </body>
+</html>
