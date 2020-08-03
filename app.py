@@ -2,8 +2,10 @@ from beem import Hive
 from beem import Steem
 from beem.nodelist import NodeList
 from beem.account import Account
+from beem.amount import Amount
 from beem.instance import set_shared_blockchain_instance
 
+from datetime import datetime, timedelta
 from flask import Flask, render_template, redirect, request, flash
 from config import Config
 from forms import UserNameForm
@@ -224,13 +226,16 @@ def get_user_profile(chain_type, username):
     profile = account.profile
 
     profile['balances'] = account.get_balances()
-    profile['voting_power'] = f"{account.get_voting_power(): .2f}"
+    profile['voting_power'] = f"{account.vp: .2f}"
     profile['reputation'] = f"{account.get_reputation(): .1f}"
 
     token_power = account.get_token_power()
     profile['token_power'] = f"{token_power:.3f}"
-    logging.warning('token_power')
-    logging.warning(token_power)
+
+    profile['curation_reward_30'] = account.get_curation_reward(days=30)
+    profile['curation_reward_30'] = f"{profile['curation_reward_30']:.3f}"
+
+    profile['author_reward_30'] = get_author_reward(chain, account)
 
     # Get delegations
     delegations = account.get_vesting_delegations()
@@ -241,6 +246,21 @@ def get_user_profile(chain_type, username):
         profile['delegations'] = []
 
     return profile
+
+
+def get_author_reward(chain, account, days=30):
+    stop = datetime.utcnow() - timedelta(days=days)
+    reward_vests = Amount('0 VESTS')
+
+    rewards = 0.000
+    for reward in account.history_reverse(
+            stop=stop, only_ops=['author_reward']):
+        reward_vests += Amount(reward['vesting_payout'])
+        if chain.is_steem:
+            rewards = chain.vests_to_sp(reward_vests.amount)
+        elif chain.is_hive:
+            rewards = chain.vests_to_hp(reward_vests.amount)
+    return f"{rewards:.3f}"
 
 
 def get_user_delegations(chain, username, delegations):
