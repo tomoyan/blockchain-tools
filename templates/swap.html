@@ -12,6 +12,18 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
         <title>Swap Token</title>
+        <style scoped>
+            #simpleswap-frame{
+                width:100%!important;
+                max-width:480px;
+                height:420px!important;
+            }
+            @media(min-width:476px){
+                #simpleswap-frame {
+                    height: 400px!important;
+                }
+            }
+        </style>
     </head>
     <body>
 
@@ -26,9 +38,10 @@
             </div>
 
             <!-- simpleswap widget -->
-            <div class="card list-group-item-danger">
-                <iframe id="simpleswap-frame" name="SimpleSwap Widget" width="420px" height="400px" src="https://simpleswap.io/widget/4b118c30-66f1-41ee-a211-515e5a4129d1" frameborder="0"></iframe>
-                <style scoped>#simpleswap-frame{width:100%!important;max-width:480px;height:420px!important;}@media(min-width:476px){#simpleswap-frame {height: 400px!important;}}</style>
+            <div class="row">
+                <div class="col">
+                <iframe id="simpleswap-frame" name="SimpleSwap Widget" height="400px" src="https://simpleswap.io/widget/4b118c30-66f1-41ee-a211-515e5a4129d1" frameborder="0"></iframe>
+                </div>
             </div>
 
         </div>
