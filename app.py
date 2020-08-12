@@ -28,9 +28,9 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/swap')
-def swap():
-    return render_template('swap.html')
+# @app.route('/swap')
+# def swap():
+#     return render_template('swap.html')
 
 
 @app.route('/hive/follower', methods=['GET', 'POST'])
