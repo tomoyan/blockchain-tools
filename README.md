@@ -19,6 +19,7 @@ deactivate
 
 ## FLASK APP
 Run flask app on development
+<br>
 export FLASK_APP=app.py
 <br>
 export FLASK_ENV=development
