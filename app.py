@@ -19,7 +19,7 @@ app.config.from_object(Config)
 
 # This handles 404 error
 @app.errorhandler(404)
-def not_found(e):
+def page_not_found(e):
     return render_template('404.html')
 
 
@@ -28,9 +28,9 @@ def home():
     return render_template('index.html')
 
 
-# @app.route('/swap')
-# def swap():
-#     return render_template('swap.html')
+@app.route('/swap')
+def swap():
+    return render_template('swap.html')
 
 
 @app.route('/hive/follower', methods=['GET', 'POST'])
@@ -320,9 +320,9 @@ def get_steemit_friends(username, follow_type):
     return get_friends(username, follow_type)
 
 
-# Setup node list for hive/steemit
-# depending on the chain_type
 def set_node_list(chain_type=None):
+    # Setup node list for hive/steemit
+    # depending on the chain_type
     nodelist = NodeList()
     nodelist.update_nodes()
     chain = None
@@ -341,11 +341,10 @@ def set_node_list(chain_type=None):
     set_shared_blockchain_instance(chain)
     return chain
 
-# Create a dictionary from follower, following lists
-# Add a flag for who follows and following
-
 
 def make_dict(data_list, find_list):
+    # Create a dictionary from follower, following lists
+    # Add a flag for who follows and following
     my_dict = {}
 
     for data in data_list:
@@ -357,4 +356,5 @@ def make_dict(data_list, find_list):
 
 
 if __name__ == "__main__":
-    app.run()
+    # app.run()
+    app.run(debug=True)
