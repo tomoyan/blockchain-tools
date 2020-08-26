@@ -1,6 +1,6 @@
-from beem import Hive
-from beem import Steem
-from beem.nodelist import NodeList
+# from beem import Hive
+# from beem import Steem
+# from beem.nodelist import NodeList
 from beem.account import Account
 from beem.amount import Amount
 from beem.instance import set_shared_blockchain_instance
@@ -10,6 +10,9 @@ from flask import Flask, render_template, redirect, request, flash
 from config import Config
 from forms import UserNameForm
 from markupsafe import escape
+
+import SteemChain
+import HiveChain
 
 import logging
 
@@ -31,6 +34,11 @@ def home():
 @app.route('/swap')
 def swap():
     return render_template('swap.html')
+
+
+@app.route('/chart-20-80')
+def chart_20_80():
+    return render_template('chart-20-80.html')
 
 
 @app.route('/hive/follower', methods=['GET', 'POST'])
@@ -323,20 +331,14 @@ def get_steemit_friends(username, follow_type):
 def set_node_list(chain_type=None):
     # Setup node list for hive/steemit
     # depending on the chain_type
-    nodelist = NodeList()
-    nodelist.update_nodes()
-    chain = None
 
+    chain = None
     if chain_type == 'steemit':
-        steem_nodes = nodelist.get_steem_nodes()
-        chain = Steem(node=steem_nodes)
-        chain.set_default_nodes(steem_nodes)
+        sc = SteemChain.SteemChain()
+        chain = sc.chain
     elif chain_type == 'hive':
-        nodelist = NodeList()
-        nodelist.update_nodes()
-        hive_nodes = nodelist.get_hive_nodes()
-        chain = Hive(node=hive_nodes)
-        chain.set_default_nodes(hive_nodes)
+        hc = HiveChain.HiveChain()
+        chain = hc.chain
 
     set_shared_blockchain_instance(chain)
     return chain
