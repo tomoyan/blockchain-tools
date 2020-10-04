@@ -7,7 +7,7 @@ from beem import Blurt
 from datetime import datetime, timedelta
 from statistics import mean
 import random
-from functools import lru_cache
+# from functools import lru_cache
 # import logging
 # from dumper import dump
 
@@ -38,7 +38,7 @@ class BlurtChain:
             self.account = None
             print(f'AccountDoesNotExistsException : {e}')
 
-    @lru_cache
+    # @lru_cache
     def get_account_info(self):
         self.account_info = {}
 
@@ -63,7 +63,7 @@ class BlurtChain:
 
         return self.account_info
 
-    @lru_cache
+    # @lru_cache
     def get_follower(self):
         self.follower_data = {}
         follower = []
@@ -83,7 +83,7 @@ class BlurtChain:
 
         return self.follower_data
 
-    @lru_cache
+    # @lru_cache
     def get_following(self):
         self.following_data = {}
         follower = []
@@ -103,7 +103,7 @@ class BlurtChain:
 
         return self.following_data
 
-    @lru_cache
+    # @lru_cache
     def get_vote_history(self):
         votes = {}
         result = {}
