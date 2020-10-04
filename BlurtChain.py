@@ -21,7 +21,7 @@ class BlurtChain:
         self.username = username
         self.account = None
         self.nodes = [
-            'https://api.blurt.blog',
+            # 'https://api.blurt.blog',
             'https://rpc.blurt.buzz',
             'https://rpc.blurt.world',
             'https://blurtd.privex.io']
