@@ -142,8 +142,8 @@ class BlurtChain:
             result['voter'] = self.username
             # result['data'] = votes
 
-            result['labels'] = labels
-            result['count_data'] = count_data
-            result['weight_data'] = weight_data
+        result['labels'] = labels
+        result['count_data'] = count_data
+        result['weight_data'] = weight_data
 
         return result
