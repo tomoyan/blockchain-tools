@@ -21,8 +21,9 @@ class BlurtChain:
         self.username = username
         self.account = None
         self.nodes = [
-            # 'https://api.blurt.blog',
+            'https://api.blurt.blog',
             'https://rpc.blurt.buzz',
+            'https://rpc.blurt.world',
             'https://blurtd.privex.io']
         random.shuffle(self.nodes)
 
@@ -59,7 +60,7 @@ class BlurtChain:
 
             # Get Notification
             curation_stats = self.account.curation_stats()
-            print('CURATION_STATS', curation_stats)
+            # print('CURATION_STATS', curation_stats)
 
         return self.account_info
 
@@ -110,6 +111,7 @@ class BlurtChain:
         labels = []
         count_data = []
         weight_data = []
+        total_votes = 0
         stop = datetime.utcnow() - timedelta(days=7)
 
         if self.username:
@@ -129,7 +131,6 @@ class BlurtChain:
                 else:
                     next
 
-            total_votes = 0
             for key, value in votes.items():
                 labels.append(key)
                 count_data.append(value['count'])
@@ -138,9 +139,9 @@ class BlurtChain:
                 total_votes += value['count']
                 value['weight'] = mean(value['weight']) * 0.01
 
-            result['total_votes'] = total_votes
-            result['voter'] = self.username
-            # result['data'] = votes
+        result['total_votes'] = total_votes
+        # result['voter'] = self.username
+        # result['data'] = votes
 
         result['labels'] = labels
         result['count_data'] = count_data

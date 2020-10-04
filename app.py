@@ -51,7 +51,7 @@ def blurt():
 @app.route('/blurt/<username>')
 @app.route('/blurt/<username>/')
 def blurt_profile_data(username=None):
-    print(f'BLURT_PROFILE_DATA USERNAME: {username}')
+    # print(f'BLURT_PROFILE_DATA USERNAME: {username}')
     data = {}
     if username:
         username = escape(username).lower()
@@ -60,12 +60,13 @@ def blurt_profile_data(username=None):
         # print(vars(blurt))
         # print(blurt.username)
 
-    data = blurt.get_account_info()
-    vote_data = blurt.get_vote_history()
-    data['labels'] = vote_data['labels']
-    data['count_data'] = vote_data['count_data']
-    data['weight_data'] = vote_data['weight_data']
-    # print(f'GET_ACCOUNT_INFO: {data}')
+        data = blurt.get_account_info()
+        vote_data = blurt.get_vote_history()
+        data['labels'] = vote_data['labels']
+        data['count_data'] = vote_data['count_data']
+        data['weight_data'] = vote_data['weight_data']
+        data['total_votes'] = vote_data['total_votes']
+        # print(f'GET_ACCOUNT_INFO: {data}')
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
 
