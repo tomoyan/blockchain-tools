@@ -58,10 +58,6 @@ class BlurtChain:
             voting_power = self.account.get_voting_power()
             self.account_info['voting_power'] = f'{voting_power:.2f}'
 
-            # Get Notification
-            curation_stats = self.account.curation_stats()
-            # print('CURATION_STATS', curation_stats)
-
         return self.account_info
 
     # @lru_cache
