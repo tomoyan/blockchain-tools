@@ -121,11 +121,6 @@ def chart_50_50():
     return render_template('chart-50-50.html')
 
 
-@app.route('/chart-80-20')
-def chart_80_20():
-    return render_template('chart-80-20.html')
-
-
 @app.route('/hive/follower', methods=['GET', 'POST'])
 def hive_follower():
     form = UserNameForm(request.form)
