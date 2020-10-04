@@ -6,14 +6,13 @@ from beem.amount import Amount
 from beem.instance import set_shared_blockchain_instance
 
 from datetime import datetime, timedelta
-from flask import Flask, render_template, redirect, request, flash, jsonify
+from flask import Flask, render_template, redirect, request, flash
 from config import Config
 from forms import UserNameForm
 from markupsafe import escape
 
 import SteemChain
 import HiveChain
-import BlurtChain as BC
 
 import logging
 
@@ -32,81 +31,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/blurt', methods=['GET', 'POST'])
-@app.route('/blurt/', methods=['GET', 'POST'])
-def blurt():
-    form = UserNameForm(request.form)
-
-    if request.method == 'POST':
-        if form.validate():
-            username = request.form['username'].lower()
-
-            return redirect(f'/blurt/{username}')
-        else:
-            flash('Username is Required')
-
-    return render_template('blurt/profile.html', form=form)
-
-
-@app.route('/blurt/<username>')
-@app.route('/blurt/<username>/')
-def blurt_profile_data(username=None):
-    print(f'BLURT_PROFILE_DATA USERNAME: {username}')
-    data = {}
-    if username:
-        username = escape(username).lower()
-        blurt = BC.BlurtChain(username)
-        print(dir(blurt))
-        print(vars(blurt))
-        print(blurt.username)
-
-    data = blurt.get_account_info()
-    vote_data = blurt.get_vote_history()
-    data['labels'] = vote_data['labels']
-    data['count_data'] = vote_data['count_data']
-    data['weight_data'] = vote_data['weight_data']
-    print(f'GET_ACCOUNT_INFO: {data}')
-    return render_template('blurt/profile_data.html',
-                           username=blurt.username, data=data)
-
-
-@app.route('/api/blurt/follower/<username>')
-@app.route('/api/blurt/follower/<username>/')
-def blurt_follower(username=None):
-    # print('BLURT_FOLLOWER_DEF')
-    data = {}
-    if username:
-        blurt = BC.BlurtChain(username)
-        data = blurt.get_follower()
-        # print('BLURT_FOLLOWER', vars(blurt))
-    return jsonify(data)
-
-
-@app.route('/api/blurt/following/<username>')
-@app.route('/api/blurt/following/<username>/')
-def blurt_following(username=None):
-    # print('BLURT_FOLLOWING_DEF')
-    data = {}
-    if username:
-        blurt = BC.BlurtChain(username)
-        data = blurt.get_following()
-        # print('BLURT_FOLLOWING', vars(blurt))
-    return jsonify(data)
-
-
-@app.route('/api/blurt/vote-history/<username>')
-@app.route('/api/blurt/vote-history/<username>/')
-def blurt_vote_history(username=None):
-    data = {}
-    if username:
-        blurt = BC.BlurtChain(username)
-        data = blurt.get_vote_history()
-        print('BLURT_VOTE_HISTORY', vars(blurt))
-    return jsonify(data)
-
-
 @app.route('/swap')
-@app.route('/swap/')
 def swap():
     return render_template('swap.html')
 
