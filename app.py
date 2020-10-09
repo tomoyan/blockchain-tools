@@ -1,6 +1,3 @@
-# from beem import Hive
-# from beem import Steem
-# from beem.nodelist import NodeList
 from beem.account import Account
 from beem.amount import Amount
 from beem.instance import set_shared_blockchain_instance
@@ -110,16 +107,6 @@ def blurt_vote_history(username=None):
 @app.route('/swap/')
 def swap():
     return render_template('swap.html')
-
-
-@app.route('/chart-20-80')
-def chart_20_80():
-    return render_template('chart-20-80.html')
-
-
-@app.route('/chart-50-50')
-def chart_50_50():
-    return render_template('chart-50-50.html')
 
 
 @app.route('/hive/follower', methods=['GET', 'POST'])
