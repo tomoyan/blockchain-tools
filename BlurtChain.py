@@ -7,7 +7,7 @@ from beem import Blurt
 from datetime import datetime, timedelta
 from statistics import mean
 import random
-# from functools import lru_cache
+from functools import lru_cache
 # import logging
 # from dumper import dump
 
@@ -101,6 +101,7 @@ class BlurtChain:
         return self.following_data
 
     # @lru_cache
+    @lru_cache(maxsize=32)
     def get_vote_history(self):
         votes = {}
         result = {}
