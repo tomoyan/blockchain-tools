@@ -91,6 +91,7 @@
                     <script type="text/javascript">
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
+                       document.mute_api = '/api/blurt/mute/{{ username }}';
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
@@ -106,6 +107,13 @@
                         role="tab" aria-controls="nav-following" aria-selected="false">
                         Following <span id="followingSize" class="badge badge-secondary">0</span>
                     </a>
+
+                    <!-- mute nav -->
+                    <a class="nav-item nav-link" id="nav-mute-tab" data-toggle="tab" href="#nav-mute"
+                        role="tab" aria-controls="nav-mute" aria-selected="false">
+                        Mute <span id="muteSize" class="badge badge-secondary">0</span>
+                    </a>
+
                 </div>
             </nav>
 
@@ -210,41 +218,38 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- list of mute -->
+                <div class="tab-pane fade" id="nav-mute" role="tabpanel" aria-labelledby="nav-mute-tab">
+                    <h1 class="display-4">Muted Users</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="mutingResult"class="list-group list-group-flush">
+                                        <!-- muting list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Muted by Users</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="muteResult"class="list-group list-group-flush">
+                                        <!-- mute list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-<!--             <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Follower Test</h5>
-                            <p class="card-text">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-<!--             <div class="row">
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             {% endif  %}
 
         </div>

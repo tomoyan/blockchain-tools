@@ -100,7 +100,6 @@ class BlurtChain:
 
         return self.following_data
 
-    # @lru_cache
     @lru_cache(maxsize=32)
     def get_vote_history(self):
         votes = {}
@@ -114,6 +113,8 @@ class BlurtChain:
         if self.username:
             history = self.account.history_reverse(
                 stop=stop, only_ops=['vote'])
+
+            # Count how many times voted in 7 days
             for data in history:
                 if self.username == data["voter"]:
                     if data["author"] in votes.keys():
@@ -137,11 +138,19 @@ class BlurtChain:
                 value['weight'] = mean(value['weight']) * 0.01
 
         result['total_votes'] = total_votes
-        # result['voter'] = self.username
-        # result['data'] = votes
 
         result['labels'] = labels
         result['count_data'] = count_data
         result['weight_data'] = weight_data
 
         return result
+
+    @lru_cache(maxsize=32)
+    def get_mute(self):
+        data = {}
+
+        if self.username:
+            data['muter'] = self.account.get_muters()
+            data['muting'] = self.account.get_mutings()
+
+        return data

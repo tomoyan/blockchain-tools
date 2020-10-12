@@ -92,14 +92,26 @@ def blurt_following(username=None):
     return jsonify(data)
 
 
-@app.route('/api/blurt/vote-history/<username>')
-@app.route('/api/blurt/vote-history/<username>/')
-def blurt_vote_history(username=None):
+@app.route('/api/blurt/votes/<username>')
+@app.route('/api/blurt/votes/<username>/')
+def blurt_votes(username=None):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
         data = blurt.get_vote_history()
-        # print('BLURT_VOTE_HISTORY', vars(blurt))
+        # print('BLURT_VOTES', vars(blurt))
+    return jsonify(data)
+
+
+@app.route('/api/blurt/mute/<username>')
+@app.route('/api/blurt/mute/<username>/')
+def blurt_mute(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_mute()
+
+    # print('BLURT_mute', data)
     return jsonify(data)
 
 
