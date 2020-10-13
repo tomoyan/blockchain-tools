@@ -121,6 +121,26 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-main" role="tabpanel" aria-labelledby="nav-main-tab">
                     <h1 class="display-4">Upvote Activity (7days) Upvoted# {{ data['total_votes'] }}</h1>
+
+                    <!-- chart loading spinner -->
+                    <div id="mdb-preloader" class="text-center">
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-border text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-border text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
                     <div class="row">
 
                         <!-- upvote chart goes in to canvas -->
@@ -147,6 +167,9 @@
                             };
 
                             window.onload = function() {
+                                // hide spinner when chart is loaded
+                                $('#mdb-preloader').delay(100).fadeOut(300);
+
                                 var ctx = document.getElementById('canvas').getContext('2d');
                                 window.myLine = new Chart(ctx, {
                                     type: 'bar',
