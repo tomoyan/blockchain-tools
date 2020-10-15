@@ -60,6 +60,7 @@ def blurt_profile_data(username=None):
         data = blurt.get_account_info()
         vote_data = blurt.get_vote_history()
         data['labels'] = vote_data['labels']
+        data['permlinks'] = vote_data['permlinks']
         data['count_data'] = vote_data['count_data']
         data['weight_data'] = vote_data['weight_data']
         data['total_votes'] = vote_data['total_votes']

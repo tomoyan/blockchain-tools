@@ -105,6 +105,7 @@ class BlurtChain:
         votes = {}
         result = {}
         labels = []
+        permlinks = []
         count_data = []
         weight_data = []
         total_votes = 0
@@ -117,6 +118,9 @@ class BlurtChain:
             # Count how many times voted in 7 days
             for data in history:
                 if self.username == data["voter"]:
+                    permlink = f'@{data["author"]}/{data["permlink"]}'
+                    permlinks.append(permlink)
+
                     if data["author"] in votes.keys():
                         votes[data["author"]]['count'] += 1
                         votes[data["author"]
@@ -140,6 +144,7 @@ class BlurtChain:
         result['total_votes'] = total_votes
 
         result['labels'] = labels
+        result['permlinks'] = sorted(permlinks)
         result['count_data'] = count_data
         result['weight_data'] = weight_data
 

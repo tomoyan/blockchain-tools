@@ -28,3 +28,11 @@
     background-color: #f2652e;
     border-color: #dee2e6 #dee2e6 #fff;
 }
+
+.list-group-item {
+    background: #dcdcdc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.list-group-item:nth-child(odd) { background: #fff; }
