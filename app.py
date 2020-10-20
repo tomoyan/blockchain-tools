@@ -69,6 +69,7 @@ def blurt_profile_data(username=None):
                            username=blurt.username, data=data)
 
 
+# BLURT API
 @app.route('/api/blurt/follower/<username>')
 @app.route('/api/blurt/follower/<username>/')
 def blurt_follower(username=None):
@@ -89,7 +90,7 @@ def blurt_following(username=None):
     if username:
         blurt = BC.BlurtChain(username)
         data = blurt.get_following()
-        # print('BLURT_FOLLOWING', vars(blurt))
+
     return jsonify(data)
 
 
@@ -100,7 +101,7 @@ def blurt_votes(username=None):
     if username:
         blurt = BC.BlurtChain(username)
         data = blurt.get_vote_history()
-        # print('BLURT_VOTES', vars(blurt))
+
     return jsonify(data)
 
 
@@ -112,7 +113,17 @@ def blurt_mute(username=None):
         blurt = BC.BlurtChain(username)
         data = blurt.get_mute()
 
-    # print('BLURT_mute', data)
+    return jsonify(data)
+
+
+@app.route('/api/blurt/delegation/<username>')
+@app.route('/api/blurt/delegation/<username>/')
+def blurt_delegation(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_delegation()
+
     return jsonify(data)
 
 

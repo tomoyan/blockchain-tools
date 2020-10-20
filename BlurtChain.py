@@ -1,6 +1,6 @@
-# from beem import Steem
 from beem.instance import set_shared_blockchain_instance
 from beem.account import Account
+from beem.amount import Amount
 # from beem.nodelist import NodeList
 from beem import Blurt
 
@@ -159,3 +159,57 @@ class BlurtChain:
             data['muting'] = self.account.get_mutings()
 
         return data
+
+    # @lru_cache(maxsize=32)
+    def get_delegation(self):
+        # find delegations for username
+        data = {}
+
+        if self.username:
+            # find outgoing delegatons
+            data['outgoing'] = self.account.get_vesting_delegations()
+            for value in data['outgoing']:
+                # vests to BP conversion
+                # vests = Amount(value['vesting_shares'])
+                # bp = self.blurt.vests_to_bp(vests.amount)
+                # value['bp'] = f'{bp:.3f}'
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+
+            # find expiring delegatons
+            data['expiring'] = self.account.get_expiring_vesting_delegations()
+            for value in data['expiring']:
+                # vests to BP conversion
+                # vests = Amount(value['vesting_shares'])
+                # bp = self.blurt.vests_to_bp(vests.amount)
+                # value['bp'] = f'{bp:.3f}'
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+
+            # find incoming delegatons
+            data['incoming'] = []
+            incoming_temp = dict()
+            for operation in self.account.history(
+                    only_ops=["delegate_vesting_shares"]):
+
+                if self.username == operation["delegator"]:
+                    continue
+
+                if operation["vesting_shares"] == '0.000000 VESTS':
+                    incoming_temp.pop(operation["delegator"])
+                    continue
+                else:
+                    incoming_temp[operation["delegator"]] = operation
+
+            for key, value in incoming_temp.items():
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                data['incoming'].append(value)
+
+        return data
+
+    def vests_to_bp(self, vests):
+        # VESTS to BP conversion
+        bp = 0.000
+        v = Amount(vests)
+        bp = self.blurt.vests_to_bp(v.amount)
+        bp = f'{bp:.3f}'
+
+        return bp
