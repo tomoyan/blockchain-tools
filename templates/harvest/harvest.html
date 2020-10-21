@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="{{ url_for('static', filename='images/harvest/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/harvest/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/harvest/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/harvest/favicon-16x16.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Google Fonts - Fredericka the Great -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Cabin Sketch -->
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/harvest_styles.css') }}">
+
+    <!-- fontawesome kit -->
+    <script src="https://kit.fontawesome.com/7933aa8507.js" crossorigin="anonymous"></script>
+
+    <title>Harvest Finance</title>
+  </head>
+  <body>
+
+  <div class="container bg-light harvest-font">
+    <!-- havbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='images/harvest/brand.png') }}" width="30" height="30" alt="harvest">
+        Harvest
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <button class="btn btn-sm btn-outline-secondary" type="button">Connect Wallet</button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Farm<span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="#">Stake</a>
+          <a class="nav-item nav-link" href="#">FAQ</a>
+          <a class="nav-item nav-link" href="#">Dashboard</a>
+          <a class="nav-item nav-link" href="#">Wiki</a>
+          <a class="nav-item nav-link" href="#">策略</a>
+        </div>
+
+        <!-- social media links -->
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light">
+              <i class="fab fa-discord"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light">
+              <i class="fab fa-medium"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light">
+              <i class="fab fa-reddit"></i>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container bg-light" id="main-container">
+    <h3 class="display-3 text-center harvest-font">Harvest Finance</h3>
+    <h3><p class="font-italic text-center">It ain't much, just farm to wallet.</p></h3>
+
+
+    <div class="container harvest-font py-3">
+      <div class="row">
+        <div class="col-sm">
+          <div class="card h-100 bg-dark text-white">
+            <div class="card-body mx-auto">
+              <p class="card-text">
+                <h4>Deposits in <strong>Harvest</strong>:</h4>
+                <h3>1,033,713,391.47 USD</h3>
+              <p>
+              <p class="card-text">
+                <h4>Annual <strong>Profits</strong> to Farmers:</h4>
+                <h3>86,036,258.78 USD</h3>
+              <p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm">
+          <div class="card h-100 bg-dark text-white">
+            <div class="card-body mx-auto">
+              <p class="card-text">
+                <h4>Weekly Emission Drop</h4>
+                <h3>06 Days 03:08:58.01</h3>
+              <p>
+              <button type="button" class="btn btn-secondary btn-block mt-5">
+                <strong>BUY FARM</strong>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm">
+          <div class="card h-100 bg-dark text-white">
+            <div class="card-body mx-auto">
+              <h4>FARM price: <strong>323.36 USD</strong></h4>
+              <h4>Profit share APY: <strong>236.39%</strong></h4>
+              <h4>Market cap: <strong>74.94M USD</strong></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- asset list -->
+    <h4 class="display-4 text-center harvest-font">Deposit and farm your assets</h4>
+    <ul class="list-group list-group-flush py-2">
+      <li class="list-group-item bg-secondary text-white py-3">
+        <div class="row">
+          <div class="col-sm">Amount</div>
+          <div class="col-sm">Asset</div>
+          <div class="col-sm">Harvest APY</div>
+          <div class="col-sm">Deposits ($)</div>
+          <div class="col-sm">Your balance</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/eth.png') }}" width="30" height="30" alt=""> WETH
+          </div>
+          <div class="col-sm">8.46%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">23.06M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/dai.svg') }}" width="30" height="30" alt=""> DAI
+          </div>
+          <div class="col-sm">23.66%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">8.56M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/usdc.png') }}" width="30" height="30" alt=""> USDC
+          </div>
+          <div class="col-sm">20.39%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">96.77M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/usdt.png') }}" width="30" height="30" alt=""> USDT
+          </div>
+          <div class="col-sm">8.46%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">23.06M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/tusd.png') }}" width="30" height="30" alt=""> TUSD
+          </div>
+          <div class="col-sm">24.13%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">83.72M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm migration">Migration being prepared</div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/ren.png') }}" width="30" height="30" alt=""> RENBTC
+          </div>
+          <div class="col-sm">16.13%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">43.03M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm migration">Migration being prepared</div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/wbtc.png') }}" width="30" height="30" alt=""> WBTC
+          </div>
+          <div class="col-sm">16.28%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">69.94M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm migration">Migration being prepared</div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/crvrenwbtc.png') }}" width="30" height="30" alt=""> CRV:RENWBTC
+          </div>
+          <div class="col-sm">17.02%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">37.52M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/eth_dai.svg') }}" width="30" height="30" alt=""> UNI:ETH-DAI
+          </div>
+          <div class="col-sm">34.69%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/uni.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">76.93M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/eth_usdc.svg') }}" width="30" height="30" alt=""> UNI:ETH-USDC
+          </div>
+          <div class="col-sm">26.96%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/uni.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">86.98M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/eth_usdt.svg') }}" width="30" height="30" alt=""> UNI:ETH-USDT
+          </div>
+          <div class="col-sm">31.49%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/uni.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">73.72M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/eth_wbtc.svg') }}" width="30" height="30" alt=""> UNI:ETH-WBTC
+          </div>
+          <div class="col-sm">25.89%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/uni.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">80.85M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/sushi_wbtc.svg') }}" width="30" height="30" alt=""> SUSHI:WBTC-TBTC
+          </div>
+          <div class="col-sm">35.14%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/sushi.png') }}" width="25" height="25" alt="">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">5.85M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+
+      <li class="list-group-item list-group-item-action py-3">
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">MAX</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="30" height="30" alt=""> FARM
+          </div>
+          <div class="col-sm">314.97%
+            <img class="p-1" src="{{ url_for('static', filename='images/harvest/farm.png') }}" width="25" height="25" alt="">
+          </div>
+          <div class="col-sm">30.32M</div>
+          <div class="col-sm">0.000000000</div>
+        </div>
+      </li>
+    </ul>
+
+      <div class="input-group pt-2 pb-5">
+        <input type="text" class="form-control" placeholder="Deposit">
+        <input type="text" class="form-control" placeholder="Deposit and Stake">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2">+</button>
+        </div>
+      </div>
+
+      <h4 class="display-4 text-center harvest-font">
+        <strong>$1,048,782,941.65</strong> of deposits are auto harvesting yields.
+      </h4>
+
+      <div class="container-sm harvest-font p-3">
+        <div class="row">
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/curve.png') }}" width="30" height="30" alt=""> CRV</div>
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/balancer.png') }}" width="30" height="30" alt=""> BAL</div>
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/comp.png') }}" width="30" height="30" alt=""> COMP</div>
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/cream.png') }}" width="30" height="30" alt=""> CREAM</div>
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/uni.png') }}" width="30" height="30" alt=""> UNI</div>
+          <div class="col-sm text-center">
+            <img src="{{ url_for('static', filename='images/harvest/sushi.png') }}" width="30" height="30" alt=""> SUSHI</div>
+        </div>
+      </div>
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

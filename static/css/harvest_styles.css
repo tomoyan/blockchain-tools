@@ -1,0 +1,20 @@
+body {
+  background: url('../images/harvest/background1.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.harvest-font {
+  font-family: 'Cabin Sketch','Fredericka the Great', 'Roboto', sans-serif, cursive;
+  font-weight: bold;
+}
+
+#nav-container, #main-container {
+  opacity: 0.9;
+}
+
+.migration {
+  background-color: #d3d3d3;
+}

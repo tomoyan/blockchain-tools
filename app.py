@@ -29,6 +29,18 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/harvest')
+@app.route('/harvest/')
+def harvest():
+    return render_template('/harvest/harvest.html')
+
+
+@app.route('/harvest/simple')
+@app.route('/harvest/simple/')
+def harvest_simple():
+    return render_template('/harvest/simple.html')
+
+
 @app.route('/blurt', methods=['GET', 'POST'])
 @app.route('/blurt/', methods=['GET', 'POST'])
 def blurt():

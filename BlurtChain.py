@@ -22,13 +22,16 @@ class BlurtChain:
         self.account = None
         self.nodes = [
             # 'https://api.blurt.blog',
+            'https://api.blurt.tools',
+            # 'https://api.blurtworld.com',
+            'https://rpc.blurtworld.com',
             'https://rpc.blurt.buzz',
             'https://rpc.blurt.world',
-            'https://blurtd.privex.io']
+            'https://blurtd.privex.io'
+        ]
         random.shuffle(self.nodes)
 
         self.blurt = Blurt(node=self.nodes)
-        # dump(self.blurt)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Create account object
