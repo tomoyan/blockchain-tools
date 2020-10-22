@@ -1,0 +1,19 @@
+body {
+  background: url('../images/harvest/dark.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Eater', cursive;
+}
+
+#nav-container, #main-container {
+  opacity: 0.85;
+  color: lightgrey;
+  background-color: #202020 !important;
+}
+
+.dark-mode {
+  color: #ff7518;
+  background-color: #080808 !important;
+}

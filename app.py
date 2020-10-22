@@ -41,6 +41,12 @@ def harvest_simple():
     return render_template('/harvest/simple.html')
 
 
+@app.route('/harvest/dark')
+@app.route('/harvest/dark/')
+def harvest_dark():
+    return render_template('/harvest/dark.html')
+
+
 @app.route('/blurt', methods=['GET', 'POST'])
 @app.route('/blurt/', methods=['GET', 'POST'])
 def blurt():
