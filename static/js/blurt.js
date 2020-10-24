@@ -167,4 +167,125 @@ $(document).ready(function(){
             $("#muteResult").append('Error: ' + errorMessage);
         }
     });
+
+    $.ajax(document.delegation_api,
+    {
+        dataType: 'json', // type of response data
+        timeout: 60000,     // timeout milliseconds
+        success: function (data, status, xhr) {   // success callback function
+            var size = Object.keys(data['incoming']).length
+                + Object.keys(data['outgoing']).length
+                + Object.keys(data['expiring']).length;
+            $("#delegationSize").html(size);
+
+            // liStr holds html list
+            var liStr = ``;
+            if (jQuery.isEmptyObject(data['incoming'])) {
+                liStr = `
+                <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
+                $("#incomingResult").append(liStr);
+            }
+            else {
+               $.each(data['incoming'], function(index, value){
+                    liStr = `
+                        <li class="list-group-item" data-field=>
+
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm">
+                                <span><img src="https://images.blurt.blog/u/${value.delegator}/avatar/small"
+                                        onerror="this.onerror=null;
+                                        this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                        alt="profile_image"
+                                        class="img-thumbnail rounded-circle float-left mr-3"
+                                        width="auto">
+                                </span>
+                                <span>
+                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegator}">
+                                        ${value.delegator}</a>
+                                </span>
+                            </div>
+                            <div class="col-sm">
+                                <span class="font-weight-bold">${value.bp} BP</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        </li>`;
+
+                    $("#incomingResult").append(liStr);
+                });
+           }
+
+            if (jQuery.isEmptyObject(data['outgoing'])) {
+                liStr = `
+                <li class="list-group-item" data-field=><span>No Outgoing Delegation</span></li>`;
+                $("#outgoingResult").append(liStr);
+            }
+            else {
+               $.each(data['outgoing'], function(index, value){
+                    // alert("index: " + index + ",  delegatee: " + value.delegatee + ",  bp: " + value.bp);
+                    liStr = `
+                        <li class="list-group-item" data-field=>
+
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm">
+                                <span><img src="https://images.blurt.blog/u/${value.delegatee}/avatar/small"
+                                        onerror="this.onerror=null;
+                                        this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                        alt="profile_image"
+                                        class="img-thumbnail rounded-circle float-left mr-3"
+                                        width="auto">
+                                </span>
+                                <span>
+                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegatee}">
+                                        ${value.delegatee}</a>
+                                </span>
+                            </div>
+                            <div class="col-sm">
+                                <span class="font-weight-bold">${value.bp} BP</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        </li>`;
+
+                    $("#outgoingResult").append(liStr);
+                });
+           }
+
+            if (jQuery.isEmptyObject(data['expiring'])) {
+                liStr = `
+                <li class="list-group-item" data-field=><span>No Expiring Delegation</span></li>`;
+                $("#expiringResult").append(liStr);
+            }
+            else {
+               $.each(data['expiring'], function(index, value){
+                    liStr = `
+                        <li class="list-group-item" data-field=>
+
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm">
+                                <span class="font-weight-bold">${value.bp} BP</span><br>
+                            </div>
+                            <div class="col-sm">
+                                <span class="font-weight-bold">${value.expiration}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        </li>`;
+
+                    $("#expiringResult").append(liStr);
+                });
+           }
+
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback
+            $("#muteResult").append('Error: ' + errorMessage);
+        }
+    });
+
 });

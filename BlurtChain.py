@@ -172,26 +172,20 @@ class BlurtChain:
             # find outgoing delegatons
             data['outgoing'] = self.account.get_vesting_delegations()
             for value in data['outgoing']:
-                # vests to BP conversion
-                # vests = Amount(value['vesting_shares'])
-                # bp = self.blurt.vests_to_bp(vests.amount)
-                # value['bp'] = f'{bp:.3f}'
                 value['bp'] = self.vests_to_bp(value['vesting_shares'])
 
             # find expiring delegatons
             data['expiring'] = self.account.get_expiring_vesting_delegations()
             for value in data['expiring']:
-                # vests to BP conversion
-                # vests = Amount(value['vesting_shares'])
-                # bp = self.blurt.vests_to_bp(vests.amount)
-                # value['bp'] = f'{bp:.3f}'
                 value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                date_time = value['expiration'].split('T')
+                value['expiration'] = f'{date_time[0]} {date_time[-1]}'
 
             # find incoming delegatons
             data['incoming'] = []
             incoming_temp = dict()
             for operation in self.account.history(
-                    only_ops=["delegate_vesting_shares"]):
+                only_ops=["delegate_vesting_shares"]):
 
                 if self.username == operation["delegator"]:
                     continue

@@ -88,10 +88,12 @@
                         Main
                     </a>
 
+                    <!-- API calls to backend-->
                     <script type="text/javascript">
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
                        document.mute_api = '/api/blurt/mute/{{ username }}';
+                       document.delegation_api = '/api/blurt/delegation/{{ username }}';
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
@@ -112,6 +114,12 @@
                     <a class="nav-item nav-link" id="nav-mute-tab" data-toggle="tab" href="#nav-mute"
                         role="tab" aria-controls="nav-mute" aria-selected="false">
                         Mute <span id="muteSize" class="badge badge-secondary">0</span>
+                    </a>
+
+                    <!-- delegation nav -->
+                    <a class="nav-item nav-link" id="nav-delegation-tab" data-toggle="tab" href="#nav-delegation"
+                        role="tab" aria-controls="nav-delegation" aria-selected="false">
+                        Delegation <span id="delegationSize" class="badge badge-secondary">0</span>
                     </a>
 
                 </div>
@@ -286,6 +294,48 @@
                                 <div class="card-body pt-1 pb-1">
                                     <ul id="muteResult"class="list-group list-group-flush">
                                         <!-- mute list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- list of delegation -->
+                <div class="tab-pane fade" id="nav-delegation" role="tabpanel" aria-labelledby="nav-delegation-tab">
+                    <h1 class="display-4">Incoming Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="incomingResult"class="list-group list-group-flush">
+                                        <!-- incoming delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Outgoing Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="outgoingResult"class="list-group list-group-flush">
+                                        <!-- outgoing delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Expiring Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="expiringResult"class="list-group list-group-flush">
+                                        <!-- expiring delegation list goes in here -->
                                     </ul>
                                 </div>
                             </div>
