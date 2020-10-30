@@ -1,7 +1,7 @@
 from beem.instance import set_shared_blockchain_instance
 from beem.account import Account
 from beem.amount import Amount
-# from beem.nodelist import NodeList
+from beem.witness import Witness
 from beem import Blurt
 
 from datetime import datetime, timedelta
@@ -20,9 +20,10 @@ class BlurtChain:
     def __init__(self, username):
         self.username = username
         self.account = None
+        self.witness = 0
         self.nodes = [
             # 'https://api.blurt.blog',
-            'https://api.blurt.tools',
+            # 'https://api.blurt.tools',
             # 'https://api.blurtworld.com',
             'https://rpc.blurtworld.com',
             'https://rpc.blurt.buzz',
@@ -42,7 +43,15 @@ class BlurtChain:
             self.account = None
             print(f'AccountDoesNotExistsException : {e}')
 
-    # @lru_cache
+        # Witness check
+        try:
+            Witness(self.username)
+            self.witness = 1
+        except Exception:
+            self.witness = 0
+            # print(f'WitnessDoesNotExistsException : {e}')
+
+    @lru_cache(maxsize=32)
     def get_account_info(self):
         self.account_info = {}
 
@@ -61,9 +70,13 @@ class BlurtChain:
             voting_power = self.account.get_voting_power()
             self.account_info['voting_power'] = f'{voting_power:.2f}'
 
+            manabar = self.account.get_manabar()
+            recharge_time = self.account.get_manabar_recharge_time_str(manabar)
+            self.account_info['recharge_time_str'] = recharge_time
+
         return self.account_info
 
-    # @lru_cache
+    @lru_cache(maxsize=32)
     def get_follower(self):
         self.follower_data = {}
         follower = []
@@ -83,7 +96,7 @@ class BlurtChain:
 
         return self.follower_data
 
-    # @lru_cache
+    @lru_cache(maxsize=32)
     def get_following(self):
         self.following_data = {}
         follower = []
@@ -163,7 +176,7 @@ class BlurtChain:
 
         return data
 
-    # @lru_cache(maxsize=32)
+    @lru_cache(maxsize=32)
     def get_delegation(self):
         # find delegations for username
         data = {}
@@ -183,22 +196,32 @@ class BlurtChain:
 
             # find incoming delegatons
             data['incoming'] = []
-            incoming_temp = dict()
-            for operation in self.account.history(
-                only_ops=["delegate_vesting_shares"]):
+            # incoming_temp = dict()
+            # blurt_start_time = datetime(2020, 7, 1)
 
-                if self.username == operation["delegator"]:
-                    continue
+            # delegate_vesting_shares = self.account.history(
+            #     only_ops=["delegate_vesting_shares"], batch_size=1000)
 
-                if operation["vesting_shares"] == '0.000000 VESTS':
-                    incoming_temp.pop(operation["delegator"])
-                    continue
-                else:
-                    incoming_temp[operation["delegator"]] = operation
+            # for operation in delegate_vesting_shares:
+            #     timestamp = datetime.strptime(
+            #         operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
 
-            for key, value in incoming_temp.items():
-                value['bp'] = self.vests_to_bp(value['vesting_shares'])
-                data['incoming'].append(value)
+            #     if timestamp < blurt_start_time:
+            #         continue
+
+            #     if self.username == operation["delegator"]:
+            #         continue
+
+            #     if operation["vesting_shares"] == '0.000000 VESTS':
+            #         incoming_temp.pop(operation["delegator"])
+            #         continue
+            #     else:
+            #         incoming_temp[operation["delegator"]] = operation
+
+            # if incoming_temp:
+            #     for key, value in incoming_temp.items():
+            #         value['bp'] = self.vests_to_bp(value['vesting_shares'])
+            #         data['incoming'].append(value)
 
         return data
 
@@ -210,3 +233,92 @@ class BlurtChain:
         bp = f'{bp:.3f}'
 
         return bp
+
+    @lru_cache(maxsize=32)
+    def get_reward_summary(self):
+        # find reward summary for username
+        data = {
+            'author_day': f'{0.0:.3f}',
+            'author_week': f'{0.0:.3f}',
+            # 'author_month': f'{0.0:.3f}',
+            'curation_day': f'{0.0:.3f}',
+            'curation_week': f'{0.0:.3f}',
+            # 'curation_month': f'{0.0:.3f}',
+            'producer_day': f'{0.0:.3f}',
+            'producer_week': f'{0.0:.3f}',
+            # 'producer_month': f'{0.0:.3f}',
+        }
+
+        if self.username:
+            day = datetime.utcnow() - timedelta(days=1)
+            week = datetime.utcnow() - timedelta(days=7)
+            # month = datetime.utcnow() - timedelta(days=30)
+
+            # get account history
+            ops = ['author_reward', 'curation_reward', 'producer_reward']
+            day_history = self.account.history_reverse(
+                stop=day, only_ops=ops)
+
+            week_history = self.account.history_reverse(
+                stop=week, only_ops=ops)
+
+            # month_history = self.account.history_reverse(
+            #     stop=month, only_ops=ops)
+
+            # 1 day rewards
+            day_rewards = self.rewards(day_history)
+            data['author_day'] = day_rewards['author']
+            data['curation_day'] = day_rewards['curation']
+            data['producer_day'] = day_rewards['producer']
+
+            # 7 day rewards
+            week_rewards = self.rewards(week_history)
+            data['author_week'] = week_rewards['author']
+            data['curation_week'] = week_rewards['curation']
+            data['producer_week'] = week_rewards['producer']
+
+            # 30 day rewards
+            # month_rewards = self.rewards(month_history)
+            # data['author_month'] = month_rewards['author']
+            # data['curation_month'] = month_rewards['curation']
+            # data['producer_month'] = month_rewards['producer']
+
+        return data
+
+    @lru_cache(maxsize=32)
+    def rewards(self, history):
+        data = {}
+        author_bp = 0.0
+        curation_bp = 0.0
+        producer_bp = 0.0
+
+        author_reward_vests = Amount("0 VESTS")
+        curation_reward_vests = Amount("0 VESTS")
+        producer_reward_vests = Amount("0 VESTS")
+
+        for reward in history:
+            if reward['type'] == 'author_reward':
+                author_reward_vests += Amount(reward['vesting_payout'])
+
+            if reward['type'] == 'curation_reward':
+                curation_reward_vests += Amount(reward['reward'])
+
+            if self.witness:
+                if reward['type'] == 'producer_reward':
+                    producer_reward_vests += Amount(reward['vesting_shares'])
+
+        author_bp = self.blurt.vests_to_bp(author_reward_vests.amount)
+        curation_bp = self.blurt.vests_to_bp(curation_reward_vests.amount)
+        producer_bp = self.blurt.vests_to_bp(producer_reward_vests.amount)
+
+        author_bp = f'{author_bp:.3f}'
+        curation_bp = f'{curation_bp:.3f}'
+        producer_bp = f'{producer_bp:.3f}'
+
+        data = {
+            'author': author_bp,
+            'curation': curation_bp,
+            'producer': producer_bp,
+        }
+
+        return data

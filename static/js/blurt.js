@@ -5,6 +5,9 @@ $(document).ready(function(){
         timeout: 60000,     // timeout milliseconds
         success: function (data, status, xhr) {   // success callback function
             var size = Object.keys(data).length;
+            if (size === undefined) {
+                size = 0;
+            }
             $("#followerSize").html(size);
             // console.log(Object.keys(data).length);
 
@@ -22,7 +25,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -35,7 +38,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -47,9 +50,9 @@ $(document).ready(function(){
                 });
            }
         },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback
-            $("#followerResult").append('Error: ' + errorMessage);
-        }
+        // error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //     $("#followerResult").append('Error: ' + errorMessage);
+        // }
     });
 
     $.ajax(document.following_api,
@@ -58,6 +61,9 @@ $(document).ready(function(){
         timeout: 60000,     // timeout milliseconds
         success: function (data, status, xhr) {   // success callback function
             var size = Object.keys(data).length;
+            if (size === undefined) {
+                size = 0;
+            }
             $("#followingSize").html(size);
             // console.log(Object.keys(data).length);
 
@@ -75,7 +81,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -88,7 +94,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -100,9 +106,9 @@ $(document).ready(function(){
                 });
            }
         },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback
-            $("#followingResult").append('Error: ' + errorMessage);
-        }
+        // error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //     $("#followingResult").append('Error: ' + errorMessage);
+        // }
     });
 
     $.ajax(document.mute_api,
@@ -111,6 +117,9 @@ $(document).ready(function(){
         timeout: 60000,     // timeout milliseconds
         success: function (data, status, xhr) {   // success callback function
             var size = Object.keys(data['muting']).length + Object.keys(data['muter']).length;
+            if (size === undefined) {
+                size = 0;
+            }
             $("#muteSize").html(size);
             // console.log(data['muter']);
             // console.log(data['muting']);
@@ -129,7 +138,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${value}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -151,7 +160,7 @@ $(document).ready(function(){
                         <li class="list-group-item" data-field=>
                             <span><img src="https://images.blurt.blog/u/${value}/avatar/small"
                                     onerror="this.onerror=null;
-                                    this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                    this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
@@ -163,9 +172,9 @@ $(document).ready(function(){
            }
 
         },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback
-            $("#muteResult").append('Error: ' + errorMessage);
-        }
+        // error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //     $("#muteResult").append('Error: ' + errorMessage);
+        // }
     });
 
     $.ajax(document.delegation_api,
@@ -176,13 +185,16 @@ $(document).ready(function(){
             var size = Object.keys(data['incoming']).length
                 + Object.keys(data['outgoing']).length
                 + Object.keys(data['expiring']).length;
+            if (size === undefined) {
+                size = 0;
+            }
             $("#delegationSize").html(size);
 
             // liStr holds html list
             var liStr = ``;
             if (jQuery.isEmptyObject(data['incoming'])) {
                 liStr = `
-                <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
+                <li class="list-group-item" data-field=><span>No Incoming Delegation (not implemented)</span></li>`;
                 $("#incomingResult").append(liStr);
             }
             else {
@@ -195,7 +207,7 @@ $(document).ready(function(){
                             <div class="col-sm">
                                 <span><img src="https://images.blurt.blog/u/${value.delegator}/avatar/small"
                                         onerror="this.onerror=null;
-                                        this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                        this.src='/static/images/blurt_profile.png';"
                                         alt="profile_image"
                                         class="img-thumbnail rounded-circle float-left mr-3"
                                         width="auto">
@@ -233,7 +245,7 @@ $(document).ready(function(){
                             <div class="col-sm">
                                 <span><img src="https://images.blurt.blog/u/${value.delegatee}/avatar/small"
                                         onerror="this.onerror=null;
-                                        this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                                        this.src='/static/images/blurt_profile.png';"
                                         alt="profile_image"
                                         class="img-thumbnail rounded-circle float-left mr-3"
                                         width="auto">
@@ -283,9 +295,118 @@ $(document).ready(function(){
            }
 
         },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback
-            $("#muteResult").append('Error: ' + errorMessage);
-        }
+        // error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //     $("#incomingResult").append('Error: ' + errorMessage);
+        // }
+    });
+
+    $.ajax(document.reward_api,
+    {
+        dataType: 'json', // type of response data
+        timeout: 60000,     // timeout milliseconds
+        success: function (data, status, xhr) {   // success callback function
+            var size = Object.keys(data).length;
+            if (size === undefined) {
+                size = 0;
+            }
+            $("#rewardSize").html(" ");
+            // console.log(Object.keys(data).length);
+
+            // liStr holds html list
+            var liStr = ``;
+            if (jQuery.isEmptyObject(data)) {
+                liStr = `
+                <li class="list-group-item" data-field=>
+                    <span>No Rewards Data</span>
+                </li>`;
+            }
+            else {
+                liStr = `
+                    <li class="list-group-item" data-field=>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm text-left">
+                                <span class="font-weight-bold">
+                                    Duration
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span class="font-weight-bold">
+                                    Author BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span class="font-weight-bold">
+                                    Curation BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span class="font-weight-bold">
+                                    Producer BP
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item" data-field=>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm text-left">
+                                <span>
+                                    Last 24 Hours
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['author_day']} BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['curation_day']} BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['producer_day']} BP
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item" data-field=>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm text-left">
+                                <span>
+                                    Last 7 Days
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['author_week']} BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['curation_week']} BP
+                                </span>
+                            </div>
+                            <div class="col-sm text-right">
+                                <span>
+                                    ${data['producer_week']} BP
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                    </li>`;
+                $("#rewardResult").html(liStr);
+                // $("#rewardResult").append(liStr);
+           }
+        },
+        // error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //     $("#rewardResult").append('Error: ' + errorMessage);
+        // }
     });
 
 });

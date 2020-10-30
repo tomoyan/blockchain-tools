@@ -47,7 +47,7 @@
                     </u>
                     <img src="https://images.blurt.blog/u/{{ username }}/avatar"
                             onerror="this.onerror=null;
-                            this.src='{{ url_for('static', filename='images/blurt_logo.png') }}'"
+                            this.src='/static/images/blurt_profile.png';"
                             alt="profile_image"
                             class="img-thumbnail rounded-circle float-right"
                             width="auto">
@@ -68,7 +68,7 @@
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
                     role="progressbar" style="width: {{ data['voting_power'] }}%"
                     aria-valuenow="100"
-                    aria-valuemin="0" aria-valuemax="100"></div>
+                    aria-valuemin="0" aria-valuemax="100">Full charge in {{ data['recharge_time_str'] }}</div>
                 </div>
 
                 {% else %}
@@ -90,6 +90,7 @@
 
                     <!-- API calls to backend-->
                     <script type="text/javascript">
+                       document.reward_api = '/api/blurt/reward/{{ username }}';
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
                        document.mute_api = '/api/blurt/mute/{{ username }}';
@@ -97,6 +98,18 @@
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
+
+                    <!-- reward nav -->
+                    <a class="nav-item nav-link" id="nav-reward-tab" data-toggle="tab" href="#nav-reward"
+                        role="tab" aria-controls="nav-reward" aria-selected="false">
+                        Rewards
+                        <span id="rewardSize">
+                            <!-- loading spinner -->
+                            <div class="spinner-grow spinner-grow-sm text-secondary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </span>
+                    </a>
 
                     <!-- follower nav -->
                     <a class="nav-item nav-link" id="nav-follower-tab" data-toggle="tab" href="#nav-follower"
@@ -240,6 +253,29 @@
                     {% endif %}
                 </div>
 
+                <!-- List of Reward -->
+                <div class="tab-pane fade" id="nav-reward" role="tabpanel" aria-labelledby="nav-reward-tab">
+                    <h1 class="display-4">Reward Summary</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="rewardResult"class="list-group list-group-flush">
+                                        <div class="text-center">
+                                            Loading data...
+                                            <img
+                                                src="{{ url_for('static', filename='images/loading.gif') }}"
+                                                class="rounded"
+                                                alt="loading">
+                                        </div>
+                                        <!-- reward list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- List of Follower -->
                 <div class="tab-pane fade" id="nav-follower" role="tabpanel" aria-labelledby="nav-follower-tab">
                     <h1 class="display-4">Follower</h1>
@@ -303,18 +339,6 @@
 
                 <!-- list of delegation -->
                 <div class="tab-pane fade" id="nav-delegation" role="tabpanel" aria-labelledby="nav-delegation-tab">
-                    <h1 class="display-4">Incoming Delegation</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul id="incomingResult"class="list-group list-group-flush">
-                                        <!-- incoming delegation list goes in here -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <h1 class="display-4">Outgoing Delegation</h1>
                     <div class="row">
@@ -336,6 +360,19 @@
                                 <div class="card-body pt-1 pb-1">
                                     <ul id="expiringResult"class="list-group list-group-flush">
                                         <!-- expiring delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Incoming Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="incomingResult"class="list-group list-group-flush">
+                                        <!-- incoming delegation list goes in here -->
                                     </ul>
                                 </div>
                             </div>

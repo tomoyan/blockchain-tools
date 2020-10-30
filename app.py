@@ -145,6 +145,17 @@ def blurt_delegation(username=None):
     return jsonify(data)
 
 
+@app.route('/api/blurt/reward/<username>')
+@app.route('/api/blurt/reward/<username>/')
+def blurt_reward(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_reward_summary()
+
+    return jsonify(data)
+
+
 @app.route('/swap')
 @app.route('/swap/')
 def swap():
