@@ -50,41 +50,43 @@ def harvest_dark():
 @app.route('/blurt', methods=['GET', 'POST'])
 @app.route('/blurt/', methods=['GET', 'POST'])
 def blurt():
-    form = UserNameForm(request.form)
+    return redirect('https://blurtblock.herokuapp.com/', code=302)
+    # form = UserNameForm(request.form)
 
-    if request.method == 'POST':
-        if form.validate():
-            username = request.form['username'].lower()
+    # if request.method == 'POST':
+    #     if form.validate():
+    #         username = request.form['username'].lower()
 
-            return redirect(f'/blurt/{username}')
-        else:
-            flash('Username is Required')
+    #         return redirect(f'/blurt/{username}')
+    #     else:
+    #         flash('Username is Required')
 
-    return render_template('blurt/profile.html', form=form)
+    # return render_template('blurt/profile.html', form=form)
 
 
 @app.route('/blurt/<username>')
 @app.route('/blurt/<username>/')
 def blurt_profile_data(username=None):
+    return redirect('https://blurtblock.herokuapp.com/', code=302)
     # print(f'BLURT_PROFILE_DATA USERNAME: {username}')
-    data = {}
-    if username:
-        username = escape(username).lower()
-        blurt = BC.BlurtChain(username)
-        # print(dir(blurt))
-        # print(vars(blurt))
-        # print(blurt.username)
+    # data = {}
+    # if username:
+    #     username = escape(username).lower()
+    #     blurt = BC.BlurtChain(username)
+    #     # print(dir(blurt))
+    #     # print(vars(blurt))
+    #     # print(blurt.username)
 
-        data = blurt.get_account_info()
-        vote_data = blurt.get_vote_history()
-        data['labels'] = vote_data['labels']
-        data['permlinks'] = vote_data['permlinks']
-        data['count_data'] = vote_data['count_data']
-        data['weight_data'] = vote_data['weight_data']
-        data['total_votes'] = vote_data['total_votes']
-        # print(f'GET_ACCOUNT_INFO: {data}')
-    return render_template('blurt/profile_data.html',
-                           username=blurt.username, data=data)
+    #     data = blurt.get_account_info()
+    #     vote_data = blurt.get_vote_history()
+    #     data['labels'] = vote_data['labels']
+    #     data['permlinks'] = vote_data['permlinks']
+    #     data['count_data'] = vote_data['count_data']
+    #     data['weight_data'] = vote_data['weight_data']
+    #     data['total_votes'] = vote_data['total_votes']
+    #     # print(f'GET_ACCOUNT_INFO: {data}')
+    # return render_template('blurt/profile_data.html',
+    #                        username=blurt.username, data=data)
 
 
 # BLURT API
