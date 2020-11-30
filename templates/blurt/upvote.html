@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+
+        <!-- fontawesome kit -->
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+
+        <!-- Primary Meta Tags -->
+        <title>BlurtBlock - Blurt Profile Information</title>
+        <meta name="title" content="BlurtBlock - Blurt Profile Information">
+        <meta name="description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://blurtblock.herokuapp.com/">
+        <meta property="og:title" content="BlurtBlock - Blurt Profile Information">
+        <meta property="og:description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+        <meta property="og:image" content="https://blurtblock.herokuapp.com/static/images/blurtblock.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://blurtblock.herokuapp.com/">
+        <meta property="twitter:title" content="BlurtBlock - Blurt Profile Information">
+        <meta property="twitter:description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+        <meta property="twitter:image" content="https://blurtblock.herokuapp.com/static/images/blurtblock.png">
+
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="https://blurt.blog/images/logo.png"
+                width="150" alt="blurt logo" class="img-thumbnail">
+                <h1 class="display-4">Blurt Upvote: not live yet</h1>
+                <p class="lead">
+                    Receive upvote from
+                    <a href="https://blurt.blog/@tomoyan"
+                        class="bg-blurt text-white"
+                        target="_blank" rel="noopener noreferrer">
+                        <u>@tomoyan</u>
+                    </a>
+                    every 24 hours
+                </p>
+                <hr class="my-4">
+                <p>
+                    This feature will be open for my witness supporters first.
+                    (and maybe BP delegators)
+                </p>
+                <p class="lead">
+                    <a class="btn btn-primary  btn-lg" role="button"
+                        href="https://blurtwallet.com/~witnesses?highlight=tomoyan"
+                        target="_blank" rel="noopener noreferrer">Vote
+                    </a>
+                </p>
+            </div>
+
+            <div class="container-sm">
+                <!-- <h1 class="display-4">Get Free Upvote</h1> -->
+                <form action="{{ url_for('upvote') }}" method="post">
+                    <!-- used to protect the form against csrf attacks -->
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        <label for="postInputURL">Enter Blurt post URL</label>
+                        <input type="url"
+                            name="url"
+                            class="form-control" id="postInputURL"
+                            aria-describedby="urlHelp"
+                            placeholder="https://blurt.blog/@USERNAME/post-address"
+                            >
+                            <!-- readonly> -->
+                        <small id="urlHelp" class="form-text text-muted">
+                            Witness suppoerters will receive one upvote a day
+                        </small>
+                    </div>
+                    <!-- <button type="submit" class="btn btn-blurt" disabled>Submit</button> -->
+
+                    <!-- A-ADS -->
+                    <p id="a-ads">
+                        <iframe data-aa="1515162" src="//acceptable.a-ads.com/1515162" scrolling="no"
+                            style="border:0px; padding:0; width:100%; height:100%; overflow:hidden"
+                            allowtransparency="true">
+                        </iframe>
+                    </p>
+
+                    <!-- flash message -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <!-- flash error -->
+                        {% if "Error" in message[1]: %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ message[1] }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- flash success -->
+                        {% else %}
+                        <div class="alert alert-info" role="alert">
+                            {{ message[1] }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <span
+                        class="d-inline-block" tabindex="0"
+                        data-toggle="tooltip" title="Soon?">
+                        <button type="submit" class="btn btn-blurt">Submit</button>
+                    </span>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      </body>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</html>

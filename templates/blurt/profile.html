@@ -10,9 +10,32 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
 
-        <title>Profile</title>
+        <!-- fontawesome kit -->
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+        <!-- <script src="https://kit.fontawesome.com/7933aa8507.js" crossorigin="anonymous"></script> -->
+
+        <!-- Primary Meta Tags -->
+        <title>BlurtBlock - Blurt Profile Information</title>
+        <meta name="title" content="BlurtBlock - Blurt Profile Information">
+        <meta name="description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://blurtblock.herokuapp.com/">
+        <meta property="og:title" content="BlurtBlock - Blurt Profile Information">
+        <meta property="og:description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+        <meta property="og:image" content="https://blurtblock.herokuapp.com/static/images/blurtblock.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://blurtblock.herokuapp.com/">
+        <meta property="twitter:title" content="BlurtBlock - Blurt Profile Information">
+        <meta property="twitter:description" content="BlurtBlock is a Blurt Blockchain Explorer. Displays user information, vote chart, reward summary, stats and more!">
+        <meta property="twitter:image" content="https://blurtblock.herokuapp.com/static/images/blurtblock.png">
+
     </head>
     <body>
 
@@ -70,4 +93,8 @@
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         {% include 'bootstrap_js.html' %}
       </body>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
 </html>

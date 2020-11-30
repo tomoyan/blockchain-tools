@@ -6,10 +6,10 @@ from beem import Blurt
 
 from datetime import datetime, timedelta
 from statistics import mean
-import random
 from functools import lru_cache
-# import logging
-# from dumper import dump
+import random
+import ast
+import requests
 
 
 class BlurtChain:
@@ -22,13 +22,11 @@ class BlurtChain:
         self.account = None
         self.witness = 0
         self.nodes = [
-            # 'https://api.blurt.blog',
-            # 'https://api.blurt.tools',
-            # 'https://api.blurtworld.com',
-            'https://rpc.blurtworld.com',
             'https://rpc.blurt.buzz',
-            'https://rpc.blurt.world',
-            'https://blurtd.privex.io'
+            'https://blurtd.privex.io',
+            # 'https://rpc.blurtworld.com',
+            # 'https://rpc.blurt.world',
+            # 'https://api.softmetal.xyz',
         ]
         random.shuffle(self.nodes)
 
@@ -116,12 +114,13 @@ class BlurtChain:
 
         return self.following_data
 
-    @lru_cache(maxsize=32)
-    def get_vote_history(self):
+    @lru_cache(maxsize=128)
+    def get_vote_history(self, username):
         votes = {}
         result = {}
         labels = []
         permlinks = []
+        upvotes = []
         count_data = []
         weight_data = []
         total_votes = 0
@@ -134,8 +133,16 @@ class BlurtChain:
             # Count how many times voted in 7 days
             for data in history:
                 if self.username == data["voter"]:
+                    timestamp = datetime.strptime(
+                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
                     permlink = f'@{data["author"]}/{data["permlink"]}'
-                    permlinks.append(permlink)
+                    weight = data['weight'] * 0.01
+                    link_data = {
+                        'timestamp': timestamp,
+                        'permlink': permlink,
+                        'weight': weight,
+                    }
+                    permlinks.append(link_data)
 
                     if data["author"] in votes.keys():
                         votes[data["author"]]['count'] += 1
@@ -147,7 +154,18 @@ class BlurtChain:
                             'weight': [data["weight"]],
                         }
                 else:
-                    next
+                    timestamp = datetime.strptime(
+                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
+                    voter = data['voter']
+                    permlink = f'@{data["author"]}/{data["permlink"]}'
+                    weight = data['weight'] * 0.01
+                    upvote_data = {
+                        'timestamp': timestamp,
+                        'voter': voter,
+                        'permlink': permlink,
+                        'weight': weight,
+                    }
+                    upvotes.append(upvote_data)
 
             for key, value in votes.items():
                 labels.append(key)
@@ -160,7 +178,8 @@ class BlurtChain:
         result['total_votes'] = total_votes
 
         result['labels'] = labels
-        result['permlinks'] = sorted(permlinks)
+        result['permlinks'] = permlinks
+        result['upvotes'] = upvotes
         result['count_data'] = count_data
         result['weight_data'] = weight_data
 
@@ -234,54 +253,126 @@ class BlurtChain:
 
         return bp
 
+    # @lru_cache(maxsize=32)
+    # def get_reward_summary(self):
+    #     # find reward summary for username
+    #     data = {
+    #         'author_day': f'{0.0:.3f}',
+    #         'author_week': f'{0.0:.3f}',
+    #         'author_week2': f'{0.0:.3f}',
+    #         # 'author_month': f'{0.0:.3f}',
+    #         'curation_day': f'{0.0:.3f}',
+    #         'curation_week': f'{0.0:.3f}',
+    #         'curation_week2': f'{0.0:.3f}',
+    #         # 'curation_month': f'{0.0:.3f}',
+    #         'producer_day': f'{0.0:.3f}',
+    #         'producer_week': f'{0.0:.3f}',
+    #         'producer_week2': f'{0.0:.3f}',
+    #         # 'producer_month': f'{0.0:.3f}',
+    #         'total_day': f'{0.0:.3f}',
+    #         'total_week': f'{0.0:.3f}',
+    #         'total_week2': f'{0.0:.3f}',
+    #         # 'total_month': f'{0.0:.3f}',
+    #     }
+
+    #     if self.username:
+    #         day = datetime.utcnow() - timedelta(days=1)
+    #         week = datetime.utcnow() - timedelta(days=7)
+    #         week2 = datetime.utcnow() - timedelta(days=14)
+    #         # month = datetime.utcnow() - timedelta(days=30)
+
+    #         # get account history
+    #         ops = ['author_reward', 'curation_reward', 'producer_reward']
+    #         day_history = self.account.history_reverse(
+    #             stop=day, only_ops=ops)
+
+    #         week_history = self.account.history_reverse(
+    #             stop=week, only_ops=ops)
+
+    #         week2_history = self.account.history_reverse(
+    #             stop=week2, only_ops=ops)
+
+    #         # month_history = self.account.history_reverse(
+    #         #     stop=month, only_ops=ops)
+
+    #         # 1 day rewards
+    #         day_rewards = self.rewards(day_history)
+    #         data['author_day'] = day_rewards['author']
+    #         data['curation_day'] = day_rewards['curation']
+    #         data['producer_day'] = day_rewards['producer']
+
+    #         # 7 days rewards
+    #         week_rewards = self.rewards(week_history)
+    #         data['author_week'] = week_rewards['author']
+    #         data['curation_week'] = week_rewards['curation']
+    #         data['producer_week'] = week_rewards['producer']
+
+    #         # 14 days rewards
+    #         week2_rewards = self.rewards(week2_history)
+    #         data['author_week2'] = week2_rewards['author']
+    #         data['curation_week2'] = week2_rewards['curation']
+    #         data['producer_week2'] = week2_rewards['producer']
+
+    #         # 30 days rewards
+    #         # month_rewards = self.rewards(month_history)
+    #         # data['author_month'] = month_rewards['author']
+    #         # data['curation_month'] = month_rewards['curation']
+    #         # data['producer_month'] = month_rewards['producer']
+
+    #         # total rewards
+    #         data['total_day'] = float(day_rewards['author']) + \
+    #             float(day_rewards['curation']) + \
+    #             float(day_rewards['producer'])
+    #         data['total_day'] = f"{data['total_day']:.3f}"
+
+    #         data['total_week'] = float(week_rewards['author']) + \
+    #             float(week_rewards['curation']) + \
+    #             float(week_rewards['producer'])
+    #         data['total_week'] = f"{data['total_week']:.3f}"
+
+    #         data['total_week2'] = float(week2_rewards['author']) + \
+    #             float(week2_rewards['curation']) + \
+    #             float(week2_rewards['producer'])
+    #         data['total_week2'] = f"{data['total_week2']:.3f}"
+
+    #         # data['total_month'] = float(month_rewards['author']) + \
+    #         #     float(month_rewards['curation']) + \
+    #         #     float(month_rewards['producer'])
+    #         # data['total_month'] = f"{data['total_month']:.3f}"
+
+    #     return data
+
     @lru_cache(maxsize=32)
-    def get_reward_summary(self):
-        # find reward summary for username
+    def get_reward_summary(self, duration):
         data = {
-            'author_day': f'{0.0:.3f}',
-            'author_week': f'{0.0:.3f}',
-            # 'author_month': f'{0.0:.3f}',
-            'curation_day': f'{0.0:.3f}',
-            'curation_week': f'{0.0:.3f}',
-            # 'curation_month': f'{0.0:.3f}',
-            'producer_day': f'{0.0:.3f}',
-            'producer_week': f'{0.0:.3f}',
-            # 'producer_month': f'{0.0:.3f}',
+            'author': f'{0.0:.3f}',
+            'curation': f'{0.0:.3f}',
+            'producer': f'{0.0:.3f}',
+            'total': f'{0.0:.3f}',
         }
 
         if self.username:
-            day = datetime.utcnow() - timedelta(days=1)
-            week = datetime.utcnow() - timedelta(days=7)
-            # month = datetime.utcnow() - timedelta(days=30)
+            if duration < 1 or duration > 30:
+                duration = 1
+
+            stop = datetime.utcnow() - timedelta(days=duration)
 
             # get account history
             ops = ['author_reward', 'curation_reward', 'producer_reward']
-            day_history = self.account.history_reverse(
-                stop=day, only_ops=ops)
+            reward_history = self.account.history_reverse(
+                stop=stop, only_ops=ops)
 
-            week_history = self.account.history_reverse(
-                stop=week, only_ops=ops)
+            # convert reward vest to blurt power
+            rewards = self.rewards(reward_history)
 
-            # month_history = self.account.history_reverse(
-            #     stop=month, only_ops=ops)
-
-            # 1 day rewards
-            day_rewards = self.rewards(day_history)
-            data['author_day'] = day_rewards['author']
-            data['curation_day'] = day_rewards['curation']
-            data['producer_day'] = day_rewards['producer']
-
-            # 7 day rewards
-            week_rewards = self.rewards(week_history)
-            data['author_week'] = week_rewards['author']
-            data['curation_week'] = week_rewards['curation']
-            data['producer_week'] = week_rewards['producer']
-
-            # 30 day rewards
-            # month_rewards = self.rewards(month_history)
-            # data['author_month'] = month_rewards['author']
-            # data['curation_month'] = month_rewards['curation']
-            # data['producer_month'] = month_rewards['producer']
+            # rewards total
+            data['total'] = float(rewards['author']) + \
+                float(rewards['curation']) + \
+                float(rewards['producer'])
+            data['total'] = f"{data['total']:,.3f}"
+            data['author'] = f"{float(rewards['author']):,.3f}"
+            data['curation'] = f"{float(rewards['curation']):,.3f}"
+            data['producer'] = f"{float(rewards['producer']):,.3f}"
 
         return data
 
@@ -319,6 +410,145 @@ class BlurtChain:
             'author': author_bp,
             'curation': curation_bp,
             'producer': producer_bp,
+        }
+
+        return data
+
+    def process_data(self, count_type, data):
+        result = 0
+
+        if count_type in data:
+            result = data[count_type]
+
+        return result
+
+    @lru_cache(maxsize=32)
+    def get_stats(self):
+        stats_file = 'newstats.txt'
+        stats_data = {}
+        labels = []
+
+        # get counts from these operations
+        ops = [
+            'labels', 'total', 'vote',
+            'comment', 'account_create',
+            'transfer_to_vesting',
+            'withdraw_vesting',
+            # 'powerup', 'powerdown',
+        ]
+
+        for op in ops:
+            stats_data[op] = []
+
+        # read stats file
+        with open(stats_file) as f:
+            stats = f.read()
+
+        # convert stats as a dictionary
+        d = ast.literal_eval(stats)
+
+        # go through stats dictinary
+        # and count number of operations
+        for data in d:
+            if data == 'Start Block' or data == 'Stop Block':
+                continue
+            else:
+                labels.append(data)
+                for op in ops:
+                    stats_data[op].append(self.process_data(op, d[data]))
+
+        stats_data['labels'] = labels
+
+        return stats_data
+
+    def check_witness(self, username):
+        witness_list = []
+        result = {
+            'status': False,
+            'message': 'Error: Post URL'
+        }
+
+        endpoint = 'https://rpc.blurt.world'
+        post_data = {
+            'id': '0',
+            'jsonrpc': '2.0',
+            'method': 'call',
+            'params': ['condenser_api', 'get_accounts', [[username]]]
+        }
+
+        try:
+            response = requests.post(endpoint, json=post_data, timeout=3)
+
+            # If the response was successful,
+            # no Exception will be raised
+            response.raise_for_status()
+        except Exception as err:
+            print(f'Error has occurred: {err}')
+            result['message'] = 'Error has occurred.'
+            return result
+
+        if response:
+            json_response = response.json()
+            if json_response['result']:
+                witness_list = json_response['result'][0]['witness_votes']
+            else:
+                return result
+
+        if 'tomoyan' in witness_list:
+            result['status'] = True
+        else:
+            result['message'] = 'Error: Please vote for my witness.'
+
+        return result
+
+    def process_upvote(self, url):
+        username = None
+        identifier = None
+
+        data = {
+            'status': False,
+            'message': 'Error: Post URL'
+        }
+
+        # access log
+        print('ACCESS_LOG: ', url)
+
+        # check post url check
+        strings = url.split("@")
+
+        if len(strings) != 2:
+            return data
+
+        username = strings[1].split('/')[0]
+        # print('username: ', username)
+        if not username:
+            return data
+
+        identifier = f'@{strings[1]}'
+        # print('identifier: ', identifier)
+
+        # witness check (condenser_api)
+        witness_data = self.check_witness(username)
+        print('WITNESS_DATA: ', witness_data)
+        if witness_data['status'] is False:
+            data['message'] = witness_data['message']
+            return data
+
+        # delegation check (not added yet)
+
+        # store upvote_data
+        upvote_data = {
+            'username': username,
+            'identifier': identifier,
+            'timestamp': datetime.now(),
+            'voted': 0,
+        }
+        print(upvote_data)
+
+        data = {
+            'status': True,
+            # 'message': 'Thank You. Your post has been upvoted.'
+            'message': '(Testing) This feature is coming soon'
         }
 
         return data
