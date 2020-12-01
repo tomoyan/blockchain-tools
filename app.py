@@ -12,6 +12,7 @@ import BlurtChain as BC
 app = Flask(__name__)
 app.config.from_object(Config)
 Session(app)
+print("config: ", app.config)
 
 
 @app.errorhandler(404)

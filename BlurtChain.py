@@ -3,6 +3,7 @@ from beem.account import Account
 from beem.amount import Amount
 from beem.witness import Witness
 from beem import Blurt
+from config import Config
 
 from datetime import datetime, timedelta
 from statistics import mean
@@ -10,6 +11,17 @@ from functools import lru_cache
 import random
 import ast
 import requests
+import pyrebase
+
+# Firebase configuration
+firebase_config = {
+    "apiKey": Config.UPVOTE_KEY,
+    "authDomain": "blurtdb.firebaseapp.com",
+    "databaseURL": "https://blurtdb.firebaseio.com",
+    "storageBucket": "blurtdb.appspot.com",
+}
+# Firebase initialization
+firebase = pyrebase.initialize_app(firebase_config)
 
 
 class BlurtChain:
@@ -32,6 +44,9 @@ class BlurtChain:
 
         self.blurt = Blurt(node=self.nodes)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
+
+        # Get a reference to the database service
+        self.firebase = firebase.database()
 
         # Create account object
         try:
@@ -496,22 +511,87 @@ class BlurtChain:
 
         if 'tomoyan' in witness_list:
             result['status'] = True
+            result['message'] = 'Thank you for your support.'
         else:
             result['message'] = 'Error: Please vote for my witness.'
 
         return result
 
+    def save_data(self, name, data):
+        # save data into database
+        result = self.firebase.child(name).push(data)
+        print(f"SAVE {name} DATA: {result}")
+
+    def check_last_upvote(self, username):
+        result = False
+
+        # get the last upvote record
+        record = self.firebase.child("upvote_log").order_by_child(
+            "username").equal_to(username).limit_to_last(1).get()
+
+        if not record.val():
+            result = True
+            return result
+
+        # check if last upvoted was 24h ago
+        for data in record.each():
+            print(data.key())
+            print(data.val())
+            val = data.val()
+
+            current_time = datetime.now()
+            last_vote = val['created']
+            last_vote = datetime.strptime(last_vote, "%m/%d/%Y %H:%M:%S")
+
+            time_diff = current_time - last_vote
+
+            # 24 hour = 86400 sec
+            if time_diff.total_seconds() >= 86400.0:
+                result = True
+
+        return result
+
+    def upvote_post(self, identifier):
+        upvote_account = Config.UPVOTE_ACCOUNT
+        upvote_key = Config.UPVOTE_KEY
+        vote_weight = 100.0
+        vote_result = {
+            "status": False,
+            "message": "Error"
+        }
+
+        blurt = Blurt(node=self.nodes, keys=[upvote_key])
+        account = Account(upvote_account, blockchain_instance=blurt)
+
+        try:
+            print(f'UPVOTE {identifier} BY {vote_weight} %')
+            result = blurt.vote(vote_weight, identifier, account=account)
+            vote_result["status"] = True
+            vote_result["message"] = "Upvoted"
+            print(f'RESULT {result}')
+        except Exception as e:
+            print(e)
+            vote_result["message"] = f"Error: Please check post URL"
+
+        return vote_result
+
     def process_upvote(self, url):
         username = None
         identifier = None
+        now = datetime.now()
+        current_time = now.strftime("%m/%d/%Y %H:%M:%S")
 
         data = {
             'status': False,
             'message': 'Error: Post URL'
         }
 
-        # access log
-        print('ACCESS_LOG: ', url)
+        # save access_data
+        access_data = {
+            'url': url,
+            'created': current_time,
+        }
+        self.save_data("access_log", access_data)
 
         # check post url check
         strings = url.split("@")
@@ -519,36 +599,47 @@ class BlurtChain:
         if len(strings) != 2:
             return data
 
+        identifier = f'@{strings[1]}'
         username = strings[1].split('/')[0]
-        # print('username: ', username)
         if not username:
             return data
 
-        identifier = f'@{strings[1]}'
-        # print('identifier: ', identifier)
+        # check last upvote
+        can_vote = self.check_last_upvote(username)
+        if can_vote is False:
+            data['message'] = 'Error: Please come back later'
+            return data
 
-        # witness check (condenser_api)
+        # check witness (using condenser_api)
         witness_data = self.check_witness(username)
         print('WITNESS_DATA: ', witness_data)
         if witness_data['status'] is False:
             data['message'] = witness_data['message']
             return data
 
+        # coal check (not added yet)
         # delegation check (not added yet)
 
-        # store upvote_data
+        # upvote
+        is_upvoted = self.upvote_post(identifier)
+        print("is_upvoted: ", is_upvoted)
+        if is_upvoted["status"] is False:
+            data['message'] = is_upvoted["message"]
+            return data
+
+        # save upvote_data
         upvote_data = {
             'username': username,
             'identifier': identifier,
-            'timestamp': datetime.now(),
-            'voted': 0,
+            'created': current_time,
         }
         print(upvote_data)
+        self.save_data("upvote_log", upvote_data)
 
         data = {
             'status': True,
-            # 'message': 'Thank You. Your post has been upvoted.'
-            'message': '(Testing) This feature is coming soon'
+            'message': 'Thank You. Your post has been upvoted.'
+            # 'message': '(Testing) This feature is coming soon'
         }
 
         return data
