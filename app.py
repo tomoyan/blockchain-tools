@@ -12,7 +12,6 @@ import BlurtChain as BC
 app = Flask(__name__)
 app.config.from_object(Config)
 Session(app)
-print("config: ", app.config)
 
 
 @app.errorhandler(404)
@@ -186,4 +185,3 @@ def blurt_reward(username=None, duration=1):
 
 if __name__ == "__main__":
     app.run()
-    # app.run(debug=True)

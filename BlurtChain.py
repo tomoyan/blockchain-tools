@@ -571,7 +571,7 @@ class BlurtChain:
             print(f'RESULT {result}')
         except Exception as e:
             print(e)
-            vote_result["message"] = f"Error: Please check post URL"
+            vote_result["message"] = f"Error: Please check your post URL"
 
         return vote_result
 
