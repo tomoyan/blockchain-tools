@@ -20,11 +20,12 @@ def page_not_found(e):
     return render_template('404.html')
 
 
-# @app.route('/')
-# def home():
-#     return render_template('index.html')
+@app.route('/', methods=['GET', 'POST'])
+def blurt():
+    return redirect('https://blurtblock.herokuapp.com', code=302)
 
 
+"""
 @app.route('/', methods=['GET', 'POST'])
 def blurt():
     form = UserNameForm(request.form)
@@ -154,17 +155,6 @@ def blurt_delegation(username=None):
     return jsonify(data)
 
 
-# @app.route('/api/blurt/reward/<username>')
-# @app.route('/api/blurt/reward/<username>/')
-# def blurt_reward(username=None):
-#     data = {}
-#     if username:
-#         blurt = BC.BlurtChain(username)
-#         data = blurt.get_reward_summary()
-
-#     return jsonify(data)
-
-
 @app.route('/api/blurt/reward/<username>/<int:duration>')
 @app.route('/api/blurt/reward/<username>/<int:duration>/')
 def blurt_reward(username=None, duration=1):
@@ -181,7 +171,7 @@ def blurt_reward(username=None, duration=1):
             session[reward_data] = data
 
     return jsonify(data)
-
+"""
 
 if __name__ == "__main__":
     app.run()
