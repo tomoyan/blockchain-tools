@@ -21,5 +21,3 @@ class Config(object):
     vhost = 'nmrwbflq'
     broker_url = f"amqps://{userinfo}@{host}/{vhost}"
     CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL') or broker_url
-    # CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-    # amqps://nmrwbflq:Z3HbmTcw53wIN5oD80Qs85z1oUqpzyAW@jellyfish.rmq.cloudamqp.com/nmrwbflq
