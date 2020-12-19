@@ -15,10 +15,10 @@ import pyrebase
 
 # Firebase configuration
 firebase_config = {
-    "apiKey": Config.UPVOTE_KEY,
-    "authDomain": "blurtdb.firebaseapp.com",
-    "databaseURL": "https://blurtdb.firebaseio.com",
-    "storageBucket": "blurtdb.appspot.com",
+    "apiKey": Config.FB_APIKEY,
+    "authDomain": Config.FB_AUTHDOMAIN,
+    "databaseURL": Config.FB_DATABASEURL,
+    "storageBucket": Config.FB_STORAGEBUCKET,
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
@@ -35,7 +35,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.buzz',
-            'https://blurtd.privex.io',
+            # 'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
             # 'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
@@ -211,6 +211,60 @@ class BlurtChain:
         return data
 
     @lru_cache(maxsize=32)
+    def get_delegation_new(self, option):
+        # find delegation for username
+        data = {}
+
+        if not self.username:
+            return data
+
+        # find incoming delegaton
+        if option == "in":
+            data['incoming'] = []
+            incoming_temp = dict()
+            blurt_start_time = datetime(2020, 7, 1)
+
+            delegate_vesting_shares = self.account.history(
+                only_ops=["delegate_vesting_shares"], batch_size=10000)
+
+            for operation in delegate_vesting_shares:
+                timestamp = datetime.strptime(
+                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
+
+                if timestamp < blurt_start_time:
+                    continue
+
+                if self.username == operation["delegator"]:
+                    continue
+
+                if operation["vesting_shares"] == '0.000000 VESTS':
+                    incoming_temp.pop(operation["delegator"])
+                    continue
+                else:
+                    incoming_temp[operation["delegator"]] = operation
+
+            if incoming_temp:
+                for key, value in incoming_temp.items():
+                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                    data['incoming'].append(value)
+        # find outgoing delegaton
+        elif option == "out":
+            data['outgoing'] = self.account.get_vesting_delegations()
+            for value in data['outgoing']:
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+        # find expiring delegaton
+        elif option == "exp":
+            data['expiring'] = self.account.get_expiring_vesting_delegations()
+            for value in data['expiring']:
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                date_time = value['expiration'].split('T')
+                value['expiration'] = f'{date_time[0]} {date_time[-1]}'
+        else:
+            return data
+
+        return data
+
+    @lru_cache(maxsize=32)
     def get_delegation(self):
         # find delegations for username
         data = {}
@@ -230,32 +284,32 @@ class BlurtChain:
 
             # find incoming delegatons
             data['incoming'] = []
-            # incoming_temp = dict()
-            # blurt_start_time = datetime(2020, 7, 1)
+            incoming_temp = dict()
+            blurt_start_time = datetime(2020, 7, 1)
 
-            # delegate_vesting_shares = self.account.history(
-            #     only_ops=["delegate_vesting_shares"], batch_size=1000)
+            delegate_vesting_shares = self.account.history(
+                only_ops=["delegate_vesting_shares"], batch_size=10000)
 
-            # for operation in delegate_vesting_shares:
-            #     timestamp = datetime.strptime(
-            #         operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
+            for operation in delegate_vesting_shares:
+                timestamp = datetime.strptime(
+                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
 
-            #     if timestamp < blurt_start_time:
-            #         continue
+                if timestamp < blurt_start_time:
+                    continue
 
-            #     if self.username == operation["delegator"]:
-            #         continue
+                if self.username == operation["delegator"]:
+                    continue
 
-            #     if operation["vesting_shares"] == '0.000000 VESTS':
-            #         incoming_temp.pop(operation["delegator"])
-            #         continue
-            #     else:
-            #         incoming_temp[operation["delegator"]] = operation
+                if operation["vesting_shares"] == '0.000000 VESTS':
+                    incoming_temp.pop(operation["delegator"])
+                    continue
+                else:
+                    incoming_temp[operation["delegator"]] = operation
 
-            # if incoming_temp:
-            #     for key, value in incoming_temp.items():
-            #         value['bp'] = self.vests_to_bp(value['vesting_shares'])
-            #         data['incoming'].append(value)
+            if incoming_temp:
+                for key, value in incoming_temp.items():
+                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                    data['incoming'].append(value)
 
         return data
 
@@ -268,112 +322,73 @@ class BlurtChain:
 
         return bp
 
-    # @lru_cache(maxsize=32)
-    # def get_reward_summary(self):
-    #     # find reward summary for username
-    #     data = {
-    #         'author_day': f'{0.0:.3f}',
-    #         'author_week': f'{0.0:.3f}',
-    #         'author_week2': f'{0.0:.3f}',
-    #         # 'author_month': f'{0.0:.3f}',
-    #         'curation_day': f'{0.0:.3f}',
-    #         'curation_week': f'{0.0:.3f}',
-    #         'curation_week2': f'{0.0:.3f}',
-    #         # 'curation_month': f'{0.0:.3f}',
-    #         'producer_day': f'{0.0:.3f}',
-    #         'producer_week': f'{0.0:.3f}',
-    #         'producer_week2': f'{0.0:.3f}',
-    #         # 'producer_month': f'{0.0:.3f}',
-    #         'total_day': f'{0.0:.3f}',
-    #         'total_week': f'{0.0:.3f}',
-    #         'total_week2': f'{0.0:.3f}',
-    #         # 'total_month': f'{0.0:.3f}',
-    #     }
+    @lru_cache(maxsize=32)
+    def get_author_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        author_reward = f"{0.0:.3f}"
 
-    #     if self.username:
-    #         day = datetime.utcnow() - timedelta(days=1)
-    #         week = datetime.utcnow() - timedelta(days=7)
-    #         week2 = datetime.utcnow() - timedelta(days=14)
-    #         # month = datetime.utcnow() - timedelta(days=30)
+        if self.username:
+            stop = datetime.utcnow() - timedelta(days=duration)
 
-    #         # get account history
-    #         ops = ['author_reward', 'curation_reward', 'producer_reward']
-    #         day_history = self.account.history_reverse(
-    #             stop=day, only_ops=ops)
+            # get author_reward history
+            reward_history = self.account.history_reverse(
+                stop=stop, only_ops=['author_reward'])
 
-    #         week_history = self.account.history_reverse(
-    #             stop=week, only_ops=ops)
+            # convert reward vest to blurt power
+            reward = self.rewards(reward_history)
+            author_reward = f"{float(reward['author']):.3f}"
 
-    #         week2_history = self.account.history_reverse(
-    #             stop=week2, only_ops=ops)
-
-    #         # month_history = self.account.history_reverse(
-    #         #     stop=month, only_ops=ops)
-
-    #         # 1 day rewards
-    #         day_rewards = self.rewards(day_history)
-    #         data['author_day'] = day_rewards['author']
-    #         data['curation_day'] = day_rewards['curation']
-    #         data['producer_day'] = day_rewards['producer']
-
-    #         # 7 days rewards
-    #         week_rewards = self.rewards(week_history)
-    #         data['author_week'] = week_rewards['author']
-    #         data['curation_week'] = week_rewards['curation']
-    #         data['producer_week'] = week_rewards['producer']
-
-    #         # 14 days rewards
-    #         week2_rewards = self.rewards(week2_history)
-    #         data['author_week2'] = week2_rewards['author']
-    #         data['curation_week2'] = week2_rewards['curation']
-    #         data['producer_week2'] = week2_rewards['producer']
-
-    #         # 30 days rewards
-    #         # month_rewards = self.rewards(month_history)
-    #         # data['author_month'] = month_rewards['author']
-    #         # data['curation_month'] = month_rewards['curation']
-    #         # data['producer_month'] = month_rewards['producer']
-
-    #         # total rewards
-    #         data['total_day'] = float(day_rewards['author']) + \
-    #             float(day_rewards['curation']) + \
-    #             float(day_rewards['producer'])
-    #         data['total_day'] = f"{data['total_day']:.3f}"
-
-    #         data['total_week'] = float(week_rewards['author']) + \
-    #             float(week_rewards['curation']) + \
-    #             float(week_rewards['producer'])
-    #         data['total_week'] = f"{data['total_week']:.3f}"
-
-    #         data['total_week2'] = float(week2_rewards['author']) + \
-    #             float(week2_rewards['curation']) + \
-    #             float(week2_rewards['producer'])
-    #         data['total_week2'] = f"{data['total_week2']:.3f}"
-
-    #         # data['total_month'] = float(month_rewards['author']) + \
-    #         #     float(month_rewards['curation']) + \
-    #         #     float(month_rewards['producer'])
-    #         # data['total_month'] = f"{data['total_month']:.3f}"
-
-    #     return data
+        return author_reward
 
     @lru_cache(maxsize=32)
-    def get_reward_summary(self, duration):
+    def get_curation_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        curation_reward = f"{0.0:.3f}"
+        curation_reward = self.account.get_curation_reward(days=duration)
+
+        return f"{curation_reward:.3f}"
+
+    @lru_cache(maxsize=32)
+    def get_producer_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        producer_reward = f"{0.0:.3f}"
+
+        if self.username and self.witness:
+            stop = datetime.utcnow() - timedelta(days=duration)
+
+            # get author_reward history
+            reward_history = self.account.history_reverse(
+                stop=stop, only_ops=['producer_reward'])
+
+            # convert reward vest to blurt power
+            reward = self.rewards(reward_history)
+            producer_reward = f"{float(reward['producer']):.3f}"
+
+        return producer_reward
+
+    @lru_cache(maxsize=32)
+    def get_reward_summary(self, duration, **kwargs):
         data = {
             'author': f'{0.0:.3f}',
             'curation': f'{0.0:.3f}',
             'producer': f'{0.0:.3f}',
             'total': f'{0.0:.3f}',
         }
+        # option = kwargs.get('option', None)
+        print("get_reward_summary_duration", duration)
 
         if self.username:
             if duration < 1 or duration > 30:
                 duration = 1
 
-            stop = datetime.utcnow() - timedelta(days=duration)
-
             # get account history
             ops = ['author_reward', 'curation_reward', 'producer_reward']
+            reward_history = {}
+
+            stop = datetime.utcnow() - timedelta(days=duration)
             reward_history = self.account.history_reverse(
                 stop=stop, only_ops=ops)
 
@@ -439,38 +454,39 @@ class BlurtChain:
 
     @lru_cache(maxsize=32)
     def get_stats(self):
-        stats_file = 'newstats.txt'
         stats_data = {}
         labels = []
 
-        # get counts from these operations
+        # get counts of each operation
         ops = [
             'labels', 'total', 'vote',
             'comment', 'account_create',
             'transfer_to_vesting',
             'withdraw_vesting',
-            # 'powerup', 'powerdown',
         ]
 
         for op in ops:
             stats_data[op] = []
 
-        # read stats file
-        with open(stats_file) as f:
-            stats = f.read()
+        # get stats data from firebase
+        db_name = "blurt_stats"
+        fb_stats_data = self.firebase.child(
+            db_name).order_by_key().limit_to_last(1).get()
 
-        # convert stats as a dictionary
-        d = ast.literal_eval(stats)
+        fb_stats = {}
+        for data in fb_stats_data.each():
+            fb_stats = data.val()
 
-        # go through stats dictinary
-        # and count number of operations
-        for data in d:
-            if data == 'Start Block' or data == 'Stop Block':
-                continue
-            else:
-                labels.append(data)
-                for op in ops:
-                    stats_data[op].append(self.process_data(op, d[data]))
+        # only use last 6 months stats
+        months = list(fb_stats.keys())[-6:]
+
+        for stats in fb_stats:
+            if stats in months:
+                labels.append(stats)
+
+            for op in ops:
+                stats_data[op].append(
+                    self.process_data(op, fb_stats[stats]))
 
         stats_data['labels'] = labels
 
@@ -483,7 +499,7 @@ class BlurtChain:
             'message': 'Error: Post URL'
         }
 
-        endpoint = 'https://rpc.blurt.world'
+        endpoint = self.nodes[0]
         post_data = {
             'id': '0',
             'jsonrpc': '2.0',
@@ -498,8 +514,8 @@ class BlurtChain:
             # no Exception will be raised
             response.raise_for_status()
         except Exception as err:
-            print(f'Error has occurred: {err}')
-            result['message'] = 'Error has occurred.'
+            # print(f'Error has occurred: {err}')
+            result['message'] = f'Error has occurred: {err}'
             return result
 
         if response:
@@ -513,16 +529,14 @@ class BlurtChain:
             result['status'] = True
             result['message'] = 'Thank you for your support.'
         else:
-            result['message'] = 'Error: Please vote for my witness.'
+            result['message'] = 'Error: Please vote for my witness ☝️'
 
         return result
 
-    def save_data(self, name, data):
-        # save data into database
-        result = self.firebase.child(name).push(data)
-        print(f"SAVE {name} DATA: {result}")
-
     def check_last_upvote(self, username):
+        # 24 hour = 86400 sec
+        # 12 hour = 43200 sec
+        wait_time = 43200.0
         result = False
 
         # get the last upvote record
@@ -533,10 +547,8 @@ class BlurtChain:
             result = True
             return result
 
-        # check if last upvoted was 24h ago
+        # check if last upvoted is more than wait_time
         for data in record.each():
-            print(data.key())
-            print(data.val())
             val = data.val()
 
             current_time = datetime.now()
@@ -545,16 +557,43 @@ class BlurtChain:
 
             time_diff = current_time - last_vote
 
-            # 24 hour = 86400 sec
-            if time_diff.total_seconds() >= 86400.0:
+            if time_diff.total_seconds() >= wait_time:
                 result = True
 
         return result
 
-    def upvote_post(self, identifier):
+    def delegation_bonus(self, username):
+        bonus_weight = 0.0
+
+        blurt = Blurt(node=self.nodes)
+        account = Account(username, blockchain_instance=blurt)
+
+        # check delegation_bonus (bonus_weight 0 - 30%)
+        vesting_delegations = account.get_vesting_delegations()
+        for delegation in vesting_delegations:
+            if delegation["delegatee"] == "tomoyan":
+                vesting_shares = Amount(delegation["vesting_shares"])
+                delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
+
+                if delegation_bp > 0.0 and delegation_bp <= 1000.0:
+                    bonus_weight = round(random.uniform(0, 5), 2)
+                elif delegation_bp > 1000.0 and delegation_bp <= 10000.0:
+                    bonus_weight = round(random.uniform(5, 10), 2)
+                elif delegation_bp > 10000.0 and delegation_bp <= 100000.0:
+                    bonus_weight = round(random.uniform(10, 20), 2)
+                elif delegation_bp > 100000.0 and delegation_bp <= 1000000.0:
+                    bonus_weight = round(random.uniform(20, 30), 2)
+                elif delegation_bp > 1000000.0:
+                    bonus_weight = 30.0
+
+                break
+
+        return bonus_weight
+
+    def upvote_post(self, identifier, bonus_weight):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
-        vote_weight = 100.0
+
         vote_result = {
             "status": False,
             "message": "Error"
@@ -563,17 +602,93 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
+        # random vote_weight (40-70 %)
+        vote_weight = round(random.uniform(40, 70), 2)
+
+        # add delegation_bonus (bonus_weight 0 - 30%)
+        vote_weight += bonus_weight
+        if vote_weight > 100.0:
+            vote_weight = 100.0
+
         try:
-            print(f'UPVOTE {identifier} BY {vote_weight} %')
             result = blurt.vote(vote_weight, identifier, account=account)
             vote_result["status"] = True
-            vote_result["message"] = "Upvoted"
-            print(f'RESULT {result}')
-        except Exception as e:
-            print(e)
-            vote_result["message"] = f"Error: Please check your post URL"
+            vote_result["message"] = f"Upvoted: {result}"
+        except Exception as err:
+            print(err)
+            vote_result["message"] = f"Error: Please check your URL {err}"
 
         return vote_result
+
+    def check_active_post(self, post_str):
+        active_posts = []
+        cashout_time = "1969-12-31T23:59:59"
+        result = False
+
+        strings = post_str.split('/')
+        username = strings[0]
+        post_id = strings[1]
+        blurt = Blurt(node=self.nodes)
+        blurt_account = Account(username, blockchain_instance=blurt)
+        posts = blurt_account.get_blog(raw_data=True)
+
+        for post in posts:
+            # post has been paid out
+            if post["comment"]["cashout_time"] == cashout_time:
+                continue
+
+            if post["blog"]:
+                active_posts.append(post["comment"]["permlink"])
+
+        if post_id in active_posts:
+            result = True
+
+        return result
+
+    def coal_check(self, username):
+        result = {
+            'status': False,
+            'message': 'Error: Sorry user is listed in COAL'
+        }
+
+        endpoint = "https://api.blurt.buzz/blacklist"
+
+        get_result = self.get_request(endpoint)
+        response = get_result["response"]
+
+        if response:
+            json_response = response.json()
+            for res in json_response:
+                if res["name"] == username:
+                    # username is listed in coal
+                    return result
+
+            result = {
+                'status': True,
+                'message': 'OK'
+            }
+
+        return result
+
+    def save_data_fb(self, db_name, data):
+        # save data into firebase
+        result = self.firebase.child(db_name).push(data)
+        return result
+
+    def set_data_fb(self, db_name, key, data):
+        # set data into firebase
+        result = self.firebase.child(db_name).child(key).set(data)
+        return result
+
+    def get_key_data_fb(self, db_name, key):
+        # get key data from firebase
+        result = self.firebase.child(db_name).child(key).get()
+        return result
+
+    def remove_key_data_fb(self, db_name, key):
+        # remove key data from firebase
+        result = self.firebase.child(db_name).child(key).remove()
+        return result
 
     def process_upvote(self, url):
         username = None
@@ -591,7 +706,7 @@ class BlurtChain:
             'url': url,
             'created': current_time,
         }
-        self.save_data("access_log", access_data)
+        self.save_data_fb("access_log", access_data)
 
         # check post url check
         strings = url.split("@")
@@ -607,22 +722,32 @@ class BlurtChain:
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
-            data['message'] = 'Error: Please come back later'
+            data['message'] = 'Error: Please come back later (every 12h)'
             return data
 
         # check witness (using condenser_api)
         witness_data = self.check_witness(username)
-        print('WITNESS_DATA: ', witness_data)
         if witness_data['status'] is False:
             data['message'] = witness_data['message']
             return data
 
-        # coal check (not added yet)
-        # delegation check (not added yet)
+        # check post is active
+        active_post = self.check_active_post(strings[1])
+        if active_post is False:
+            data['message'] = 'Error: This post is too old to upvote'
+            return data
+
+        # coal user check
+        is_coal = self.coal_check(username)
+        if is_coal["status"] is False:
+            data['message'] = is_coal["message"]
+            return data
+
+        # check delegation bonus
+        bonus_weight = self.delegation_bonus(username)
 
         # upvote
-        is_upvoted = self.upvote_post(identifier)
-        print("is_upvoted: ", is_upvoted)
+        is_upvoted = self.upvote_post(identifier, bonus_weight)
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
@@ -633,13 +758,45 @@ class BlurtChain:
             'identifier': identifier,
             'created': current_time,
         }
-        print(upvote_data)
-        self.save_data("upvote_log", upvote_data)
+        self.save_data_fb("upvote_log", upvote_data)
 
         data = {
             'status': True,
             'message': 'Thank You. Your post has been upvoted.'
-            # 'message': '(Testing) This feature is coming soon'
         }
 
         return data
+
+    def get_request(self, endpoint, **kwargs):
+        """
+        endpoint = "https://httpbin.org/get"
+        params = {'page': 2, 'count': 3}
+        result = self.get_request(endpoint, **params)
+        """
+
+        result = {
+            'status': False,
+            'message': 'Error'
+        }
+
+        try:
+            response = requests.get(endpoint, params=kwargs, timeout=3)
+            response.raise_for_status()
+        except Exception as err:
+            result['message'] = f'Error has occurred: {err}'
+            return result
+
+        if response:
+            result['status'] = True
+            result['message'] = 'OK'
+            result['response'] = response
+
+        return result
+
+    def post_request(self, endpoint, **kwargs):
+        result = {
+            'status': False,
+            'message': 'Error'
+        }
+
+        return result

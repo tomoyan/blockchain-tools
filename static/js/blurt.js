@@ -232,24 +232,16 @@ $(document).ready(function(){
     });
 
     $("#nav-delegation-tab").click(function(){
-        $.ajax(document.delegation_api,
+        // incoming elegation
+        $.ajax(document.delegationApiIn,
         {
             dataType: 'json', // type of response data
             timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data['incoming']).length
-                    + Object.keys(data['outgoing']).length
-                    + Object.keys(data['expiring']).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#delegationSize").html(size);
-
-                // liStr holds html list
+            success: function (data, status, xhr) {
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {
                     liStr = `
-                    <li class="list-group-item" data-field=><span>No Incoming Delegation (not implemented)</span></li>`;
+                    <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
                     $("#incomingResult").html(liStr);
                 }
                 else {
@@ -285,7 +277,19 @@ $(document).ready(function(){
                         $("#incomingResult").append(liStr);
                     });
                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
 
+        // outgoing elegation
+        $.ajax(document.delegationApiOut,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000,     // timeout milliseconds
+            success: function (data, status, xhr) {
+                var liStr = ``;
                 if (jQuery.isEmptyObject(data['outgoing'])) {
                     liStr = `
                     <li class="list-group-item" data-field=><span>No Outgoing Delegation</span></li>`;
@@ -324,7 +328,16 @@ $(document).ready(function(){
                         $("#outgoingResult").append(liStr);
                     });
                }
+            },
+        });
 
+        // expiring elegation
+        $.ajax(document.delegationApiExp,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000,     // timeout milliseconds
+            success: function (data, status, xhr) {
+                var liStr = ``;
                 if (jQuery.isEmptyObject(data['expiring'])) {
                     liStr = `
                     <li class="list-group-item" data-field=><span>No Expiring Delegation</span></li>`;
@@ -352,11 +365,7 @@ $(document).ready(function(){
                         $("#expiringResult").append(liStr);
                     });
                }
-
             },
-            // error: function (jqXhr, textStatus, errorMessage) { // error callback
-            //     $("#incomingResult").append('Error: ' + errorMessage);
-            // }
         });
     });
 
@@ -390,6 +399,12 @@ $(document).ready(function(){
                 $("#producerOne").html(producerBP);
                 $("#totalOne").html(totalBP);
             },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#authorOne").remove();
+                $("#curationOne").remove();
+                $("#producerOne").remove();
+                $("#totalOne").remove();
+            }
         });
 
         // 7 day rewards summary
@@ -421,10 +436,16 @@ $(document).ready(function(){
                 $("#producerSeven").html(producerBP);
                 $("#totalSeven").html(totalBP);
             },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#authorSeven").remove();
+                $("#curationSeven").remove();
+                $("#producerSeven").remove();
+                $("#totalSeven").remove();
+            }
         });
 
         // 30 day rewards summary
-        $.ajax(document.rewardThirty_api,
+        $.ajax(document.rewardThirtyApi,
         {
             dataType: 'json', // type of response data
             timeout: 60000, // timeout milliseconds
@@ -447,167 +468,149 @@ $(document).ready(function(){
                     totalBP = `${data['total']} BP`;
                 }
 
+                $("#loadingImage").remove();
                 $("#authorThirty").html(authorBP);
                 $("#curationThirty").html(curationBP);
                 $("#producerThirty").html(producerBP);
                 $("#totalThirty").html(totalBP);
-                $("#loadingImage").remove();
             },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#loadingImage").remove();
+                $("#authorThirty").remove();
+                $("#curationThirty").remove();
+                $("#producerThirty").remove();
+                $("#totalThirty").remove();
+                $("#authorThirty").html(
+                    '<div class="text-center"> Oops! '
+                    + errorMessage  + '</div>');
+            }
         });
+
+        // var total30 = `0.000`;
+        // // 30 day rewards summary
+        // $.ajax(document.authorReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var authorBP = `0.000`;
+
+        //         if (jQuery.isEmptyObject(data)) {
+        //             authorBP = `0.000`;
+        //         }
+        //         else {
+        //             authorBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
+
+        //         if (authorBP > 0) {
+        //             authorBP = parseFloat(authorBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
+
+        //         $("#loadingImage").remove();
+        //         $("#authorThirty").html(authorBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#authorThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
+
+        // $.ajax(document.curationReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var curationBP = ``;
+
+        //         if (jQuery.isEmptyObject(data)) {
+        //             curationBP = `0.000`;
+        //         }
+        //         else {
+        //             curationBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
+
+        //         if (curationBP > 0) {
+        //             curationBP = parseFloat(curationBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
+
+        //         $("#loadingImage").remove();
+        //         $("#curationThirty").html(curationBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#curationThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
+
+        // $.ajax(document.producerReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var producerBP = ``;
+
+        //         if (jQuery.isEmptyObject(data)) {
+        //             producerBP = `0.000`;
+        //         }
+        //         else {
+        //             producerBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
+
+        //         if (producerBP > 0) {
+        //             producerBP = parseFloat(producerBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
+
+        //         $("#loadingImage").remove();
+        //         $("#producerThirty").html(producerBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#producerThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
+
     });
-
-
-    // $("#nav-reward-tab").click(function(){
-    //     $.ajax(document.reward_api,
-    //     {
-    //         dataType: 'json', // type of response data
-    //         timeout: 60000,     // timeout milliseconds
-    //         success: function (data, status, xhr) {   // success callback function
-    //             var size = Object.keys(data).length;
-    //             if (size === undefined) {
-    //                 size = 0;
-    //             }
-    //             $("#rewardSize").html(" ");
-    //             // console.log(Object.keys(data).length);
-
-    //             // liStr holds html list
-    //             var liStr = ``;
-    //             if (jQuery.isEmptyObject(data)) {
-    //                 liStr = `
-    //                 <li class="list-group-item" data-field=>
-    //                     <span>No Rewards Data</span>
-    //                 </li>`;
-    //             }
-    //             else {
-    //                 liStr = `
-    //                     <li class="list-group-item" data-field=>
-    //                         <div class="container">
-    //                           <div class="row">
-    //                             <div class="col-sm text-left">
-    //                                 <span class="font-weight-bold">
-    //                                     Duration
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span class="font-weight-bold">
-    //                                     Author BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span class="font-weight-bold">
-    //                                     Curation BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span class="font-weight-bold">
-    //                                     Producer BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span class="font-weight-bold">
-    //                                     Total BP
-    //                                 </span>
-    //                             </div>
-    //                           </div>
-    //                         </div>
-    //                     </li>
-    //                     <li class="list-group-item" data-field=>
-    //                         <div class="container">
-    //                           <div class="row">
-    //                             <div class="col-sm text-left">
-    //                                 <span>
-    //                                     Last 24 Hours
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['author_day']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['curation_day']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['producer_day']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['total_day']} BP
-    //                                 </span>
-    //                             </div>
-    //                           </div>
-    //                         </div>
-    //                     </li>
-    //                     <li class="list-group-item" data-field=>
-    //                         <div class="container">
-    //                           <div class="row">
-    //                             <div class="col-sm text-left">
-    //                                 <span>
-    //                                     Last 7 Days
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['author_week']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['curation_week']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['producer_week']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['total_week']} BP
-    //                                 </span>
-    //                             </div>
-    //                           </div>
-    //                         </div>
-    //                     </li>
-    //                     <li class="list-group-item" data-field=>
-    //                         <div class="container">
-    //                           <div class="row">
-    //                             <div class="col-sm text-left">
-    //                                 <span>
-    //                                     Last 14 Days
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['author_week2']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['curation_week2']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['producer_week2']} BP
-    //                                 </span>
-    //                             </div>
-    //                             <div class="col-sm text-right">
-    //                                 <span>
-    //                                     ${data['total_week2']} BP
-    //                                 </span>
-    //                             </div>
-    //                           </div>
-    //                         </div>
-    //                     </li>`;
-    //                 $("#rewardResult").html(liStr);
-    //            }
-    //         },
-    //     });
-    // });
 
 });

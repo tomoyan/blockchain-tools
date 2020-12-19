@@ -14,17 +14,28 @@ source venv/bin/activate
 DEACTIVATE venv (Ubuntu command):  
 deactivate  
 
-Install beem with pip:  
-pip install -U beem  
-
-Install pakcages:  
+Install all pakcages from requirements file:  
 pip install -r requirements.txt  
 
 Create/Update requirements file:  
 pip freeze > requirements.txt  
 
+## UPDATE config.py  
+Blurt Username and Posting Key:  
+UPVOTE_ACCOUNT = os.environ.get('UPVOTE_ACCOUNT') or 'YOUR_USERNAME'  
+UPVOTE_KEY = os.environ.get('UPVOTE_KEY') or 'YOUR_PRIVATE_POSTING_KEY'  
+
+Firebase(realtime database) API key (firebase.google.com):  
+FB_APIKEY = os.environ.get('FB_APIKEY') or 'YOUR_FB_APIKEY'  
+https://github.com/nhorvath/Pyrebase4  
+
 ## FLASK APP  
-Run flask app on development  
-export FLASK_APP=app.py  
-export FLASK_ENV=development  
+Add flask environment variablea in .flaskenv file:  
+touch .flaskenv  
+
+FLASK_APP=app.py  
+FLASK_ENV=development  
+SECRET_KEY=YOUR_SECRET_KEY  
+
+Run flask app:  
 flask run  
