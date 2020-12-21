@@ -448,20 +448,18 @@ $(document).ready(function(){
         $.ajax(document.rewardThirtyApi,
         {
             dataType: 'json', // type of response data
-            timeout: 15000, // 15 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 4, // rety 4 times in 15 sec
+            timeout: 60000, // timeout milliseconds
             success: function (data, status, xhr) {
-                var authorBP = `0.00 BP`;
-                var curationBP = `0.00 BP`;
-                var producerBP = `0.00 BP`;
-                var totalBP = `0.00 BP`;
+                var authorBP = ``;
+                var curationBP = ``;
+                var producerBP = ``;
+                var totalBP = ``;
 
                 if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0.00 BP`;
-                    curationBP = `0.00 BP`;
-                    producerBP = `0.00 BP`;
-                    totalBP = `0.00 BP`;
+                    authorBP = `0 BP`;
+                    curationBP = `0 BP`;
+                    producerBP = `0 BP`;
+                    totalBP = `0 BP`;
                 }
                 else {
                     authorBP = `${data['author']} BP`;
@@ -476,23 +474,15 @@ $(document).ready(function(){
                 $("#producerThirty").html(producerBP);
                 $("#totalThirty").html(totalBP);
             },
-            error: function (jqXhr, textStatus, errorMessage) {
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount <= this.retryLimit) {
-                        //try again
-                        $.ajax(this);
-                        return;
-                    }
-                    return;
-                }
-                else {
-                    $("#loadingImage").remove();
-                    $("#authorThirty").html(authorBP);
-                    $("#curationThirty").html(curationBP);
-                    $("#producerThirty").html(producerBP);
-                    $("#totalThirty").html(totalBP);
-                }
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#loadingImage").remove();
+                $("#authorThirty").remove();
+                $("#curationThirty").remove();
+                $("#producerThirty").remove();
+                $("#totalThirty").remove();
+                $("#authorThirty").html(
+                    '<div class="text-center"> Oops! '
+                    + errorMessage  + '</div>');
             }
         });
 
