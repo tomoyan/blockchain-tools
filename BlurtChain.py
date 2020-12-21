@@ -9,16 +9,29 @@ from datetime import datetime, timedelta
 from statistics import mean
 from functools import lru_cache
 import random
-import ast
+# import ast
 import requests
 import pyrebase
 
 # Firebase configuration
+serviceAccountCredentials = {
+    "type": "service_account",
+    "project_id": "blurtdb",
+    "private_key_id": Config.FB_PRIVATE_KEY_ID,
+    "private_key": Config.FB_PRIVATE_KEY,
+    "client_email": Config.FB_CLIENT_EMAIL,
+    "client_id": Config.FB_CLIENT_ID,
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": Config.FB_AUTH_PROVIDER_X509_CERT_URL,
+    "client_x509_cert_url": Config.FB_CLIENT_X509_CERT_URL
+}
 firebase_config = {
     "apiKey": Config.FB_APIKEY,
     "authDomain": Config.FB_AUTHDOMAIN,
     "databaseURL": Config.FB_DATABASEURL,
     "storageBucket": Config.FB_STORAGEBUCKET,
+    # "serviceAccount": serviceAccountCredentials,
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
@@ -378,7 +391,6 @@ class BlurtChain:
             'total': f'{0.0:.3f}',
         }
         # option = kwargs.get('option', None)
-        print("get_reward_summary_duration", duration)
 
         if self.username:
             if duration < 1 or duration > 30:
@@ -671,23 +683,8 @@ class BlurtChain:
         return result
 
     def save_data_fb(self, db_name, data):
-        # save data into firebase
+        # save data into firebase database
         result = self.firebase.child(db_name).push(data)
-        return result
-
-    def set_data_fb(self, db_name, key, data):
-        # set data into firebase
-        result = self.firebase.child(db_name).child(key).set(data)
-        return result
-
-    def get_key_data_fb(self, db_name, key):
-        # get key data from firebase
-        result = self.firebase.child(db_name).child(key).get()
-        return result
-
-    def remove_key_data_fb(self, db_name, key):
-        # remove key data from firebase
-        result = self.firebase.child(db_name).child(key).remove()
         return result
 
     def process_upvote(self, url):
@@ -757,6 +754,7 @@ class BlurtChain:
             'username': username,
             'identifier': identifier,
             'created': current_time,
+            'bonus_weight': bonus_weight,
         }
         self.save_data_fb("upvote_log", upvote_data)
 

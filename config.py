@@ -14,10 +14,12 @@ class Config(object):
     FB_AUTHDOMAIN = 'blurtdb.firebaseapp.com'
     FB_DATABASEURL = 'https://blurtdb.firebaseio.com'
     FB_STORAGEBUCKET = 'blurtdb.appspot.com'
-
-    # celery config
-    userinfo = 'nmrwbflq:Z3HbmTcw53wIN5oD80Qs85z1oUqpzyAW'
-    host = 'jellyfish.rmq.cloudamqp.com'
-    vhost = 'nmrwbflq'
-    broker_url = f"amqps://{userinfo}@{host}/{vhost}"
-    CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL') or broker_url
+    FB_PRIVATE_KEY_ID = os.environ.get(
+        'FB_PRIVATE_KEY_ID') or 'YOUR_PRIVATE_KEY_ID'
+    FB_PRIVATE_KEY = os.environ.get('FB_PRIVATE_KEY') or 'YOUR_PRIVATE_KEY'
+    FB_CLIENT_EMAIL = os.environ.get('FB_CLIENT_EMAIL') or 'YOUR_CLIENT_EMAIL'
+    FB_CLIENT_ID = os.environ.get('FB_CLIENT_ID') or 'YOUR_CLIENT_ID'
+    FB_AUTH_PROVIDER_X509_CERT_URL = os.environ.get(
+        'FB_AUTH_PROVIDER_X509_CERT_URL') or 'YOUR_AUTH_PROVIDER_X509_CERT_URL'
+    FB_CLIENT_X509_CERT_URL = os.environ.get(
+        'FB_CLIENT_X509_CERT_URL') or 'YOUR_CLIENT_X509_CERT_URL'
