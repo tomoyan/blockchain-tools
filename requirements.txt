@@ -55,7 +55,7 @@ rsa==4.7
 s3transfer==0.3.3
 scrypt==0.8.15
 six==1.15.0
-urllib3==1.25.9
+urllib3==1.26.5
 vine==5.0.0
 wcwidth==0.2.5
 websocket-client==0.57.0
