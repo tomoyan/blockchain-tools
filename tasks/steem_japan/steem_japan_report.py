@@ -22,7 +22,6 @@ USERNAME = os.environ.get('USERNAME')
 STEEM = Steem(node=nodes, keys=[POST_KEY])
 set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
-print('IS_STEEM', STEEM.is_steem)
 
 
 def main():
@@ -101,7 +100,6 @@ def get_stats(discussions):
 
 
 def get_main_image():
-    print('GET_MAIN_IMAGE')
     img_dir = f'tasks/steem_japan'
 
     base_img_file = 'report_base.png'
@@ -209,16 +207,13 @@ def publish_post(stats):
     title = f'Steem Japan: Community Member Stats {today}'
     tags = ['hive-161179', 'steem', 'japan', 'community', 'stats']
     body = get_post_body(stats)
-    print('TITLE', title)
-    print('TAGS', tags)
-    print('BODY', body)
 
-    # STEEM.post(
-    #     author=USERNAME,
-    #     title=title,
-    #     body=body,
-    #     tags=tags,
-    #     self_vote=False)
+    STEEM.post(
+        author=USERNAME,
+        title=title,
+        body=body,
+        tags=tags,
+        self_vote=False)
 
 
 if __name__ == '__main__':
