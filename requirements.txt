@@ -53,13 +53,9 @@ pytz==2020.1
 PyYAML==5.4
 requests==2.24.0
 requests-toolbelt==0.9.1
-<<<<<<< HEAD
-rsa==4.6
+rsa==4.7
 ruamel.yaml==0.16.13
 ruamel.yaml.clib==0.2.2
-=======
-rsa==4.7
->>>>>>> a44bb8609ceaa15f50133a16d28e13d032216b6d
 s3transfer==0.3.3
 scrypt==0.8.15
 six==1.15.0
