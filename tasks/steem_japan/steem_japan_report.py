@@ -8,6 +8,7 @@ from beem import Steem
 from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions_by_created
 from beem.imageuploader import ImageUploader
+from beem.instance import set_shared_blockchain_instance
 
 # Setup Steem nodes
 nodelist = NodeList()
@@ -17,8 +18,11 @@ nodes = nodelist.get_steem_nodes()
 POST_KEY = os.environ.get('POST_KEY')
 USERNAME = os.environ.get('USERNAME')
 
+
 STEEM = Steem(node=nodes, keys=[POST_KEY])
+set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
+print('IS_STEEM', STEEM.is_steem)
 
 
 def main():
@@ -139,6 +143,7 @@ def get_main_image():
     print(img_url)
 
     discussions = get_discussions()
+    pprint(discussions)
     stats = get_stats(discussions)
     pprint(stats)
 
@@ -148,13 +153,14 @@ def get_main_image():
     {stats}
     """
 
-    post_result = STEEM.post(
-        author=USERNAME,
-        title='test',
-        body=body,
-        tags='test',
-        self_vote=False)
-    print(post_result)
+    print('BODY', body)
+
+    # STEEM.post(
+    #     author=USERNAME,
+    #     title='test',
+    #     body=body,
+    #     tags='test',
+    #     self_vote=False)
 
     return img_url
 
