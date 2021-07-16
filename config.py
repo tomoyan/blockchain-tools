@@ -14,7 +14,8 @@ class Config(object):
     FB_AUTHDOMAIN = 'blurtdb.firebaseapp.com'
     FB_DATABASEURL = 'https://blurtdb.firebaseio.com'
     FB_STORAGEBUCKET = 'blurtdb.appspot.com'
-    FB_SERVICEACCOUNT = os.environ.get('FB_SERVICEACCOUNT') or 'FB_SERVICEACCOUNT'
+    FB_SERVICEACCOUNT = os.environ.get(
+        'FB_SERVICEACCOUNT') or 'FB_SERVICEACCOUNT'
 
     # celery config
     userinfo = 'nmrwbflq:Z3HbmTcw53wIN5oD80Qs85z1oUqpzyAW'
