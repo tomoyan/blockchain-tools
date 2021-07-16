@@ -29,18 +29,12 @@ def main():
     # Run this script
     # python tasks/steem_japan/steem_japan_report.py
 
-    # discussions = get_discussions()
-    # pprint('DISCUSSIONS')
-    # pprint(discussions)
+    discussions = get_discussions()
 
     # Community activity stats
-    # stats = get_stats(discussions)
-    # pprint('STATS')
-    # pprint(stats)
+    stats = get_stats(discussions)
 
-    get_main_image()
-
-    # publish_post(stats)
+    publish_post(stats)
 
 
 def get_discussions():
@@ -140,27 +134,6 @@ def get_main_image():
     # and get the uploaded image URL
     result = IU.upload(f'{img_dir}/{main_img_file}', USERNAME)
     img_url = result['url']
-    print(img_url)
-
-    discussions = get_discussions()
-    pprint(discussions)
-    stats = get_stats(discussions)
-    pprint(stats)
-
-    body = f"""
-    {img_url}
-    {discussions}
-    {stats}
-    """
-
-    print('BODY', body)
-
-    # STEEM.post(
-    #     author=USERNAME,
-    #     title='test',
-    #     body=body,
-    #     tags='test',
-    #     self_vote=False)
 
     return img_url
 
@@ -236,13 +209,16 @@ def publish_post(stats):
     title = f'Steem Japan: Community Member Stats {today}'
     tags = ['hive-161179', 'steem', 'japan', 'community', 'stats']
     body = get_post_body(stats)
+    print('TITLE', title)
+    print('TAGS', tags)
+    print('BODY', body)
 
-    STEEM.post(
-        author=USERNAME,
-        title=title,
-        body=body,
-        tags=tags,
-        self_vote=False)
+    # STEEM.post(
+    #     author=USERNAME,
+    #     title=title,
+    #     body=body,
+    #     tags=tags,
+    #     self_vote=False)
 
 
 if __name__ == '__main__':
