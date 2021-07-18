@@ -111,7 +111,7 @@ def get_main_image():
 
     # Download base image from https://picsum.photos/
     # and store as report_base.png
-    base_image_url = 'https://picsum.photos/800/500'
+    base_image_url = 'https://picsum.photos/600/427'
     urllib.request.urlretrieve(
         base_image_url, f'{img_dir}/{base_img_file}')
 
@@ -122,8 +122,8 @@ def get_main_image():
     overlay_image = Image.open(rf"{img_dir}/{overlay_img_file}")
 
     # Paste overlay_image on top of base image
-    # starting at coordinates (45, 80)
-    base_image.paste(overlay_image, (45, 80), mask=overlay_image)
+    # starting at coordinates (0, 100)
+    base_image.paste(overlay_image, (0, 100), mask=overlay_image)
 
     # Save overlay image
     base_image.save(f'{img_dir}/{main_img_file}')
@@ -147,9 +147,14 @@ def get_post_body(data):
 
     main_image = get_main_image()
 
-    stats_table = """
-| Avatar | Member | Post # | Comment # | Vote # |
+    total_posts = data['total_posts']
+    total_comments = data['total_comments']
+    total_votes = data['total_votes']
+
+    stats_table = f"""
+| Avatar | Members | Posts | Comments | Votes |
 | --- | --- | --- | --- | --- |
+|**Total #**| |**{total_posts}**|**{total_comments}**|**{total_votes}**|
     """
 
     for d in data['stats']:
@@ -163,21 +168,21 @@ def get_post_body(data):
     body = f"""
 ![]({main_image})
 
-### Steem Japan コミュニティーメンバーの活動状況デイリーレポート
-コミュニティー内で誰がどれだけアクティブに活動し、記事の投稿、他のコミュニティーメンバーにコメント・アップボートしているかなど、
-コミュニティー貢献度が一目で分かるように情報をレポート化。
+#### [Steem Japan]({community_url}) 毎日の活動状況レポート
+コミュニティーに記事を投稿しているメンバーのアクティビティです。
+コミュニティーページへ投稿、他のコミュニティーメンバーへのコメント・アップボートなど、コミュニティー貢献度が分かるように情報をレポート化。
 
-## [Steem Japan]({community_url}) Members Daily Activities
+#### [Steem Japan]({community_url}) Members Total Activities
 * Total Posts: {data['total_posts']}
 * Total Comments: {data['total_comments']}
 * Total Votes: {data['total_votes']}
 
 **投稿メンバーのアクティビティー情報**
-**Active Posting Members Info**
+**-- Active Posting Members Stats --**
 
 {stats_table}
 
-**今後のコンテストにはコミュニティーメンバーの活動状況が考慮されるかも🤔**
+#### 今後のアップボートやコンテストなどに、コミュニティーメンバーの活動状況が考慮されるかも？🤔
 
 ---
 ### * Follow @japansteemit community curation trail
