@@ -18,7 +18,6 @@ nodes = nodelist.get_steem_nodes()
 POST_KEY = os.environ.get('POST_KEY')
 USERNAME = os.environ.get('USERNAME')
 
-
 STEEM = Steem(node=nodes, keys=[POST_KEY])
 set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
@@ -100,20 +99,33 @@ def get_stats(discussions):
 
 
 def get_main_image():
+    # Download base image from loremflickr.com
+    # and store as report_base.png
+
+    # Default Image URL
+    img_url = 'https://i.imgur.com/wOSnnYI.png'
+
     img_dir = f'tasks/steem_japan'
 
     base_img_file = 'report_base.png'
     overlay_img_file = 'report_overlay.png'
     main_img_file = 'report_main.png'
 
-    # Default Image URL
-    img_url = 'https://i.imgur.com/wOSnnYI.png'
+    # Setting up user_agent, base_image_url
+    user_agent_list = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'AppleWebKit/537.36 (KHTML, like Gecko)',
+        'Chrome/92.0.4515.101 Safari/537.36'
+    ]
+    user_agent = ' '.join(user_agent_list)
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-Agent', user_agent)]
+    urllib.request.install_opener(opener)
 
-    # Download base image from https://picsum.photos/
-    # and store as report_base.png
-    base_image_url = 'https://picsum.photos/600/427'
-    urllib.request.urlretrieve(
-        base_image_url, f'{img_dir}/{base_img_file}')
+    base_image_url = "https://loremflickr.com/610/427/japan"
+
+    # Call urlretrieve function to get an image
+    urllib.request.urlretrieve(base_image_url, f'{img_dir}/{base_img_file}')
 
     # Open base image
     base_image = Image.open(rf"{img_dir}/{base_img_file}")
@@ -121,9 +133,8 @@ def get_main_image():
     # Open overlay image
     overlay_image = Image.open(rf"{img_dir}/{overlay_img_file}")
 
-    # Paste overlay_image on top of base image
-    # starting at coordinates (0, 100)
-    base_image.paste(overlay_image, (0, 100), mask=overlay_image)
+    # Paste overlay_image on top of base image at coordinates (x, y)
+    base_image.paste(overlay_image, (5, 50), mask=overlay_image)
 
     # Save overlay image
     base_image.save(f'{img_dir}/{main_img_file}')
@@ -139,6 +150,14 @@ def get_main_image():
 def get_post_body(data):
     sp_url = 'https://steemlogin.com/sign/delegateVestingShares'
     sp_url += '?delegator=&delegatee=japansteemit&vesting_shares='
+    sp_delegation_list = [
+        f'|[100 SP]({sp_url}100%20SP)',
+        f'|[500 SP]({sp_url}500%20SP)',
+        f'|[1000 SP]({sp_url}1000%20SP)',
+        f'|[2000 SP]({sp_url}2000%20SP)',
+        f'|[3000 SP]({sp_url}3000%20SP)|',
+    ]
+    sp_delegations = ''.join(sp_delegation_list)
 
     community_url = 'https://steemit.com/created/hive-161179'
     trail_url = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
@@ -167,6 +186,7 @@ def get_post_body(data):
 
     body = f"""
 ![]({main_image})
+[source](https://loremflickr.com)
 
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
@@ -197,7 +217,7 @@ Curation trail info 👇:
 **@japansteemitにSPをデレゲーションしよう！**
 | Click | And | Delegate | SP | Here 👇 |
 | --- | --- | --- | --- | --- |
-|[100 SP]({sp_url}100%20SP)|[500 SP]({sp_url}500%20SP)|[1000 SP]({sp_url}1000%20SP)|[2000 SP]({sp_url}2000%20SP)|[3000 SP]({sp_url}3000%20SP)|
+{sp_delegations}
 
 ### * [Join Steem Japan Discord (ディスコードサーバー)](https://discord.gg/pE5fuktSAt)
 [![](https://i.imgur.com/xADG309.png)](https://steemit.com/@japansteemit)
