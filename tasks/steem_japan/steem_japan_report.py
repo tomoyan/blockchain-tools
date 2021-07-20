@@ -3,6 +3,8 @@ from datetime import datetime
 import os
 import urllib.request
 from PIL import Image
+import random
+from pexels_api import API
 
 from beem import Steem
 from beem.nodelist import NodeList
@@ -21,6 +23,8 @@ USERNAME = os.environ.get('USERNAME')
 STEEM = Steem(node=nodes, keys=[POST_KEY])
 set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
+
+PEXELS_API_KEY = '563492ad6f917000010000016acbeee6e44d432392217f9f901098f4'
 
 
 def main():
@@ -99,7 +103,7 @@ def get_stats(discussions):
 
 
 def get_main_image():
-    # Download base image from loremflickr.com
+    # Download base image from pexels.com API
     # and store as report_base.png
 
     # Default Image URL
@@ -122,7 +126,22 @@ def get_main_image():
     opener.addheaders = [('User-Agent', user_agent)]
     urllib.request.install_opener(opener)
 
-    base_image_url = "https://loremflickr.com/610/427/japan"
+    # base_image_url = "https://loremflickr.com/610/427/japan"
+
+    # Pick a random page number
+    page_number = random.randint(1, 80)
+
+    # Search Japan image and access image data from pexels API
+    PEXELS_API = API(PEXELS_API_KEY)
+    PEXELS_API.search('japan', page=page_number, results_per_page=1)
+    photos = PEXELS_API.get_entries()
+
+    base_image_url = ''
+    image_params = '?auto=compress&cs=tinysrgb&fit=crop&h=427&w=610'
+    for photo in photos:
+        base_image_url = photo.landscape.split('?')[0]
+
+    base_image_url += image_params
 
     # Call urlretrieve function to get an image
     urllib.request.urlretrieve(base_image_url, f'{img_dir}/{base_img_file}')
@@ -144,7 +163,9 @@ def get_main_image():
     result = IU.upload(f'{img_dir}/{main_img_file}', USERNAME)
     img_url = result['url']
 
-    return img_url
+    return {
+        'url': img_url,
+        'src': base_image_url}
 
 
 def get_post_body(data):
@@ -177,7 +198,7 @@ def get_post_body(data):
     """
 
     for d in data['stats']:
-        avatar = f"<img src='https://steemitimages.com/u/{d}/avatar/small'>"
+        avatar = f"<img src='https://steemitimages.com/u/{d}/avatar/'>"
         member = d
         post = len(data['stats'][d]['posts'])
         comment = data['stats'][d]['comments']
@@ -185,8 +206,8 @@ def get_post_body(data):
         stats_table += f"|{avatar}|{member}|{post}|{comment}|{vote}|\n"
 
     body = f"""
-![]({main_image})
-[source](https://loremflickr.com)
+![]({main_image['url']})
+[source]({main_image['src']})
 
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
