@@ -197,12 +197,21 @@ def get_post_body(data):
 |**Total #**| |**{total_posts}**|**{total_comments}**|**{total_votes}**|
     """
 
+    # Sort stats by post count
+    post_count = {}
     for d in data['stats']:
-        avatar = f"<img src='https://steemitimages.com/u/{d}/avatar/'>"
-        member = d
         post = len(data['stats'][d]['posts'])
-        comment = data['stats'][d]['comments']
-        vote = data['stats'][d]['votes']
+        post_count[d] = post
+
+    sorted_by_posts = dict(sorted(post_count.items(),
+                                  key=lambda item: item[1],
+                                  reverse=True))
+
+    for member in sorted_by_posts:
+        avatar = f"<img src='https://steemitimages.com/u/{member}/avatar/'>"
+        post = len(data['stats'][member]['posts'])
+        comment = data['stats'][member]['comments']
+        vote = data['stats'][member]['votes']
         stats_table += f"|{avatar}|{member}|{post}|{comment}|{vote}|\n"
 
     body = f"""
