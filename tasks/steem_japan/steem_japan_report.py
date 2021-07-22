@@ -5,6 +5,7 @@ import urllib.request
 from PIL import Image
 import random
 from pexels_api import API
+import requests
 
 from beem import Steem
 from beem.nodelist import NodeList
@@ -25,18 +26,62 @@ set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
 
 PEXELS_API_KEY = '563492ad6f917000010000016acbeee6e44d432392217f9f901098f4'
+NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 
 
 def main():
     # Run this script
     # python tasks/steem_japan/steem_japan_report.py
 
+    # Get today's news from newsapi.org
+    headline = get_headline_news()
+
     discussions = get_discussions()
 
     # Community activity stats
-    stats = get_stats(discussions)
+    stats = get_stats(discussions, headline)
 
     publish_post(stats)
+
+
+def get_headline_news():
+    headline = {
+        'topic': '',
+        'author': '',
+        'content': '',
+        'description': '',
+        'publishedAt': '',
+        'source': '',
+        'title': '',
+        'url': '',
+        'urlToImage': ''
+    }
+
+    category = [
+        'business', 'entertainment',
+        'general', 'health',
+        'science', 'sports',
+        'technology'
+    ]
+
+    topic = random.choice(category)
+
+    url = (
+        'https://newsapi.org/v2/top-headlines?'
+        'country=jp&'
+        f'category={topic}&'
+        'pageSize=100&'
+        f'apiKey={NEWS_API_KEY}')
+
+    response = requests.get(url)
+
+    json_data = response.json()
+
+    headline = random.choice(json_data['articles'])
+    # headline = json_data['articles'][0]
+    headline['topic'] = topic
+
+    return headline
 
 
 def get_discussions():
@@ -54,7 +99,7 @@ def get_discussions():
     return discussions
 
 
-def get_stats(discussions):
+def get_stats(discussions, headline):
     data = dict()
     active_members = []
     total_posts = 0
@@ -95,6 +140,7 @@ def get_stats(discussions):
                 total_votes += 1
 
     return {
+        'news': headline,
         'stats': data,
         'total_posts': total_posts,
         'total_votes': total_votes,
@@ -214,15 +260,35 @@ def get_post_body(data):
         vote = data['stats'][member]['votes']
         stats_table += f"|{avatar}|{member}|{post}|{comment}|{vote}|\n"
 
+    urltoimage = ''
+    if data['news']['urlToImage']:
+        urltoimage = f"<img src='{data['news']['urlToImage']}'> <br/>"
+
+    description = ''
+    if data['news']['description']:
+        description = f"{data['news']['description']} <br/>"
+
+    content = ''
+    if data['news']['content']:
+        content = f"{data['news']['content']} <br/>"
+
     body = f"""
 ![]({main_image['url']})
 [source]({main_image['src']})
 
+#### まずは今日のNewsAPIから ({data['news']['topic']}) <br/>
+{data['news']['title']} <br/>
+{urltoimage}
+{description}
+{content}
+[続きはこちら]({data['news']['url']})
+<br/>
+---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
 コミュニティーページへ投稿、他のコミュニティーメンバーへのコメント・アップボートなど、コミュニティー貢献度が分かるように情報をレポート化。
 
-#### [Steem Japan]({community_url}) Members Total Activities
+#### [Steem Japan]({community_url}) Member Activity Total
 * Total Posts: {data['total_posts']}
 * Total Comments: {data['total_comments']}
 * Total Votes: {data['total_votes']}
