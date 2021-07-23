@@ -33,15 +33,20 @@ def main():
     # Run this script
     # python tasks/steem_japan/steem_japan_report.py
 
-    # Get today's news from newsapi.org
-    headline = get_headline_news()
-
     discussions = get_discussions()
 
     # Community activity stats
-    stats = get_stats(discussions, headline)
+    post_data = get_stats(discussions)
 
-    publish_post(stats)
+    # Get today's news from newsapi.org
+    post_data['news'] = get_headline_news()
+
+    # Get main image for report
+    post_data['main_image'] = get_main_image()
+
+    post_body = get_post_body(post_data)
+
+    publish_post(post_body)
 
 
 def get_headline_news():
@@ -63,7 +68,7 @@ def get_headline_news():
         'science', 'sports',
         'technology'
     ]
-
+    # Pick a random category
     topic = random.choice(category)
 
     url = (
@@ -77,8 +82,8 @@ def get_headline_news():
 
     json_data = response.json()
 
+    # Pick a random article
     headline = random.choice(json_data['articles'])
-    # headline = json_data['articles'][0]
     headline['topic'] = topic
 
     return headline
@@ -99,7 +104,7 @@ def get_discussions():
     return discussions
 
 
-def get_stats(discussions, headline):
+def get_stats(discussions):
     data = dict()
     active_members = []
     total_posts = 0
@@ -140,7 +145,6 @@ def get_stats(discussions, headline):
                 total_votes += 1
 
     return {
-        'news': headline,
         'stats': data,
         'total_posts': total_posts,
         'total_votes': total_votes,
@@ -179,8 +183,11 @@ def get_main_image():
 
     # Search Japan image and access image data from pexels API
     PEXELS_API = API(PEXELS_API_KEY)
-    PEXELS_API.search('japan', page=page_number, results_per_page=1)
+    PEXELS_API.search('japan', page=page_number, results_per_page=10)
     photos = PEXELS_API.get_entries()
+
+    # Pick a random photo
+    photos = [random.choice(photos)]
 
     base_image_url = ''
     image_params = '?auto=compress&cs=tinysrgb&fit=crop&h=427&w=610'
@@ -231,7 +238,7 @@ def get_post_body(data):
     trail_info = 'https://steemit.com/'
     trail_info += '@tomoyan/steem-japan-join-new-curation-trail'
 
-    main_image = get_main_image()
+    main_image = data['main_image']
 
     total_posts = data['total_posts']
     total_comments = data['total_comments']
@@ -322,12 +329,12 @@ Curation trail info 👇:
     return body
 
 
-def publish_post(stats):
+def publish_post(post_body):
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
     title = f'Steem Japan: Community Member Stats {today}'
     tags = ['hive-161179', 'steem', 'japan', 'community', 'stats']
-    body = get_post_body(stats)
+    body = post_body
 
     STEEM.post(
         author=USERNAME,
