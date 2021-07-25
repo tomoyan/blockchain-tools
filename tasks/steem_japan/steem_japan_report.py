@@ -295,12 +295,12 @@ def get_post_body(data):
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
 コミュニティーページへ投稿、他のコミュニティーメンバーへのコメント・アップボートなど、コミュニティー貢献度が分かるように情報をレポート化。
 
-#### [Steem Japan]({community_url}) Member Activity Total
+#### [Steem Japan]({community_url}) Member Activity Total (Last 24H)
 * Total Posts: {data['total_posts']}
 * Total Comments: {data['total_comments']}
 * Total Votes: {data['total_votes']}
 
-**投稿メンバーのアクティビティー情報**
+**投稿メンバーのアクティビティー情報 (24H)**
 **-- Active Posting Members Stats --**
 
 {stats_table}
