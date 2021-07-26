@@ -38,6 +38,9 @@ def main():
     # Community activity stats
     post_data = get_stats(discussions)
 
+    # Get today's PNUT price
+    post_data['pnut'] = get_pnut_data()
+
     # Get today's news from newsapi.org
     post_data['news'] = get_headline_news()
 
@@ -87,6 +90,41 @@ def get_headline_news():
     headline['topic'] = topic
 
     return headline
+
+
+def get_pnut_data():
+    # Get PNUT token details from tronscan
+    result = {
+        'icon': 'https://i.imgur.com/I2oWdA1.jpg',
+        'price': 0.000,
+        'gain': 0.0000
+    }
+
+    tronscan_url = (
+        'https://apilist.tronscan.org/api/token_trc20'
+        '?contract=TPZddNpQJHu8UtKPY1PYDBv2J5p5QpJ6XW'
+        '&showAll=1')
+    tronscan_res = requests.get(tronscan_url)
+    json_data = tronscan_res.json()
+
+    result['icon'] = json_data['trc20_tokens'][0]['icon_url']
+    result['icon'] = 'https://steemitimages.com/30x0/' + result['icon']
+
+    result['gain'] = json_data['trc20_tokens'][0]['market_info']['gain'] * 100
+
+    price_in_trx = json_data['trc20_tokens'][0]['market_info']['priceInTrx']
+
+    coingecko_url = (
+        'https://api.coingecko.com/api/v3/'
+        'simple/price?ids=tron&vs_currencies=usd')
+    coingecko_res = requests.get(coingecko_url)
+    json_data = coingecko_res.json()
+    tron_price = json_data['tron']['usd']
+
+    pnut_price = price_in_trx * tron_price
+    result['price'] = float(f'{pnut_price:.4f}')
+
+    return result
 
 
 def get_discussions():
@@ -243,6 +281,7 @@ def get_post_body(data):
     total_posts = data['total_posts']
     total_comments = data['total_comments']
     total_votes = data['total_votes']
+    pnut = data['pnut']
 
     stats_table = f"""
 | Avatar | Members | Posts | Comments | Votes |
@@ -290,6 +329,10 @@ def get_post_body(data):
 {content}
 [続きはこちら]({data['news']['url']})
 <br/>
+
+| Coin | Price | Gain |
+| --- | --- | ---|
+| <img src="{pnut['icon']}"> PNUT | ${pnut['price']} | {pnut['gain']}% |
 ---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
