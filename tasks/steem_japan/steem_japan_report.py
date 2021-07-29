@@ -9,7 +9,7 @@ import requests
 
 from beem import Steem
 from beem.nodelist import NodeList
-from beem.discussions import Query, Discussions_by_created
+from beem.discussions import Query, Discussions
 from beem.imageuploader import ImageUploader
 from beem.instance import set_shared_blockchain_instance
 
@@ -33,7 +33,7 @@ def main():
     # Run this script
     # python tasks/steem_japan/steem_japan_report.py
 
-    discussions = get_discussions()
+    discussions = get_community_posts()
 
     # Community activity stats
     post_data = get_stats(discussions)
@@ -127,17 +127,23 @@ def get_pnut_data():
     return result
 
 
-def get_discussions():
+def get_community_posts():
     # Get community posts for the last 24 hours
     discussions = []
     steem_japan = 'hive-161179'
     duration = 86400  # 1 day in seconds
 
-    q = Query(limit=100, tag=steem_japan)
-    # Save discussions that are less than 1 day old
-    for d in Discussions_by_created(q):
-        if d.time_elapsed().total_seconds() < duration:
-            discussions.append(d)
+    # Get community posts
+    query = Query(tag=steem_japan)
+    d = Discussions()
+    posts = d.get_discussions('created', query, limit=1000)
+
+    # Save posts that are less than the duration
+    for post in posts:
+        if post.time_elapsed().total_seconds() < duration:
+            discussions.append(post)
+        else:
+            break
 
     return discussions
 
@@ -241,7 +247,8 @@ def get_main_image():
     base_image = Image.open(rf"{img_dir}/{base_img_file}")
 
     # Open overlay image
-    overlay_image = Image.open(rf"{img_dir}/{overlay_img_file}")
+    overlay_image = Image.open(
+        rf"{img_dir}/{overlay_img_file}").convert("RGBA")
 
     # Paste overlay_image on top of base image at coordinates (x, y)
     base_image.paste(overlay_image, (5, 50), mask=overlay_image)
