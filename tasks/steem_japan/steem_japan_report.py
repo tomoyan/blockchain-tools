@@ -339,7 +339,7 @@ def get_post_body(data):
 
 | Coin | Price | Gain |
 | --- | --- | ---|
-| <img src="{pnut['icon']}"> PNUT | ${pnut['price']} | {pnut['gain']}% |
+| 🥜 PNUT | ${pnut['price']} | {pnut['gain']}% |
 ---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
