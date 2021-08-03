@@ -27,7 +27,6 @@ def main():
 
 
 def get_community_posts():
-    print('GET_COMMUNITY_POSTS')
     # Get community posts for the last hour
     discussions = []
     steem_japan = 'hive-161179'
@@ -43,7 +42,6 @@ def get_community_posts():
     for post in posts:
         if post.time_elapsed().total_seconds() < duration:
             has_voted = ACCOUNT.has_voted(post)
-            print(has_voted, post)
             if has_voted:
                 discussions.append(post)
         else:
@@ -53,8 +51,6 @@ def get_community_posts():
 
 
 def post_reply(community_posts):
-    print('POST_REPLY')
-
     trail_url = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
     steemlogin_url = 'https://steemlogin.com/sign/delegateVestingShares'
     delegate_url = '?delegator=&delegatee=japansteemit&vesting_shares'
@@ -77,15 +73,13 @@ Delegate SP [100 SP]({steemlogin_url}{delegate_url}=100%20SP) \
 ありがとう🙂
     """
 
-        print(body)
-        result = STEEM.post(
+        # Post reply comment
+        STEEM.post(
             author=COMMUNITY_NAME,
             title=title,
             body=body,
             reply_identifier=post.identifier,
             self_vote=False)
-
-        print('Post Result', result)
 
         # Posting is allowed every 3 seconds
         # Sleep 5 secs
