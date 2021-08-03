@@ -30,7 +30,7 @@ def get_community_posts():
     # Get community posts for the last hour
     discussions = []
     steem_japan = 'hive-161179'
-    duration = 10800   # 1 hour in seconds
+    duration = 3600   # 1 hour in seconds
     # duration = 86400  # 1 day in seconds
 
     # Query community posts
