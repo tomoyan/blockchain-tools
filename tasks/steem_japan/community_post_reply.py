@@ -73,16 +73,19 @@ Delegate SP [100 SP]({steemlogin_url}{delegate_url}=100%20SP) \
     """
 
         # Post reply comment
-        STEEM.post(
-            author=COMMUNITY_NAME,
-            title=title,
-            body=body,
-            reply_identifier=post.identifier,
-            self_vote=False)
-
-        # Posting is allowed every 3 seconds
-        # Sleep 5 secs
-        time.sleep(5)
+        try:
+            STEEM.post(
+                author=COMMUNITY_NAME,
+                title=title,
+                body=body,
+                reply_identifier=post.identifier,
+                self_vote=False)
+        except Exception:
+            continue
+        finally:
+            # Posting is allowed every 3 seconds
+            # Sleep 5 secs
+            time.sleep(5)
 
 
 if __name__ == '__main__':
