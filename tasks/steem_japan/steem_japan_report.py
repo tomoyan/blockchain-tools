@@ -111,6 +111,7 @@ def get_pnut_data():
     result['icon'] = 'https://steemitimages.com/30x0/' + result['icon']
 
     result['gain'] = json_data['trc20_tokens'][0]['market_info']['gain'] * 100
+    result['gain'] = f"{result['gain']:.4f}"
 
     price_in_trx = json_data['trc20_tokens'][0]['market_info']['priceInTrx']
 
@@ -281,7 +282,7 @@ def get_post_body(data):
     community_url = 'https://steemit.com/created/hive-161179'
     trail_url = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
     trail_info = 'https://steemit.com/'
-    trail_info += '@tomoyan/steem-japan-join-new-curation-trail'
+    trail_info += '@japansteemit/steem-japan-how-to-follow-curation-trail'
 
     main_image = data['main_image']
 
