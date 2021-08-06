@@ -374,7 +374,7 @@ Curation trail info 👇:
 {sp_delegations}
 
 ### * [Join Steem Japan Discord (ディスコードサーバー)](https://discord.gg/pE5fuktSAt)
-[![](https://i.imgur.com/xADG309.png)](https://steemit.com/@japansteemit)
+[![](https://i.imgur.com/awpoSjT.gif)](https://steemit.com/@japansteemit)
     """
 
     return body
