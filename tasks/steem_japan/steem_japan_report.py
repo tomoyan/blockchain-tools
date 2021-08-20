@@ -32,6 +32,7 @@ NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 def main():
     # Run this script
     # python tasks/steem_japan/steem_japan_report.py
+    # Post daily report to my own blog
 
     discussions = get_community_posts()
 
@@ -132,7 +133,7 @@ def get_community_posts():
     # Get community posts for the last 24 hours
     discussions = []
     steem_japan = 'hive-161179'
-    duration = 86400  # 1 day in seconds
+    duration = 90000  # 25 hours in seconds
 
     # Get community posts
     query = Query(tag=steem_japan)
