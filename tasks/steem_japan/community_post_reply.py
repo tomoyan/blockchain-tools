@@ -1,5 +1,7 @@
 import os
 import time
+import requests
+import random
 
 from beem import Steem
 from beem.account import Account
@@ -55,21 +57,38 @@ def post_reply(community_posts):
     delegate_url = '?delegator=&delegatee=japansteemit&vesting_shares'
     title = 'Steem Japan Community Reply'
 
+    # Get thank you gif from giphy
+    url = (
+        'http://api.giphy.com/v1/gifs/search?'
+        'q=arigato thanks heart&'
+        'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
+        'limit=100'
+    )
+    response = requests.get(url)
+    json_data = response.json()
+
+    # Pick one random image data from json response
+    default_img = 'https://i.imgur.com/6qvr7sJ.jpg'
+    image_data = random.choice(json_data['data'])
+    gif_img = image_data['images']['original']['url']
+    gif_img = gif_img.split('?', 1)[0]
+    img_url = gif_img or default_img
+
     for post in community_posts:
         body = f"""
 Hi @{post.author},
 Thank you for your contribution to the Steem Japan Community.
 Your post has been upvoted by our curation trail @japansteemit
----
-For More Curation Support❕
-コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
-If you haven't, please follow our curation trail [here]({trail_url})
-Delegate SP [100 SP]({steemlogin_url}{delegate_url}=100%20SP) \
+![](https://i.imgur.com/iishBJJ.png)
+## 💡 For More Curation Support 💡
+* Please follow our **Curation Trail** [HERE]({trail_url})
+* **Delegate SP** [100 SP]({steemlogin_url}{delegate_url}=100%20SP) \
 [500 SP]({steemlogin_url}{delegate_url}=500%20SP) \
 [1000 SP]({steemlogin_url}{delegate_url}=1000%20SP) \
 [2000 SP]({steemlogin_url}{delegate_url}=2000%20SP)
-![](https://i.imgur.com/l1ll711.png)
-ありがとう🙂
+
+コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
+![]({img_url})
     """
 
         # Post reply comment
