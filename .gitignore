@@ -5,3 +5,4 @@ __pycache__/
 flask_session/
 .flaskenv
 test_steem_japan_report.py
+blurtdb-firebase-service-account.json
