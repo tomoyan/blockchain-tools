@@ -76,12 +76,13 @@ def delegator_payout_calc():
         'https://api.justyy.workers.dev/api/steemit/delegators/?'
         'cached&'
         'id=japansteemit&'
-        'hash=fc4349f09bb701c1d410dd92af367473&_=1630443351251'
+        'hash=bd7ba17ff62b8d47daa1fb21fd57b321&_=1630601157000'
     )
     response = requests.get(url)
 
     if response:
         json_data = response.json()
+        print('RESPONSE_JSON_DATA', json_data)
 
         counter = collections.Counter()
         for d in json_data:
