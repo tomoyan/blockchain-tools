@@ -43,22 +43,12 @@ def main():
     # Result is saved in Firebase
     delegator_payout_calc()
 
-    # get_payout_data()
-
-
-# def get_payout_data():
-#     payouts = db_prd.child(db_name).get()
-#     for payout in payouts.each():
-#         print('key', payout.key())  # key 2021-09-01
-#         print('val', payout.val())  # val {'abby0207': 0.01252727737602502}
-
 
 def delegator_payout_calc():
     print('START DELEGATOR_PAYOUT')
     today = datetime.now().strftime("%Y-%m-%d")
 
     username = 'japansteemit'
-    print('Account:', username)
     account = Account(username, blockchain_instance=STEEM)
     sp_total = 0.0
     payout_data = {}
@@ -69,15 +59,9 @@ def delegator_payout_calc():
     # 50% of the curation reward will be divided and distributed
     # to SP delegators
     budget = curation_reward / 2
-    print('REWARD_BUDGET_TODAY', budget, 'SP')
+    # print('REWARD_BUDGET_TODAY', budget, 'SP')
 
     # Get a list of SP delegators from justyy
-    # url = (
-    #     'https://api.justyy.workers.dev/api/steemit/delegators/?'
-    #     'cached&'
-    #     'id=japansteemit&'
-    #     'hash=bd7ba17ff62b8d47daa1fb21fd57b321&_=1630601157000'
-    # )
     url = (
         'https://uploadbeta.com/api/steemit/delegators/?'
         'cached&'
@@ -88,7 +72,7 @@ def delegator_payout_calc():
 
     if response:
         json_data = response.json()
-        print('RESPONSE_JSON_DATA', json_data)
+        # print('RESPONSE_JSON_DATA', json_data)
 
         counter = collections.Counter()
         for d in json_data:
@@ -96,7 +80,6 @@ def delegator_payout_calc():
 
         result = dict(counter)
         sp_total = result['sp']
-        print('DELEGATION_TOTAL', sp_total, 'SP')
 
         # Each delegator will get their share based on the delegated SP
         for data in json_data:
@@ -104,10 +87,11 @@ def delegator_payout_calc():
             reward = budget * percentage
             payout_data[data['delegator']] = reward
     else:
-        print('Get request error:', response.status_code)
+        print('GET REQUEST ERROR:', response.status_code)
 
     db_prd.child(db_name).child(today).set(payout_data)
 
+    print('END DELEGATOR_PAYOUT')
     return payout_data
 
 
