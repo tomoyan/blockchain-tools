@@ -76,9 +76,9 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-## Steem Japan: 100% Upvote Week 👇
-https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-week-starts-now
-
+## Steem Japan: Power Up & Upvote Week 👇
+Coming soon...
+![](https://i.imgur.com/ZbAUcCK.png)
 ---
 
 Hi @{post.author},
