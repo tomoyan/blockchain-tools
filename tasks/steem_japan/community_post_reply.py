@@ -21,17 +21,27 @@ STEEM = Steem(node=nodes, keys=[COMMUNITY_POST_KEY])
 set_shared_blockchain_instance(STEEM)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 
+TRAIL_URL = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
+STEEMLOGIN_URL = 'https://steemlogin.com/sign/delegateVestingShares'
+DELEGATE_URL = '?delegator=&delegatee=japansteemit&vesting_shares'
+TITLE = 'Steem Japan Community Reply'
+
 
 def main():
     community_posts = get_community_posts()
 
-    post_reply(community_posts)
+    # comment reply for voted posts
+    post_reply(community_posts['voted'])
+
+    # comment reply for unvoted posts
+    post_comment(community_posts['unvoted'])
 
 
 def get_community_posts():
     # Get community posts for the last 24 hour
     duration = 86400  # 1 day in seconds
-    discussions = []
+    voted_discussions = []
+    unvoted_discussions = []
     steem_japan = 'hive-161179'
 
     # Query community posts
@@ -44,20 +54,22 @@ def get_community_posts():
         if post.time_elapsed().total_seconds() < duration:
             has_voted = ACCOUNT.has_voted(post)
             if has_voted:
-                discussions.append(post)
+                voted_discussions.append(post)
+            else:
+                unvoted_discussions.append(post)
         else:
             break
 
-    return discussions
+    return {
+        'voted': voted_discussions,
+        'unvoted': unvoted_discussions
+    }
 
 
 def post_reply(community_posts):
-    trail_url = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
-    steemlogin_url = 'https://steemlogin.com/sign/delegateVestingShares'
-    delegate_url = '?delegator=&delegatee=japansteemit&vesting_shares'
-    title = 'Steem Japan Community Reply'
+    # post a comment for voted posts
 
-    # Get thank you gif from giphy
+    # Get 'thank you' gif from giphy
     url = (
         'http://api.giphy.com/v1/gifs/search?'
         'q=arigato thanks heart&'
@@ -85,11 +97,11 @@ Thank you for your contribution to the Steem Japan Community.
 Your post has been upvoted by our curation trail @japansteemit
 ![](https://i.imgur.com/iishBJJ.png)
 ## 💡 For More Curation Support 💡
-* Please follow our **Curation Trail** [HERE]({trail_url})
-* **Delegate SP** [100 SP]({steemlogin_url}{delegate_url}=100%20SP) \
-[500 SP]({steemlogin_url}{delegate_url}=500%20SP) \
-[1000 SP]({steemlogin_url}{delegate_url}=1000%20SP) \
-[2000 SP]({steemlogin_url}{delegate_url}=2000%20SP)
+* Please follow our **Curation Trail** [HERE]({TRAIL_URL})
+* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+[500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
+[1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
+[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
 コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
 ![]({img_url})
@@ -99,7 +111,39 @@ Your post has been upvoted by our curation trail @japansteemit
         try:
             STEEM.post(
                 author=COMMUNITY_NAME,
-                title=title,
+                title=TITLE,
+                body=body,
+                reply_identifier=post.identifier,
+                self_vote=False)
+        except Exception:
+            continue
+        finally:
+            # Posting is allowed every 3 seconds
+            # Sleep 5 secs
+            time.sleep(5)
+
+
+def post_comment(unvoted_posts):
+    # post a comment for unvoted posts
+    for post in unvoted_posts:
+        body = f"""
+## Steem Japan: Power Up Week 👇
+https://steemit.com/hive-161179/@japansteemit/steem-japan-power-up-week-starts-now
+---
+Hi @{post.author},
+## 💡 For More Curation Support 💡
+* Please follow our **Curation Trail** [HERE]({TRAIL_URL})
+* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+[500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
+[1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
+[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
+        """
+
+        # Post reply comment
+        try:
+            STEEM.post(
+                author=COMMUNITY_NAME,
+                title=TITLE,
                 body=body,
                 reply_identifier=post.identifier,
                 self_vote=False)
