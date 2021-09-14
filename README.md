@@ -1,9 +1,3 @@
-# blurtblock  
-https://blurtblock.herokuapp.com/  
-
-Clone command (https) to local directory  
-git clone https://github.com/tomoyan/blurtblock.git  
-
 ## Python  
 Create virtual environment:  
 python3 -m venv venv  
