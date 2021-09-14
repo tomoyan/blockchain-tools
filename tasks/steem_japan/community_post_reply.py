@@ -88,7 +88,7 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-**Steem Japan: 100% Upvote Week 👇**
+**Steem Japan: New 100% Upvote Week 👇**
 https://steemit.com/hive-161179/@japansteemit/steem-japan-power-up-week-starts-now
 
 ---
@@ -128,7 +128,7 @@ def post_comment(unvoted_posts):
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
-**Steem Japan: 100% Upvote Week 👇**
+**Steem Japan: New 100% Upvote Week 👇**
 https://steemit.com/hive-161179/@japansteemit/steem-japan-power-up-week-starts-now
 
 ---
