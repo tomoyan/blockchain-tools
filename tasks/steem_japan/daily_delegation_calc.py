@@ -6,6 +6,7 @@ import pyrebase
 import base64
 import json
 import os
+import time
 
 from beem import Steem
 from beem.account import Account
@@ -42,6 +43,9 @@ def main():
     # Calculate delegation payout daily.
     # Result is saved in Firebase
     delegator_payout_calc()
+
+    # clean up sp_delegation_payouts data
+    payout_data_cleanup()
 
 
 def delegator_payout_calc():
@@ -93,6 +97,29 @@ def delegator_payout_calc():
 
     print('END DELEGATOR_PAYOUT')
     return payout_data
+
+
+def payout_data_cleanup():
+    # Clean up data that is more than 2 months old
+    now = datetime.now()
+    diff_month_2 = now.month - 2
+
+    if diff_month_2 <= 0:
+        diff_month_2 += 12
+
+    # Get data from sp_delegation_payouts
+    payouts = db_prd.child(db_name).get()
+
+    for payout in payouts.each():
+        # key() is a date string '2021-09-01'
+        date = payout.key()
+
+        # Check month of date string
+        month = time.strptime(date, "%Y-%m-%d").tm_mon
+
+        if month <= diff_month_2:
+            # remove data from firebase
+            db_prd.child(db_name).child(date).remove()
 
 
 if __name__ == '__main__':
