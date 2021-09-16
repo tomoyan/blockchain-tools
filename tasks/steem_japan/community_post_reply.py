@@ -137,8 +137,9 @@ Hi @{post.author},
 Thank you for posting in Steem Japan Community.
 ### 💡 For More Curation Support 💡
 * Post about Japan
-* Please follow our **Curation Trail** [HERE]({TRAIL_URL})
-* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+* Set 10% reward to japansteemit
+* Follow our Curation Trail [HERE]({TRAIL_URL})
+* Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
