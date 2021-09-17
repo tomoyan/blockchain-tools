@@ -253,7 +253,7 @@ def get_main_image():
         rf"{img_dir}/{overlay_img_file}").convert("RGBA")
 
     # Paste overlay_image on top of base image at coordinates (x, y)
-    base_image.paste(overlay_image, (5, 50), mask=overlay_image)
+    base_image.paste(overlay_image, (5, 150), mask=overlay_image)
 
     # Save overlay image
     base_image.save(f'{img_dir}/{main_img_file}')
@@ -337,7 +337,10 @@ def get_post_body(data):
 {description}
 {content}
 [続きはこちら]({data['news']['url']})
-<br/>
+
+<center>
+[![](https://i.imgur.com/f7PG7OO.png)](https://twitter.com/tomoyanTweet)
+</center>
 
 | Coin | Price | Gain |
 | --- | --- | ---|
@@ -345,7 +348,7 @@ def get_post_body(data):
 ---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
-コミュニティーページへ投稿、他のコミュニティーメンバーへのコメント・アップボートなど、コミュニティー貢献度が分かるように情報をレポート化。
+コミュニティーページへ投稿、コメント、アップボートなど、コミュニティー貢献度が分かるように情報をレポート化。
 
 #### [Steem Japan]({community_url}) Member Activity Total (Last 24H)
 * Total Posts: {data['total_posts']}
@@ -360,21 +363,22 @@ def get_post_body(data):
 #### 今後のアップボートやコンテストなどに、コミュニティーメンバーの活動状況が考慮されるかも？🤔
 
 ---
-### * Follow @japansteemit community curation trail
-**キュレーショントレールをフォローしよう！**
-Curation trail is here 👇:
+#### Follow @japansteemit community curation trail
+**キュレーショントレールをフォローしよう！👇**
 {trail_url}
 [![](https://i.imgur.com/0wVb3qI.png)]({trail_url})
-Curation trail info 👇:
+フォローの仕方 👇:
 {trail_info}
 
-### * Delegate STEEM POWER to @japansteemit
+#### Delegate STEEM POWER to @japansteemit
 **@japansteemitにSPをデレゲーションしよう！**
 | Click | And | Delegate | SP | Here 👇 |
 | --- | --- | --- | --- | --- |
 {sp_delegations}
 
+<center>
 [![](https://i.imgur.com/ZuGMbqO.png)](https://discord.gg/pE5fuktSAt)
+</center>
     """
 
     return body
