@@ -88,8 +88,8 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-**Steem Japan: New 100% Upvote Week 👇**
-https://steemit.com/hive-161179/@japansteemit/steem-japan-power-up-week-starts-now
+**Steem Japan: Power Up & 100% Upvote September 👇**
+https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-starts-now
 
 ---
 
@@ -128,16 +128,12 @@ def post_comment(unvoted_posts):
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
-**Steem Japan: New 100% Upvote Week 👇**
-https://steemit.com/hive-161179/@japansteemit/steem-japan-power-up-week-starts-now
-
----
-
 Hi @{post.author},
-Thank you for posting in Steem Japan Community.
-### 💡 For More Curation Support 💡
+**Steem Japan: Power Up & 100% Upvote September 👇**
+https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-starts-now
+### 💡 Curation Guide 💡
 * Post about Japan
-* Set 10% reward to japansteemit
+* Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
 * Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
