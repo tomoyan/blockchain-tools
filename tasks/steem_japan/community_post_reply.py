@@ -140,6 +140,7 @@ https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-s
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
+***You won't get votes if you are Powering Down***
 [![](https://i.imgur.com/ZuGMbqO.png)](https://discord.gg/pE5fuktSAt)
         """
 
