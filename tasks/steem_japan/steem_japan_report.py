@@ -8,6 +8,7 @@ from pexels_api import API
 import requests
 
 from beem import Steem
+from beem.account import Account
 from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.imageuploader import ImageUploader
@@ -150,6 +151,23 @@ def get_community_posts():
     return discussions
 
 
+def check_power_down(username):
+    power_down = 0.0
+    account = Account(username, blockchain_instance=STEEM)
+    account_json = account.json()
+    withdraw_rate = int(account_json['vesting_withdraw_rate']['amount'])
+    vest_amount = int(account_json['vesting_shares']['amount'])
+    vest_to_withdraw = int(account_json['to_withdraw'])
+
+    if not withdraw_rate or not vest_amount or not vest_to_withdraw:
+        return power_down
+
+    # calculate power down %
+    power_down = vest_to_withdraw / vest_amount * 100
+
+    return power_down
+
+
 def get_stats(discussions):
     data = dict()
     active_members = []
@@ -161,10 +179,12 @@ def get_stats(discussions):
     for d in discussions:
         username = d.author
         if username not in data.keys():
+            power_down = check_power_down(username)
             data[username] = {
                 'posts': [d.permlink],
                 'votes': 0,
                 'comments': 0,
+                'power_down': f'{power_down:.2f}',
             }
             total_posts += 1
             continue
@@ -293,9 +313,9 @@ def get_post_body(data):
     pnut = data['pnut']
 
     stats_table = f"""
-| Avatar | Members | Posts | Comments | Votes |
-| --- | --- | --- | --- | --- |
-|**Total #**| |**{total_posts}**|**{total_comments}**|**{total_votes}**|
+| Avatar | Members | Posts | Comments | Votes | Power Down |
+| --- | --- | --- | --- | --- | --- |
+|**Total #**| |**{total_posts}**|**{total_comments}**|**{total_votes}**| % |
     """
 
     # Sort stats by post count
@@ -313,7 +333,10 @@ def get_post_body(data):
         post = len(data['stats'][member]['posts'])
         comment = data['stats'][member]['comments']
         vote = data['stats'][member]['votes']
-        stats_table += f"|{avatar}|{member}|{post}|{comment}|{vote}|\n"
+        power_down = data['stats'][member]['power_down']
+
+        stats_table += \
+            f"|{avatar}|{member}|{post}|{comment}|{vote}|{power_down}%|\n"
 
     urltoimage = ''
     if data['news']['urlToImage']:
