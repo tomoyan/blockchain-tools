@@ -164,6 +164,8 @@ def check_power_down(username):
 
     # calculate power down %
     power_down = vest_to_withdraw / vest_amount * 100
+    if power_down > 100.0:
+        power_down = 100.0
 
     return power_down
 
@@ -411,7 +413,7 @@ def publish_post(post_body):
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
     title = f'Steem Japan: Community Member Stats {today}'
-    tags = ['hive-161179', 'steem', 'japan', 'community', 'stats']
+    tags = ['hive-161179', 'steem', 'japan', 'community', 'stats', 'krsuccess']
     body = post_body
 
     STEEM.post(
