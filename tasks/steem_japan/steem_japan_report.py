@@ -151,23 +151,38 @@ def get_community_posts():
     return discussions
 
 
-def check_power_down(username):
+def check_account(username):
+    data = {
+        'steem': '0.00',
+        'sbd': '0.00',
+        'sp': '0.00',
+        'power_down': 0.0,
+    }
     power_down = 0.0
     account = Account(username, blockchain_instance=STEEM)
+    steem = str(account.available_balances[0]).split()[0]
+    sbd = str(account.available_balances[1]).split()[0]
+    sp = f'{account.get_steem_power():.2f}'
+
     account_json = account.json()
     withdraw_rate = int(account_json['vesting_withdraw_rate']['amount'])
     vest_amount = int(account_json['vesting_shares']['amount'])
     vest_to_withdraw = int(account_json['to_withdraw'])
 
     if not withdraw_rate or not vest_amount or not vest_to_withdraw:
-        return power_down
+        power_down = 0.0
+    else:
+        # calculate power down %
+        power_down = vest_to_withdraw / vest_amount * 100
+        if power_down > 100.0:
+            power_down = 100.0
 
-    # calculate power down %
-    power_down = vest_to_withdraw / vest_amount * 100
-    if power_down > 100.0:
-        power_down = 100.0
+    data['steem'] = steem
+    data['sbd'] = sbd
+    data['sp'] = sp
+    data['power_down'] = power_down
 
-    return power_down
+    return data
 
 
 def get_stats(discussions):
@@ -181,12 +196,15 @@ def get_stats(discussions):
     for d in discussions:
         username = d.author
         if username not in data.keys():
-            power_down = check_power_down(username)
+            user_data = check_account(username)
             data[username] = {
                 'posts': [d.permlink],
                 'votes': 0,
                 'comments': 0,
-                'power_down': f'{power_down:.2f}',
+                'steem': user_data["steem"],
+                'sbd': user_data["sbd"],
+                'sp': user_data["sp"],
+                'power_down': f'{user_data["power_down"]:.2f}',
             }
             total_posts += 1
             continue
@@ -315,9 +333,9 @@ def get_post_body(data):
     pnut = data['pnut']
 
     stats_table = f"""
-| Avatar | Members | Posts | Comments | Votes | Power Down |
-| --- | --- | --- | --- | --- | --- |
-|**Total #**| |**{total_posts}**|**{total_comments}**|**{total_votes}**| % |
+| Avatar | Member | STEEM, SBD, SP | Post, Cmt, Vote | Power⬇️ |
+| --- | --- | --- | --- | --- |
+|**Total**| | |**{total_posts}**, **{total_comments}**, **{total_votes}**|%|
     """
 
     # Sort stats by post count
@@ -331,14 +349,19 @@ def get_post_body(data):
                                   reverse=True))
 
     for member in sorted_by_posts:
-        avatar = f"<img src='https://steemitimages.com/u/{member}/avatar/'>"
+        avatar = \
+            f"<img src='https://steemitimages.com/u/{member}/avatar/small'>"
         post = len(data['stats'][member]['posts'])
         comment = data['stats'][member]['comments']
         vote = data['stats'][member]['votes']
+        steem = data['stats'][member]['steem']
+        sbd = data['stats'][member]['sbd']
+        sp = data['stats'][member]['sp']
         power_down = data['stats'][member]['power_down']
 
         stats_table += \
-            f"|{avatar}|{member}|{post}|{comment}|{vote}|{power_down}%|\n"
+            f"|{avatar}|{member}|{steem}, {sbd}, {sp}\
+            |{post}, {comment}, {vote}|{power_down}%|\n"
 
     urltoimage = ''
     if data['news']['urlToImage']:
