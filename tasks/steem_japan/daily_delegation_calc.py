@@ -17,7 +17,9 @@ from beem.instance import set_shared_blockchain_instance
 nodelist = NodeList()
 nodelist.update_nodes()
 nodes = nodelist.get_steem_nodes()
-STEEM = Steem(node=nodes)
+COMMUNITY_ACTIVE_KEY = os.environ.get('COMMUNITY_ACTIVE_KEY')
+COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
+STEEM = Steem(node=nodes, keys=[COMMUNITY_ACTIVE_KEY])
 set_shared_blockchain_instance(STEEM)
 
 # Firebase configuration
@@ -44,6 +46,10 @@ def main():
     # Result is saved in Firebase
     delegator_payout_calc()
 
+    # Payout gets executed once a month
+    # 1st day of the month
+    process_delegation_payout()
+
     # clean up sp_delegation_payouts data
     payout_data_cleanup()
 
@@ -52,8 +58,7 @@ def delegator_payout_calc():
     print('START DELEGATOR_PAYOUT')
     today = datetime.now().strftime("%Y-%m-%d")
 
-    username = 'japansteemit'
-    account = Account(username, blockchain_instance=STEEM)
+    account = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
     sp_total = 0.0
     payout_data = {}
 
@@ -97,6 +102,72 @@ def delegator_payout_calc():
 
     print('END DELEGATOR_PAYOUT')
     return payout_data
+
+
+def get_payout_data(payout_month=None):
+    payout_data = {}
+
+    # If payout_month is not specified,
+    # it is set to current month
+    if payout_month is None:
+        now = datetime.now()
+        payout_month = now.month
+
+    payouts = db_prd.child(db_name).get()
+
+    for payout in payouts.each():
+        # key() is a date string 2021-09-01
+        date = payout.key()
+
+        # Check month of date string
+        date_month = time.strptime(date, "%Y-%m-%d").tm_mon
+        if date_month != payout_month:
+            continue
+
+        # Sum up all the rewards for each delegator
+        # val() {'abby0207': 0.01252727737602502}
+        data = payout.val()
+        for name in data:
+            if name in payout_data:
+                payout_data[name] += data[name]
+            else:
+                payout_data[name] = data[name]
+
+    return payout_data
+
+
+def process_delegation_payout():
+    payout_day = 1
+    minimum = 0.001
+    now = datetime.now()
+
+    try:
+        ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
+        ACCOUNT.transfer('tomoyan', 1, 'STEEM', 'Payout Test')
+    except Exception as err:
+        print(err)
+
+    # delegation payout is 1st day of the month
+    if now.day != payout_day:
+        return
+
+    # get last months payout data
+    # payout_month = now.month - 1
+    # payout_data = get_payout_data(payout_month)
+    # memo = f'Steem Japan SP Delegation Reward: {payout_month}'
+
+    # for p in payout_data:
+    #     amount = float(f'{payout_data[p]: .3f}')
+
+    #     # Skip small transactions
+    #     if amount < minimum:
+    #         continue
+
+    #     try:
+    #         ACCOUNT = Account('japansteemit', blockchain_instance=STEEM)
+    #         ACCOUNT.transfer(p, amount, 'STEEM', memo)
+    #     except Exception as err:
+    #         print(err)
 
 
 def payout_data_cleanup():
