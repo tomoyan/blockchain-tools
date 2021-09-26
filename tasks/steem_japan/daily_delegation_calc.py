@@ -81,7 +81,6 @@ def delegator_payout_calc():
 
     if response:
         json_data = response.json()
-        # print('RESPONSE_JSON_DATA', json_data)
 
         counter = collections.Counter()
         for d in json_data:
@@ -141,33 +140,27 @@ def process_delegation_payout():
     minimum = 0.001
     now = datetime.now()
 
-    try:
-        ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
-        ACCOUNT.transfer('tomoyan', 1, 'STEEM', 'Payout Test')
-    except Exception as err:
-        print(err)
-
     # delegation payout is 1st day of the month
     if now.day != payout_day:
         return
 
     # get last months payout data
-    # payout_month = now.month - 1
-    # payout_data = get_payout_data(payout_month)
-    # memo = f'Steem Japan SP Delegation Reward: {payout_month}'
+    payout_month = now.month - 1
+    payout_data = get_payout_data(payout_month)
+    memo = f'Steem Japan SP Delegation Reward: {payout_month}'
 
-    # for p in payout_data:
-    #     amount = float(f'{payout_data[p]: .3f}')
+    for p in payout_data:
+        amount = float(f'{payout_data[p]: .3f}')
 
-    #     # Skip small transactions
-    #     if amount < minimum:
-    #         continue
+        # Skip small transactions
+        if amount < minimum:
+            continue
 
-    #     try:
-    #         ACCOUNT = Account('japansteemit', blockchain_instance=STEEM)
-    #         ACCOUNT.transfer(p, amount, 'STEEM', memo)
-    #     except Exception as err:
-    #         print(err)
+        try:
+            ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
+            ACCOUNT.transfer(p, amount, 'STEEM', memo)
+        except Exception as err:
+            print(err)
 
 
 def payout_data_cleanup():
