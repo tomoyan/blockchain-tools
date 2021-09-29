@@ -88,18 +88,21 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-**Steem Japan: Power Up & 100% Upvote September 👇**
-https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-starts-now
+**October Steemit Team Support 👇**
+10月中は、Steemitチームからサポートされることになりましたので、#steemexclusiveのタグを忘れずに！
+https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
 
 ---
 
 Hi @{post.author},
-Thank you for your contribution to the Steem Japan Community.
-Your post has been upvoted by our curation trail @japansteemit
-![](https://i.imgur.com/iishBJJ.png)
-### 💡 For More Curation Support 💡
-* Please follow our **Curation Trail** [HERE]({TRAIL_URL})
-* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+This post has been upvoted by @japansteemit
+[![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
+### 💡 Curation Guide 💡
+* Use #steemexclusive tag
+* Post about Japan
+* Set 10~30% reward to japansteemit
+* Follow our Curation Trail [HERE]({TRAIL_URL})
+* Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
@@ -129,9 +132,11 @@ def post_comment(unvoted_posts):
     for post in unvoted_posts:
         body = f"""
 Hi @{post.author},
-**Steem Japan: Power Up & 100% Upvote September 👇**
-https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-starts-now
+**October Steemit Team Support 👇**
+10月中は、Steemitチームからサポートされることになりましたので、#steemexclusiveのタグを忘れずに！
+https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
 ### 💡 Curation Guide 💡
+* Use #steemexclusive tag
 * Post about Japan
 * Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
@@ -139,8 +144,8 @@ https://steemit.com/hive-161179/@japansteemit/steem-japan-100-upvote-september-s
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
+* You won't get upvotes if you are Powering Down
 
-***You won't get votes if you are Powering Down***
 [![](https://i.imgur.com/ZuGMbqO.png)](https://discord.gg/pE5fuktSAt)
         """
 
