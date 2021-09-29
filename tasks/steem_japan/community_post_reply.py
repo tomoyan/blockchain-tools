@@ -99,7 +99,7 @@ This post has been upvoted by @japansteemit
 [![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
 ### 💡 Curation Guide 💡
 * Use #steemexclusive tag
-* Post about Japan
+* Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
 * Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
@@ -137,7 +137,7 @@ Hi @{post.author},
 https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
 ### 💡 Curation Guide 💡
 * Use #steemexclusive tag
-* Post about Japan
+* Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
 * Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
