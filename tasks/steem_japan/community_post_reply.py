@@ -89,16 +89,15 @@ def post_reply(community_posts):
     for post in community_posts:
         body = f"""
 **October Steemit Team Support 👇**
-10月中は、Steemitチームからサポートされることになりましたので、#steemexclusiveのタグを忘れずに！
+10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive のタグを忘れずに！
 https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
-
+Don't forget to use #steemexclusive tag
 ---
 
 Hi @{post.author},
 This post has been upvoted by @japansteemit
 [![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
 ### 💡 Curation Guide 💡
-* Use #steemexclusive tag
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
@@ -133,10 +132,10 @@ def post_comment(unvoted_posts):
         body = f"""
 Hi @{post.author},
 **October Steemit Team Support 👇**
-10月中は、Steemitチームからサポートされることになりましたので、#steemexclusiveのタグを忘れずに！
+10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive のタグを忘れずに！
 https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
+Don't forget to use #steemexclusive tag
 ### 💡 Curation Guide 💡
-* Use #steemexclusive tag
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
 * Follow our Curation Trail [HERE]({TRAIL_URL})
