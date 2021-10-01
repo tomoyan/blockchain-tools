@@ -89,9 +89,10 @@ def post_reply(community_posts):
     for post in community_posts:
         body = f"""
 **October Steemit Team Support 👇**
-10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive のタグを忘れずに！
+10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
+長めの記事が良いそうです。
 https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
-Don't forget to use #steemexclusive tag
+Post good contents and don't forget to use #steemexclusive tag
 ---
 
 Hi @{post.author},
@@ -132,9 +133,10 @@ def post_comment(unvoted_posts):
         body = f"""
 Hi @{post.author},
 **October Steemit Team Support 👇**
-10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive のタグを忘れずに！
+10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
+長めの記事が良いそうです。
 https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
-Don't forget to use #steemexclusive tag
+Post good contents and don't forget to use #steemexclusive tag
 ### 💡 Curation Guide 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
