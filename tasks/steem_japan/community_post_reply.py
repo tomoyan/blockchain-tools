@@ -95,7 +95,7 @@ https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-
 Post good contents and don't forget to use #steemexclusive tag
 ---
 
-Hi @{post.author},
+@{post.author} さん、こんにちは。
 This post has been upvoted by @japansteemit
 [![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
 ### 💡 Curation Guide 💡
@@ -131,7 +131,7 @@ def post_comment(unvoted_posts):
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
-Hi @{post.author},
+@{post.author} さん、こんにちは。
 **October Steemit Team Support 👇**
 10月中は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
 長めの記事が良いそうです。
