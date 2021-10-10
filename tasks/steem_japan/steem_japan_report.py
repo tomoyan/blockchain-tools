@@ -387,12 +387,17 @@ def get_post_body(data):
 [続きはこちら]({data['news']['url']})
 
 <center>
-[![](https://i.imgur.com/f7PG7OO.png)](https://twitter.com/tomoyanTweet)
+[![](https://i.imgur.com/AmarQ5N.png)](https://twitter.com/tomoyanTweet)
 </center>
 
 | Coin | Price | Gain |
 | --- | --- | ---|
 | 🥜 PNUT | ${pnut['price']} | {pnut['gain']}% |
+
+<center>
+[![](https://i.imgur.com/jT2loCz.png)](https://note.com/tomoyan_note/)
+</center>
+
 ---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
@@ -425,7 +430,7 @@ def get_post_body(data):
 {sp_delegations}
 
 <center>
-[![](https://i.imgur.com/ZuGMbqO.png)](https://discord.gg/pE5fuktSAt)
+[![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
 </center>
     """
 

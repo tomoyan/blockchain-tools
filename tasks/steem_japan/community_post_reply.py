@@ -147,7 +147,7 @@ Post good contents and don't forget to use #steemexclusive tag
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 * You won't get upvotes if you are Powering Down
 
-[![](https://i.imgur.com/ZuGMbqO.png)](https://discord.gg/pE5fuktSAt)
+[![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
         """
 
         # Post reply comment
