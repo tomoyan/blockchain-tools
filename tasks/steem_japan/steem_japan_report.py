@@ -449,7 +449,7 @@ def publish_post(post_body):
         title=title,
         body=body,
         tags=tags,
-        self_vote=False)
+        self_vote=True)
 
 
 if __name__ == '__main__':
