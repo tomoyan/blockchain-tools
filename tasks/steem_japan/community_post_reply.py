@@ -94,7 +94,7 @@ def post_reply(community_posts):
 ---
 If you **POWER UP** recently,
 USE **#club5050** tag in your posts for EXTRA VOTE from steemcurator01/02.
-[What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
+[READ: What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
 
 **10月のお知らせ - October Steemit Team Upvote Support 👇**
 今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
@@ -140,7 +140,7 @@ def post_comment(unvoted_posts):
 
 If you **POWER UP** recently,
 USE **#club5050** tag in your posts for **EXTRA VOTE** from steemcurator01/02.
-[What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
+[READ: What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
 
 **10月のお知らせ - October Steemit Team Upvote Support 👇**
 今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
