@@ -92,9 +92,10 @@ def post_reply(community_posts):
 **This post has been upvoted by @japansteemit**
 [![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
 ---
+パワーアップしてもっとアップボートチャンス #club5050
 If you **POWER UP** recently,
-USE **#club5050** tag in your posts for EXTRA VOTE from steemcurator01/02.
-[READ: What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
+USE **#club5050** tag in your posts for **EXTRA VOTE** from steemcurator01/02.
+[Club5050 Announcement](https://steemit.com/hive-161179/@japansteemit/steem-japan-club5050-announcement)
 
 **10月のお知らせ - October Steemit Team Upvote Support 👇**
 今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
@@ -138,9 +139,10 @@ def post_comment(unvoted_posts):
         body = f"""
 @{post.author} さん、こんにちは。
 
+パワーアップしてもっとアップボートチャンス #club5050
 If you **POWER UP** recently,
 USE **#club5050** tag in your posts for **EXTRA VOTE** from steemcurator01/02.
-[READ: What is Club5050?](https://steemit.com/communities-202111/@steemitblog/communities-of-the-month-support-program-applications-for-november)
+[Club5050 Announcement](https://steemit.com/hive-161179/@japansteemit/steem-japan-club5050-announcement)
 
 **10月のお知らせ - October Steemit Team Upvote Support 👇**
 今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
