@@ -197,6 +197,18 @@ def get_stats(discussions):
         username = d.author
         if username not in data.keys():
             user_data = check_account(username)
+
+            # user rating
+            star = ''
+            if 0 <= float(user_data["sp"]) < 100:
+                star = ''
+            elif 100 <= float(user_data["sp"]) < 500:
+                star = '⭐'
+            elif 500 <= float(user_data["sp"]) < 1000:
+                star = '⭐⭐'
+            else:
+                star = '✨'
+
             data[username] = {
                 'posts': [d.permlink],
                 'votes': 0,
@@ -205,6 +217,7 @@ def get_stats(discussions):
                 'sbd': user_data["sbd"],
                 'sp': user_data["sp"],
                 'power_down': f'{user_data["power_down"]:.2f}',
+                'star': star,
             }
             total_posts += 1
             continue
@@ -358,9 +371,10 @@ def get_post_body(data):
         sbd = data['stats'][member]['sbd']
         sp = data['stats'][member]['sp']
         power_down = data['stats'][member]['power_down']
+        star = data['stats'][member]['star']
 
         stats_table += \
-            f"|{avatar}|{member}|{steem}, {sbd}, {sp}\
+            f"|{avatar}|{member} {star}|{steem}, {sbd}, {sp}\
             |{post}, {comment}, {vote}|{power_down}%|\n"
 
     urltoimage = ''
