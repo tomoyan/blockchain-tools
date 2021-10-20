@@ -89,26 +89,21 @@ def post_reply(community_posts):
     for post in community_posts:
         body = f"""
 @{post.author} さん、こんにちは。
-**This post has been upvoted by @japansteemit**
-[![](https://i.imgur.com/iishBJJ.png)](https://steemit.com/created/hive-161179)
----
-パワーアップしてもっとアップボートチャンス #club5050 タグを使う。
-If you **POWER UP** recently,
-USE **#club5050** tag in your posts for **EXTRA VOTE** from steemcurator01/02.
-[Club5050 Announcement 詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-club5050-announcement)
+@japansteemitがこの記事をアップボートしました。
+This post has been upvoted by @japansteemit
 
-**10月のお知らせ - October Steemit Team Upvote Support 👇**
-今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
-長めの記事が良いそうです。
-https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
-Post good contents and don't forget to use #steemexclusive tag
+![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
+Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
+Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
+[Information - #steemexclusiveについて](https://bit.ly/3jh9XbO)
+[Information - #club5050について](https://bit.ly/3GgOIB1)
 ---
 
-### 💡 Curation Guide 💡
+### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
-* Follow our Curation Trail [HERE]({TRAIL_URL})
-* Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+* Follow our **Curation Trail** [HERE]({TRAIL_URL})
+* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
@@ -139,21 +134,19 @@ def post_comment(unvoted_posts):
         body = f"""
 @{post.author} さん、こんにちは。
 
-パワーアップしてもっとアップボートチャンス #club5050 タグを使う。
-If you **POWER UP** recently,
-USE **#club5050** tag in your posts for **EXTRA VOTE** from steemcurator01/02.
-[Club5050 Announcement 詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-club5050-announcement)
+![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
+Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
+Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
+[Information - #steemexclusiveについて](https://bit.ly/3jh9XbO)
+[Information - #club5050について](https://bit.ly/3GgOIB1)
 
-**10月のお知らせ - October Steemit Team Upvote Support 👇**
-今月は、Steemitチームからサポートされることになりましたので、 #steemexclusive (Steemit限定記事)のタグを忘れずに！
-長めの記事が良いそうです。
-https://steemit.com/hive-161179/@japansteemit/steem-japan-community-update-9-29-2021-big-news
-Post good contents and don't forget to use #steemexclusive tag
-### 💡 Curation Guide 💡
+---
+
+### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
-* Follow our Curation Trail [HERE]({TRAIL_URL})
-* Delegate SP [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+* Follow our **Curation Trail** [HERE]({TRAIL_URL})
+* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
