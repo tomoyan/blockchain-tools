@@ -409,7 +409,7 @@ def get_post_body(data):
 | 🥜 PNUT | ${pnut['price']} | {pnut['gain']}% |
 
 <center>
-[![](https://i.imgur.com/jT2loCz.png)](https://note.com/tomoyan_note/)
+[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 </center>
 
 ---

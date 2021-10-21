@@ -97,7 +97,7 @@ Steemitチームがコミュニティー記事をアップボートしてくれ�
 Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
 [Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
 [Information - #club5050について](https://tinyurl.com/club5050)
----
+[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
@@ -139,13 +139,12 @@ Steemitチームがコミュニティー記事をアップボートしてくれ�
 Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
 [Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
 [Information - #club5050について](https://tinyurl.com/club5050)
-
----
+[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
-* No upvote if you power down
+* No upvote if you power down 100%
 * Upvote other members
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
