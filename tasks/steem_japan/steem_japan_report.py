@@ -401,7 +401,7 @@ def get_post_body(data):
 [続きはこちら]({data['news']['url']})
 
 <center>
-[![](https://i.imgur.com/AmarQ5N.png)](https://twitter.com/tomoyanTweet)
+[![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
 </center>
 
 | Coin | Price | Gain |
