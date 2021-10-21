@@ -21,7 +21,7 @@ STEEM = Steem(node=nodes, keys=[COMMUNITY_POST_KEY])
 set_shared_blockchain_instance(STEEM)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 
-TRAIL_URL = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
+TRAIL_URL = 'https://tinyurl.com/curation-trail'
 STEEMLOGIN_URL = 'https://steemlogin.com/sign/delegateVestingShares'
 DELEGATE_URL = '?delegator=&delegatee=japansteemit&vesting_shares'
 TITLE = 'Steem Japan Community Reply'
@@ -95,8 +95,8 @@ This post has been upvoted by @japansteemit
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
 Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
-[Information - #steemexclusiveについて](https://bit.ly/3jh9XbO)
-[Information - #club5050について](https://bit.ly/3GgOIB1)
+[Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
+[Information - #club5050について](https://tinyurl.com/club5050)
 ---
 
 ### 💡 Curation Guide (アップボートガイド) 💡
@@ -137,20 +137,21 @@ def post_comment(unvoted_posts):
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
 Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
-[Information - #steemexclusiveについて](https://bit.ly/3jh9XbO)
-[Information - #club5050について](https://bit.ly/3GgOIB1)
+[Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
+[Information - #club5050について](https://tinyurl.com/club5050)
 
 ---
 
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
+* No upvote if you power down
+* Upvote other members
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
-* You won't get upvotes if you are Powering Down
 
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
         """
