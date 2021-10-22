@@ -334,7 +334,7 @@ def get_post_body(data):
     sp_delegations = ''.join(sp_delegation_list)
 
     community_url = 'https://steemit.com/created/hive-161179'
-    trail_url = 'https://worldofxpilar.com/dash.php?i=1&trail=japansteemit'
+    trail_url = 'https://tinyurl.com/curation-trail'
     trail_info = 'https://steemit.com/'
     trail_info += '@japansteemit/steem-japan-how-to-follow-curation-trail'
 
