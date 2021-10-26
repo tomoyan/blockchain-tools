@@ -102,6 +102,8 @@ Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
+* No upvote if you power down 100%
+* Upvote community posts
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
@@ -145,7 +147,7 @@ Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
 * Post about Japan (Japanese or English)
 * Set 10~30% reward to japansteemit
 * No upvote if you power down 100%
-* Upvote other members
+* Upvote community posts
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
