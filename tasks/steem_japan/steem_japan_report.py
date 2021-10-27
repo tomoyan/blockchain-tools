@@ -13,6 +13,7 @@ from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.imageuploader import ImageUploader
 from beem.instance import set_shared_blockchain_instance
+from beem.community import Community
 
 # Setup Steem nodes
 nodelist = NodeList()
@@ -185,16 +186,38 @@ def check_account(username):
     return data
 
 
+def get_muted_members():
+    muted = []
+    steem_japan = 'hive-161179'
+    community = Community(steem_japan, blockchain_instance=STEEM)
+
+    # Get a list of community roles
+    roles = community.get_community_roles()
+
+    # Find muted members
+    for role in roles:
+        if role[1] == 'muted':
+            muted.append(role[0])
+
+    return muted
+
+
 def get_stats(discussions):
     data = dict()
     active_members = []
     total_posts = 0
     total_votes = 0
     total_comments = 0
+    muted = get_muted_members()
 
     # Find active members and posts for the day
     for d in discussions:
         username = d.author
+
+        # Skip muted member stats
+        if username in muted:
+            continue
+
         if username not in data.keys():
             user_data = check_account(username)
 
