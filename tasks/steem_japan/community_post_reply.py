@@ -72,7 +72,7 @@ def post_reply(community_posts):
     # Get 'thank you' gif from giphy
     url = (
         'http://api.giphy.com/v1/gifs/search?'
-        'q=arigato thanks heart&'
+        'q=arigato thanks love&'
         'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
         'limit=100'
     )
@@ -88,15 +88,19 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
+![]({img_url})
+
+---
+
 @{post.author} さん、こんにちは。
 @japansteemitがこの記事をアップボートしました。
 This post has been upvoted by @japansteemit
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
-Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
-[Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
-[Information - #club5050について](https://tinyurl.com/club5050)
+Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
+Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
+[How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
+[How to use #club5050 使い方](https://tinyurl.com/club5050)
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
@@ -111,7 +115,6 @@ Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
 コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
-![]({img_url})
     """
 
         # Post reply comment
@@ -137,10 +140,10 @@ def post_comment(unvoted_posts):
 @{post.author} さん、こんにちは。
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-Steemitチームがコミュニティー記事をアップボートしてくれるので、 #club5050 #steemexclusive のタグを使いましょう。
-Use #club5050 #steemexclusive tags for more upvotes from Steemit team.
-[Information - #steemexclusiveについて](https://tinyurl.com/steemexclusive)
-[Information - #club5050について](https://tinyurl.com/club5050)
+Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
+Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
+[How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
+[How to use #club5050 使い方](https://tinyurl.com/club5050)
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
