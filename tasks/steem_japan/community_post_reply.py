@@ -8,6 +8,7 @@ from beem.account import Account
 from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
+from beem.community import Community
 
 # Setup Steem nodes
 nodelist = NodeList()
@@ -37,12 +38,29 @@ def main():
     post_comment(community_posts['unvoted'])
 
 
+def get_muted_members():
+    muted = []
+    steem_japan = 'hive-161179'
+    community = Community(steem_japan, blockchain_instance=STEEM)
+
+    # Get a list of community roles
+    roles = community.get_community_roles()
+
+    # Find muted members
+    for role in roles:
+        if role[1] == 'muted':
+            muted.append(role[0])
+
+    return muted
+
+
 def get_community_posts():
     # Get community posts for the last 24 hour
     duration = 86400  # 1 day in seconds
     voted_discussions = []
     unvoted_discussions = []
     steem_japan = 'hive-161179'
+    muted = get_muted_members()
 
     # Query community posts
     query = Query(tag=steem_japan)
@@ -51,6 +69,10 @@ def get_community_posts():
 
     # Store posts that are less than 1 hour old
     for post in posts:
+        # Skip muted members
+        if post.author in muted:
+            continue
+
         if post.time_elapsed().total_seconds() < duration:
             has_voted = ACCOUNT.has_voted(post)
             if has_voted:
