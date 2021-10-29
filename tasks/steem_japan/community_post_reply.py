@@ -122,7 +122,7 @@ This post has been upvoted by @japansteemit
 Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
 Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
 [How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050)
+[How to use #club5050 使い方](https://tinyurl.com/club5050v2)
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
@@ -165,7 +165,7 @@ def post_comment(unvoted_posts):
 Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
 Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
 [How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050)
+[How to use #club5050 使い方](https://tinyurl.com/club5050v2)
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
