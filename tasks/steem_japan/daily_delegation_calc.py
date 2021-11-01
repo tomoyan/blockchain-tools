@@ -1,5 +1,4 @@
 import collections
-from pprint import pprint
 from datetime import datetime
 import requests
 import pyrebase
@@ -12,6 +11,7 @@ from beem import Steem
 from beem.account import Account
 from beem.nodelist import NodeList
 from beem.instance import set_shared_blockchain_instance
+from beem.community import Community
 
 # Setup Steem nodes
 nodelist = NodeList()
@@ -103,8 +103,25 @@ def delegator_payout_calc():
     return payout_data
 
 
+def get_muted_members():
+    muted = []
+    steem_japan = 'hive-161179'
+    community = Community(steem_japan, blockchain_instance=STEEM)
+
+    # Get a list of community roles
+    roles = community.get_community_roles()
+
+    # Find muted members
+    for role in roles:
+        if role[1] == 'muted':
+            muted.append(role[0])
+
+    return muted
+
+
 def get_payout_data(payout_month=None):
     payout_data = {}
+    muted = get_muted_members()
 
     # If payout_month is not specified,
     # it is set to current month
@@ -127,6 +144,10 @@ def get_payout_data(payout_month=None):
         # val() {'abby0207': 0.01252727737602502}
         data = payout.val()
         for name in data:
+            # Skip muted members
+            if name in muted:
+                continue
+
             if name in payout_data:
                 payout_data[name] += data[name]
             else:
