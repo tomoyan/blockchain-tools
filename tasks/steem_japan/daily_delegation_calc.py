@@ -55,7 +55,6 @@ def main():
 
 
 def delegator_payout_calc():
-    print('START DELEGATOR_PAYOUT')
     today = datetime.now().strftime("%Y-%m-%d")
 
     account = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
@@ -68,7 +67,6 @@ def delegator_payout_calc():
     # 50% of the curation reward will be divided and distributed
     # to SP delegators
     budget = curation_reward / 2
-    # print('REWARD_BUDGET_TODAY', budget, 'SP')
 
     # Get a list of SP delegators from justyy
     url = (
@@ -99,7 +97,6 @@ def delegator_payout_calc():
 
     db_prd.child(db_name).child(today).set(payout_data)
 
-    print('END DELEGATOR_PAYOUT')
     return payout_data
 
 

@@ -229,8 +229,12 @@ def get_stats(discussions):
                 star = '⭐'
             elif 500 <= float(user_data["sp"]) < 1000:
                 star = '⭐⭐'
-            else:
+            elif 1000 <= float(user_data["sp"]) < 5000:
                 star = '✨'
+            elif 5000 <= float(user_data["sp"]) < 50000:
+                star = '🐬'
+            else:
+                star = '🐳'
 
             data[username] = {
                 'posts': [d.permlink],
