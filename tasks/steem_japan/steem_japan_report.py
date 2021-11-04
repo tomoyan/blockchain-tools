@@ -131,14 +131,14 @@ def get_pnut_data():
     return result
 
 
-def get_community_posts():
+def get_community_posts(duration=90000, community_tag='hive-161179'):
     # Get community posts for the last 24 hours
     discussions = []
-    steem_japan = 'hive-161179'
-    duration = 90000  # 25 hours in seconds
+    # steem_japan = 'hive-161179'
+    # duration = 90000  # 25 hours in seconds
 
     # Get community posts
-    query = Query(tag=steem_japan)
+    query = Query(tag=community_tag)
     d = Discussions()
     posts = d.get_discussions('created', query, limit=1000)
 

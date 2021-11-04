@@ -114,9 +114,8 @@ def post_reply(community_posts):
 
 ---
 
-@{post.author} さん、こんにちは。
-@japansteemitがこの記事をアップボートしました。
-This post has been upvoted by @japansteemit
+@{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
+This post has been **upvoted** by @japansteemit
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
