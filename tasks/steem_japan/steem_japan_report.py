@@ -7,6 +7,9 @@ import random
 from pexels_api import API
 import requests
 import re
+import pyrebase
+import base64
+import json
 
 from beem import Steem
 from beem.account import Account
@@ -30,6 +33,23 @@ IU = ImageUploader(blockchain_instance=STEEM)
 
 PEXELS_API_KEY = '563492ad6f917000010000016acbeee6e44d432392217f9f901098f4'
 NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
+
+# Firebase configuration
+serviceAccountCredentials = json.loads(
+    base64.b64decode(os.environ.get('FB_SERVICEACCOUNT').encode()).decode())
+
+firebase_config_prd = {
+    "apiKey": os.environ.get('FB_APIKEY'),
+    "authDomain": os.environ.get('FB_AUTHDOMAIN'),
+    "databaseURL": os.environ.get('FB_DATABASEURL'),
+    "storageBucket": os.environ.get('FB_STORAGEBUCKET'),
+    "serviceAccount": serviceAccountCredentials,
+}
+firebase = pyrebase.initialize_app(firebase_config_prd)
+
+# Get a reference to the database service
+db_prd = firebase.database()
+db_name = 'community_member_stats'
 
 
 def main():
@@ -218,6 +238,15 @@ def check_account(username):
     data['sbd'] = sbd
     data['sp'] = sp
     data['power_down'] = power_down
+
+    # Save member stats into firebase
+    today = datetime.now().strftime("%Y-%m-%d")
+    member_stats = {
+        'steem': data['steem'],
+        'sbd': data['sbd'],
+        'sp': data['sp'],
+    }
+    db_prd.child(db_name).child(today).child(username).set(member_stats)
 
     return data
 
