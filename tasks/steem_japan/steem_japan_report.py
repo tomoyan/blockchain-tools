@@ -246,6 +246,7 @@ def check_account(username):
         'sbd': data['sbd'],
         'sp': data['sp'],
     }
+    print(username, member_stats)
     db_prd.child(db_name).child(today).child(username).set(member_stats)
 
     return data
