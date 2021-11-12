@@ -9,6 +9,10 @@ from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
+import beem.instance
+
+# Clear Caches
+beem.instance.clear_cache()
 
 # Setup Steem nodes
 nodelist = NodeList()
