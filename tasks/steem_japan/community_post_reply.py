@@ -9,15 +9,19 @@ from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
-# import beem.instance
+import beem.instance
 
 # Clear Caches
-# beem.instance.clear_cache()
+beem.instance.clear_cache()
 
 # Setup Steem nodes
 nodelist = NodeList()
 nodelist.update_nodes()
-nodes = nodelist.get_steem_nodes()
+# nodes = nodelist.get_steem_nodes()
+nodes = ['https://api.steemit.com',
+         'https://cn.steems.top',
+         'https://api.steem.buzz',
+         'https://steem.61bts.com']
 
 COMMUNITY_POST_KEY = os.environ.get('COMMUNITY_POST_KEY')
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
