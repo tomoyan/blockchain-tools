@@ -9,10 +9,10 @@ from beem.nodelist import NodeList
 from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
-import beem.instance
+# import beem.instance
 
 # Clear Caches
-beem.instance.clear_cache()
+# beem.instance.clear_cache()
 
 # Setup Steem nodes
 nodelist = NodeList()
@@ -25,6 +25,9 @@ COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 STEEM = Steem(node=nodes, keys=[COMMUNITY_POST_KEY])
 set_shared_blockchain_instance(STEEM)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
+
+# Clear BlockchainObject Caching
+print(ACCOUNT.clear_cache())
 
 TRAIL_URL = 'https://tinyurl.com/curation-trail'
 STEEMLOGIN_URL = 'https://steemlogin.com/sign/delegateVestingShares'
