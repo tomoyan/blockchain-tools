@@ -22,7 +22,13 @@ from beem.community import Community
 # Setup Steem nodes
 nodelist = NodeList()
 nodelist.update_nodes()
-nodes = nodelist.get_steem_nodes()
+# nodes = nodelist.get_steem_nodes()
+nodes = [
+    'https://api.steemit.com',
+    'https://cn.steems.top',
+    'https://api.steem.buzz',
+    'https://steem.61bts.com']
+random.shuffle(nodes)
 
 POST_KEY = os.environ.get('POST_KEY')
 USERNAME = os.environ.get('USERNAME')
