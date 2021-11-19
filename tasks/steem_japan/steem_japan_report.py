@@ -7,9 +7,6 @@ import random
 from pexels_api import API
 import requests
 import re
-# import pyrebase
-# import base64
-# import json
 
 from beem import Steem
 from beem.account import Account
@@ -40,23 +37,6 @@ IU = ImageUploader(blockchain_instance=STEEM)
 PEXELS_API_KEY = '563492ad6f917000010000016acbeee6e44d432392217f9f901098f4'
 NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 
-# Firebase configuration
-# serviceAccountCredentials = json.loads(
-#     base64.b64decode(os.environ.get('FB_SERVICEACCOUNT').encode()).decode())
-
-# firebase_config_prd = {
-#     "apiKey": os.environ.get('FB_APIKEY'),
-#     "authDomain": os.environ.get('FB_AUTHDOMAIN'),
-#     "databaseURL": os.environ.get('FB_DATABASEURL'),
-#     "storageBucket": os.environ.get('FB_STORAGEBUCKET'),
-#     "serviceAccount": serviceAccountCredentials,
-# }
-# firebase = pyrebase.initialize_app(firebase_config_prd)
-
-# Get a reference to the database service
-# db_prd = firebase.database()
-# db_name = 'community_member_stats'
-
 
 def main():
     # Run this script
@@ -71,9 +51,6 @@ def main():
 
     # Get Booming stats
     post_data['booming_data'] = get_booming_data()
-
-    # Get today's PNUT price
-    # post_data['pnut'] = get_pnut_data()
 
     # Get today's news from newsapi.org
     post_data['news'] = get_headline_news()
@@ -125,42 +102,6 @@ def get_headline_news():
     headline['topic'] = topic
 
     return headline
-
-
-# def get_pnut_data():
-#     # Get PNUT token details from tronscan
-#     result = {
-#         'icon': 'https://i.imgur.com/I2oWdA1.jpg',
-#         'price': 0.000,
-#         'gain': 0.0000
-#     }
-
-#     tronscan_url = (
-#         'https://apilist.tronscan.org/api/token_trc20'
-#         '?contract=TPZddNpQJHu8UtKPY1PYDBv2J5p5QpJ6XW'
-#         '&showAll=1')
-#     tronscan_res = requests.get(tronscan_url)
-#     json_data = tronscan_res.json()
-
-#     result['icon'] = json_data['trc20_tokens'][0]['icon_url']
-#     result['icon'] = 'https://steemitimages.com/30x0/' + result['icon']
-
-#     result['gain'] = json_data['trc20_tokens'][0]['market_info']['gain'] * 100
-#     result['gain'] = f"{result['gain']:.4f}"
-
-#     price_in_trx = json_data['trc20_tokens'][0]['market_info']['priceInTrx']
-
-#     coingecko_url = (
-#         'https://api.coingecko.com/api/v3/'
-#         'simple/price?ids=tron&vs_currencies=usd')
-#     coingecko_res = requests.get(coingecko_url)
-#     json_data = coingecko_res.json()
-#     tron_price = json_data['tron']['usd']
-
-#     pnut_price = price_in_trx * tron_price
-#     result['price'] = float(f'{pnut_price:.4f}')
-
-#     return result
 
 
 def get_community_posts(duration=90000, community_tag='hive-161179'):
@@ -246,20 +187,6 @@ def check_account(username):
     data['sbd'] = sbd
     data['sp'] = sp
     data['power_down'] = power_down
-
-    # Save member stats into firebase
-    # today = datetime.now().strftime("%Y-%m-%d")
-    # member_stats = {
-    #     'steem': data['steem'],
-    #     'sbd': data['sbd'],
-    #     'sp': data['sp'],
-    # }
-
-    # try:
-    #     db_prd.child(db_name).child(today).child(username).set(member_stats)
-    # except Exception as e:
-    #     print(username, member_stats)
-    #     print(f'FB Save Error : {e}')
 
     return data
 
