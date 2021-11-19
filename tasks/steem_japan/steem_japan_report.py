@@ -253,11 +253,11 @@ def check_account(username):
         'sp': data['sp'],
     }
 
-    try:
-        db_prd.child(db_name).child(today).child(username).set(member_stats)
-    except Exception as e:
-        print(username, member_stats)
-        print(f'FB Save Error : {e}')
+    # try:
+    #     db_prd.child(db_name).child(today).child(username).set(member_stats)
+    # except Exception as e:
+    #     print(username, member_stats)
+    #     print(f'FB Save Error : {e}')
 
     return data
 
