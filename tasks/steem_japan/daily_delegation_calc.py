@@ -109,12 +109,8 @@ def delegator_payout_calc():
     else:
         print('GET REQUEST ERROR:', response.status_code)
 
-    for d in ['2021-11-19', '2021-11-20', '2021-11-21', '2021-11-22', '2021-11-23', '2021-11-24']:
-        print('PAYOUT_DATA', d, payout_data)
-        print(db_prd.child(db_name).child(d).set(payout_data))
-
     print('PAYOUT_DATA', today, payout_data)
-    print(db_prd.child(db_name).child(today).set(payout_data))
+    db_prd.child(db_name).child(today).set(payout_data)
 
     return payout_data
 
