@@ -6,6 +6,7 @@ import base64
 import json
 import os
 import time
+import random
 
 from beem import Steem
 from beem.account import Account
@@ -16,7 +17,16 @@ from beem.community import Community
 # Setup Steem nodes
 nodelist = NodeList()
 nodelist.update_nodes()
-nodes = nodelist.get_steem_nodes()
+# nodes = nodelist.get_steem_nodes()
+nodes = [
+    'https://api.steemitdev.com',
+    'https://steem.justyy.workers.dev',
+    'https://api.steem.fans',
+    'https://api.steemit.com',
+    'https://cn.steems.top',
+    'https://api.steem.buzz',
+    'https://steem.61bts.com']
+random.shuffle(nodes)
 COMMUNITY_ACTIVE_KEY = os.environ.get('COMMUNITY_ACTIVE_KEY')
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 STEEM = Steem(node=nodes, keys=[COMMUNITY_ACTIVE_KEY])
