@@ -69,7 +69,7 @@ def delegator_payout_calc():
 
     account = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
     sp_total = 0.0
-    payout_data = {}
+    payout_data = []
 
     # Get curation reward for the last 24 hours
     curation_reward = account.get_curation_reward(days=1)
@@ -100,12 +100,16 @@ def delegator_payout_calc():
         # Each delegator will get their share based on the delegated SP
         for data in json_data:
             # skip dot users
-            if "." in data['delegator']:
-                continue
+            # if "." in data['delegator']:
+            #     continue
 
             percentage = data['sp'] / sp_total
             reward = budget * percentage
-            payout_data[data['delegator']] = reward
+            # payout_data[data['delegator']] = reward
+            payout_data.append({
+                'username': data['delegator'],
+                'reward': reward,
+            })
     else:
         print('GET REQUEST ERROR:', response.status_code)
 
