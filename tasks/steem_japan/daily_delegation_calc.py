@@ -157,17 +157,29 @@ def get_payout_data(payout_month=None):
             continue
 
         # Sum up all the rewards for each delegator
-        # val() {'abby0207': 0.01252727737602502}
+        # data (dict) {'abby0207': 0.01252727737602502}
+        # data (list) [{'reward': 0.01911765616314007, 'username': 'ikhwal23'}]
         data = payout.val()
-        for name in data:
-            # Skip muted members
-            if name in muted:
-                continue
+        if isinstance(data, dict):
+            for name in data:
+                # Skip muted members
+                if name in muted:
+                    continue
 
-            if name in payout_data:
-                payout_data[name] += data[name]
-            else:
-                payout_data[name] = data[name]
+                if name in payout_data:
+                    payout_data[name] += data[name]
+                else:
+                    payout_data[name] = data[name]
+        elif isinstance(data, list):
+            for row in data:
+                # Skip muted members
+                if row['username'] in muted:
+                    continue
+
+                if row['username'] in payout_data:
+                    payout_data[row['username']] += row['reward']
+                else:
+                    payout_data[row['username']] = row['reward']
 
     return payout_data
 
