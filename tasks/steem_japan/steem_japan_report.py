@@ -52,9 +52,6 @@ def main():
     # Community activity stats
     post_data = get_stats(discussions)
 
-    # Get Booming stats
-    post_data['booming_data'] = get_booming_data()
-
     # Get today's news from newsapi.org
     post_data['news'] = get_headline_news()
 
@@ -126,38 +123,6 @@ def get_community_posts(duration=90000, community_tag='hive-161179'):
             break
 
     return discussions
-
-
-def get_booming_data():
-    pattern = '^booming0[1-9]$'
-    results = {}
-
-    # Get steem japan posts last 7 days
-    discussions = get_community_posts(duration=604800)
-
-    for d in discussions:
-        voters = d.get_votes().get_list()
-
-        # Check booming votes
-        for v in voters:
-            if re.match(pattern, v):
-                if d['author'] in results:
-                    results[d['author']] += 1
-                else:
-                    results[d['author']] = 1
-
-    booming_table = """
-### Booming Support (Last 7 Days)
-| Username | # |
-| --- | --- |
-"""
-    if results:
-        for r in results:
-            booming_table += f'| {r} | {results[r]} |\n'
-    else:
-        booming_table += 'No booming support'
-
-    return booming_table
 
 
 def check_account(username):
@@ -378,7 +343,6 @@ def get_post_body(data):
     total_posts = data['total_posts']
     total_comments = data['total_comments']
     total_votes = data['total_votes']
-    booming_data = data['booming_data']
 
     stats_table = f"""
 | Avatar | Member | STEEM, SBD, SP | Post, Cmt, Vote | Power⬇️ |
@@ -443,7 +407,6 @@ def get_post_body(data):
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 </center>
 
-{booming_data}
 ---
 #### [Steem Japan]({community_url}) 毎日の活動状況レポート
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
