@@ -131,20 +131,26 @@ def post_reply(community_posts):
 ---
 
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
-This post has been **upvoted** by @japansteemit
+### This post has been **upvoted** by @japansteemit
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
-Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
+パワーアップしたら #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+Clubタグを使えるかどうか、ここで確認して下さい。
+[Club5050チェック](https://tinyurl.com/club-check)
+
+Use these tags after Power Up #steemexclusive & #club5050
+You will receive more support from Steemit team.
+Check your club status here.
+[Club check](https://tinyurl.com/club-check)
+
 [How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050v2)
-[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
+[How to use #club5050 使い方](https://tinyurl.com/club5050v3)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
-* Set 10~30% reward to japansteemit
+* Set 30% reward to japansteemit
 * No upvote if you power down 100%
-* Upvote community posts
+* Upvote other community posts
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
@@ -152,6 +158,7 @@ Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
 コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
+[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
     """
 
         # Post reply comment
@@ -177,17 +184,23 @@ def post_comment(unvoted_posts):
 @{post.author} さん、こんにちは。
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-Steemitチームがアップボートしてくれるので #steemexclusive のタグ、 パワーアップしたときは #club5050 のタグを使って下さい。
-Power Up and use #club5050 #steemexclusive for more upvotes from Steemit team.
+パワーアップしたら #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+Clubタグを使えるかどうか、ここで確認して下さい。
+[Club5050チェック](https://tinyurl.com/club-check)
+
+Use these tags after Power Up #steemexclusive & #club5050
+You will receive more support from Steemit team.
+Check your club status here.
+[Club check](https://tinyurl.com/club-check)
+
 [How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050v2)
-[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
+[How to use #club5050 使い方](https://tinyurl.com/club5050v3)
 
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
-* Set 10~30% reward to japansteemit
+* Set 30% reward to japansteemit
 * No upvote if you power down 100%
-* Upvote community posts
+* Upvote other community posts
 * Follow our **Curation Trail** [HERE]({TRAIL_URL})
 * **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
