@@ -126,12 +126,11 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-![]({img_url})
-
----
 ## ウィンターコンテスト開催中
 [詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
 [![](https://cdn.steemitimages.com/DQmVm12sF858UvHF5tQqnuhVgvELniQaL9yxgfKPyCEMoHq/image.png)](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
+
+![]({img_url})
 
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
 ### This post has been **upvoted** by @japansteemit
