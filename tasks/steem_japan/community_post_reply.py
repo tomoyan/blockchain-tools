@@ -129,6 +129,9 @@ def post_reply(community_posts):
 ![]({img_url})
 
 ---
+## ウィンターコンテスト開催中
+[詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
+[![](https://cdn.steemitimages.com/DQmVm12sF858UvHF5tQqnuhVgvELniQaL9yxgfKPyCEMoHq/image.png)](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
 
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
 ### This post has been **upvoted** by @japansteemit
@@ -182,6 +185,9 @@ def post_comment(unvoted_posts):
     for post in unvoted_posts:
         body = f"""
 @{post.author} さん、こんにちは。
+## ウィンターコンテスト開催中
+[詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
+[![](https://cdn.steemitimages.com/DQmVm12sF858UvHF5tQqnuhVgvELniQaL9yxgfKPyCEMoHq/image.png)](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップしたら #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
