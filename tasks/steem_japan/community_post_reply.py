@@ -110,7 +110,7 @@ def post_reply(community_posts):
     # Get 'thank you' gif from giphy
     url = (
         'http://api.giphy.com/v1/gifs/search?'
-        'q=arigato thanks love&'
+        'q=arigato thanks appreciation&'
         'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
         'limit=100'
     )
