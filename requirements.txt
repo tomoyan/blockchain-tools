@@ -6,7 +6,7 @@ billiard==3.6.3.0
 boto3==1.16.27
 botocore==1.19.27
 cachelib==0.1.1
-celery==5.0.5
+celery==5.2.2
 certifi==2021.5.30
 chardet==3.0.4
 charset-normalizer==2.0.3
