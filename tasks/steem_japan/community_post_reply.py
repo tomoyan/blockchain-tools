@@ -126,22 +126,15 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
-## ウィンターコンテスト開催中(#japan5050)
-[詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
-[![](https://cdn.steemitimages.com/DQmVm12sF858UvHF5tQqnuhVgvELniQaL9yxgfKPyCEMoHq/image.png)](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
-
-![]({img_url})
-
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
 ### This post has been **upvoted** by @japansteemit
 
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップしたら #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
 Clubタグを使えるかどうか、ここで確認して下さい。
 [Club5050チェック](https://tinyurl.com/club-check)
 
-Use these tags after Power Up #steemexclusive & #club5050
-You will receive more support from Steemit team.
+Power Up and use these tags #steemexclusive & #club5050 for Booming upvote.
 Check your club status here.
 [Club check](https://tinyurl.com/club-check)
 
@@ -161,6 +154,7 @@ Check your club status here.
 
 コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
+[![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
     """
 
         # Post reply comment
@@ -184,17 +178,12 @@ def post_comment(unvoted_posts):
     for post in unvoted_posts:
         body = f"""
 @{post.author} さん、こんにちは。
-## ウィンターコンテスト開催中(#japan5050)
-[詳しくはこちら](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
-[![](https://cdn.steemitimages.com/DQmVm12sF858UvHF5tQqnuhVgvELniQaL9yxgfKPyCEMoHq/image.png)](https://steemit.com/hive-161179/@japansteemit/steem-japan-daily-japan5050-winter-contest)
-
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップしたら #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
 Clubタグを使えるかどうか、ここで確認して下さい。
 [Club5050チェック](https://tinyurl.com/club-check)
 
-Use these tags after Power Up #steemexclusive & #club5050
-You will receive more support from Steemit team.
+Power Up and use these tags #steemexclusive & #club5050 for Booming upvote.
 Check your club status here.
 [Club check](https://tinyurl.com/club-check)
 
@@ -212,6 +201,7 @@ Check your club status here.
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
+[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
         """
 
