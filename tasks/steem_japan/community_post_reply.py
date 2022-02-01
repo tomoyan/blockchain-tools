@@ -126,6 +126,7 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
+![]({img_url})
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
 ### This post has been **upvoted** by @japansteemit
 
