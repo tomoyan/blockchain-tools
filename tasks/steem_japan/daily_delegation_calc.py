@@ -58,7 +58,7 @@ def main():
 
     # Payout gets executed once a month
     # 1st day of the month
-    # process_delegation_payout()
+    process_delegation_payout()
 
     # clean up sp_delegation_payouts data
     # payout_data_cleanup()
@@ -111,11 +111,10 @@ def delegator_payout_calc():
                 'reward': reward,
             })
     else:
-        print('GET REQUEST ERROR:', response.status_code)
+        print('JUSTYY REQUEST ERROR:', response.status_code)
 
     print('PAYOUT_DATA', db_name, today, payout_data)
-    set_result = db_prd.child(db_name).child(today).set(payout_data)
-    print('SET_RESULT', set_result)
+    db_prd.child(db_name).child(today).set(payout_data)
 
     return payout_data
 
