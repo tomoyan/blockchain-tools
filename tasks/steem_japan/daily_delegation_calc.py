@@ -58,10 +58,10 @@ def main():
 
     # Payout gets executed once a month
     # 1st day of the month
-    process_delegation_payout()
+    # process_delegation_payout()
 
     # clean up sp_delegation_payouts data
-    payout_data_cleanup()
+    # payout_data_cleanup()
 
 
 def delegator_payout_calc():
