@@ -113,8 +113,9 @@ def delegator_payout_calc():
     else:
         print('GET REQUEST ERROR:', response.status_code)
 
-    print('PAYOUT_DATA', today, payout_data)
-    print('SAVE_DATA', db_prd.child(db_name).child(today).set(payout_data))
+    print('PAYOUT_DATA', db_name, today, payout_data)
+    set_result = db_prd.child(db_name).child(today).set(payout_data)
+    print('SET_RESULT', set_result)
 
     return payout_data
 
