@@ -61,7 +61,7 @@ def main():
     process_delegation_payout()
 
     # clean up sp_delegation_payouts data
-    # payout_data_cleanup()
+    payout_data_cleanup()
 
 
 def delegator_payout_calc():
@@ -214,11 +214,8 @@ def process_delegation_payout():
 
 def payout_data_cleanup():
     # Clean up data that is more than 2 months old
-    now = datetime.now()
-    diff_month_2 = now.month - 2
-
-    if diff_month_2 <= 0:
-        diff_month_2 += 12
+    TTL = 60
+    today = datetime.now()
 
     # Get data from sp_delegation_payouts
     payouts = db_prd.child(db_name).get()
@@ -226,12 +223,11 @@ def payout_data_cleanup():
     for payout in payouts.each():
         # key() is a date string '2021-09-01'
         date = payout.key()
+        date = datetime.strptime(date, '%Y-%m-%d')
 
-        # Check month of date string
-        month = time.strptime(date, "%Y-%m-%d").tm_mon
+        date_diff = int((today - date).days)
 
-        if month <= diff_month_2:
-            # remove data from firebase
+        if date_diff > TTL:
             db_prd.child(db_name).child(date).remove()
 
 
