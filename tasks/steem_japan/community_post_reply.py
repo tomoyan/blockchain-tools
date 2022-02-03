@@ -126,6 +126,7 @@ def post_reply(community_posts):
 
     for post in community_posts:
         body = f"""
+[![](https://cdn.steemitimages.com/DQmP2vPaJCCBBYksaL3cFzHPJPTsqDaf1ky6bBW1sKYFCvg/ezgif.com-gif-maker.gif)](https://steemit.com/hive-161179/@japansteemit/steem-japan-minor-contest-food-photography-or-or-february-3-2021)
 ![]({img_url})
 @{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
 ### This post has been **upvoted** by @japansteemit
@@ -178,6 +179,7 @@ def post_comment(unvoted_posts):
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
+[![](https://cdn.steemitimages.com/DQmP2vPaJCCBBYksaL3cFzHPJPTsqDaf1ky6bBW1sKYFCvg/ezgif.com-gif-maker.gif)](https://steemit.com/hive-161179/@japansteemit/steem-japan-minor-contest-food-photography-or-or-february-3-2021)
 @{post.author} さん、こんにちは。
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
