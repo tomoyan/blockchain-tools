@@ -1,4 +1,3 @@
-from pprint import pprint
 from datetime import datetime
 import os
 import urllib.request
@@ -6,7 +5,6 @@ from PIL import Image
 import random
 from pexels_api import API
 import requests
-import re
 
 from beem import Steem
 from beem.account import Account
@@ -28,12 +26,23 @@ nodes = [
     'https://cn.steems.top',
     'https://api.steem.buzz',
     'https://steem.61bts.com']
-random.shuffle(nodes)
+
+
+def get_node():
+    random.shuffle(nodes)
+    for node in nodes:
+        try:
+            response = requests.get(node, timeout=1)
+            if response:
+                return node
+        except requests.exceptions.RequestException as e:
+            print(f'GET_NODE_ERR:{node} {e}')
+
 
 POST_KEY = os.environ.get('POST_KEY')
 USERNAME = os.environ.get('USERNAME')
 
-STEEM = Steem(node=nodes, keys=[POST_KEY])
+STEEM = Steem(node=get_node(), keys=[POST_KEY])
 set_shared_blockchain_instance(STEEM)
 IU = ImageUploader(blockchain_instance=STEEM)
 
