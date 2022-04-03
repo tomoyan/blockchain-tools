@@ -409,6 +409,7 @@ def get_post_body(data):
 [続きはこちら]({data['news']['url']})
 
 <center>
+[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
 </center>
 

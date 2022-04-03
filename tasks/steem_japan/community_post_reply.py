@@ -191,6 +191,8 @@ Check your club status here.
 [How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
 [How to use #club5050 使い方](https://tinyurl.com/club5050v3)
 
+[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
+
 ### 💡 Curation Guide (アップボートガイド) 💡
 * Post about Japan (Japanese or English)
 * Set 30% reward to japansteemit
