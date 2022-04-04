@@ -161,7 +161,7 @@ def process_delegation_payout():
             ACCOUNT.transfer(p, amount, 'STEEM', memo)
             print('TRANSFER:', p, amount, memo)
         except Exception as err:
-            print(err)
+            print(err, p, amount, memo)
 
 
 if __name__ == '__main__':

@@ -196,7 +196,7 @@ def process_delegation_payout():
     # get last months payout data
     payout_month = now.month - 1
     payout_data = get_payout_data(payout_month)
-    memo = f'Steem Japan SP Delegation Reward: {payout_month}'
+    memo = f'Steem Japan SP Delegation Payout Month: {payout_month}'
 
     for p in payout_data:
         amount = float(f'{payout_data[p]: .3f}')
