@@ -113,7 +113,7 @@ def get_headline_news():
     return headline
 
 
-def get_community_posts(duration=90000, community_tag='hive-161179'):
+def get_community_posts(duration=86400, community_tag='hive-161179'):
     # Get community posts
     discussions = []
     # steem_japan = 'hive-161179'
@@ -413,36 +413,30 @@ def get_post_body(data):
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
 </center>
 
+---
 <center>
+**Steemitの仕組みや使い方などを日本語で説明しています。**
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 </center>
 
----
-#### [Steem Japan]({community_url}) 毎日の活動状況レポート
+#### [Steem Japan]({community_url}) 毎日の活動状況 (24H)
 コミュニティーに記事を投稿しているメンバーのアクティビティです。
-コミュニティーページへ投稿数、コメント数、アップボート回数など、コミュニティー貢献度が分かるように情報をレポート化。
+コミュニティーページへ投稿数、コメント数、アップボート回数など、コミュニティー貢献度をリスト化。
 
-#### [Steem Japan]({community_url}) Member Activity Total (Last 24H)
-* Total Posts: {data['total_posts']}
-* Total Comments: {data['total_comments']}
-* Total Votes: {data['total_votes']}
-
-**投稿メンバーのアクティビティー情報 (24H)**
-**-- Active Posting Members Stats --**
+* 投稿数合計: {data['total_posts']}
+* コメント数合計: {data['total_comments']}
+* アップボート数合計: {data['total_votes']}
 
 {stats_table}
 
-#### コミュニティー貢献度がアップボートなどに考慮されます。
-
 ---
-#### Follow @japansteemit community curation trail
+
 **キュレーショントレールをフォローしよう！👇**
 {trail_url}
 [![](https://i.imgur.com/0wVb3qI.png)]({trail_url})
 フォローの仕方 👇:
 {trail_info}
 
-#### Delegate STEEM POWER to @japansteemit
 **@japansteemitにSPをデレゲーションしよう！**
 | Click | And | Delegate | SP | Here 👇 |
 | --- | --- | --- | --- | --- |
@@ -459,7 +453,7 @@ def get_post_body(data):
 def publish_post(post_body):
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
-    title = f'Steem Japan: Community Member Stats {today}'
+    title = f'Steem Japan: コミュティーレポート {today}'
     tags = ['hive-161179', 'steem', 'japan', 'community', 'stats', 'krsuccess']
     body = post_body
 
