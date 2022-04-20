@@ -55,3 +55,6 @@ git remote rename heroku heroku-staging
 
 * Deploy to heroku
 git push heroku-staging master
+
+* Push code changes to git
+git push

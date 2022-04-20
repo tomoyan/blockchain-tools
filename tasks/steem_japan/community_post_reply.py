@@ -127,35 +127,24 @@ def post_reply(community_posts):
     for post in community_posts:
         body = f"""
 ![]({img_url})
-@{post.author} さん、こんにちは。 @japansteemitがこの記事を**アップボート**しました。
-### This post has been **upvoted** by @japansteemit
+@{post.author} さん、こんにちは。
+@japansteemitがこの記事を**アップボート**しました。
 
-![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
+![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
-Clubタグを使えるかどうか、ここで確認して下さい。
-[Club5050チェック](https://tinyurl.com/club-check)
-
-Power Up and use these tags #steemexclusive & #club5050 for Booming upvote.
-Check your club status here.
-[Club check](https://tinyurl.com/club-check)
-
-[How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050v3)
 
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
-### 💡 Curation Guide (アップボートガイド) 💡
-* Post about Japan (Japanese or English)
-* Set 30% reward to japansteemit
-* No upvote if you power down 100%
-* Upvote other community posts
-* Follow our **Curation Trail** [HERE]({TRAIL_URL})
-* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+### 💡 アップボートガイド 💡
+* 日本に関する記事 (日本語か英語)
+* Set 10-30% reward to @japansteemit
+* コミュニティーキュレーショントレールをフォロー [HERE]({TRAIL_URL})
+* SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
-コミュニティーキュレーションのトレールフォローやSPデレゲーションのご協力お願いします🙇
+コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
     """
@@ -183,29 +172,19 @@ def post_comment(unvoted_posts):
 @{post.author} さん、こんにちは。
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
-Clubタグを使えるかどうか、ここで確認して下さい。
-[Club5050チェック](https://tinyurl.com/club-check)
-
-Power Up and use these tags #steemexclusive & #club5050 for Booming upvote.
-Check your club status here.
-[Club check](https://tinyurl.com/club-check)
-
-[How to use #steemexclusive 使い方](https://tinyurl.com/steemexclusive)
-[How to use #club5050 使い方](https://tinyurl.com/club5050v3)
 
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
-### 💡 Curation Guide (アップボートガイド) 💡
-* Post about Japan (Japanese or English)
-* Set 30% reward to japansteemit
-* No upvote if you power down 100%
-* Upvote other community posts
-* Follow our **Curation Trail** [HERE]({TRAIL_URL})
-* **Delegate SP** [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
+### 💡 アップボートガイド 💡
+* 日本に関する記事 (日本語か英語)
+* Set 10-30% reward to @japansteemit
+* コミュニティーキュレーショントレールをフォロー [HERE]({TRAIL_URL})
+* SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
 
+コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
         """
