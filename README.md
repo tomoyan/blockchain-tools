@@ -33,3 +33,7 @@ SECRET_KEY=YOUR_SECRET_KEY
 
 Run flask app:  
 flask run  
+
+## Deploying with Git
+* Clone
+git clone https://github.com/tomoyan/blockchain-tools.git
