@@ -37,3 +37,21 @@ flask run
 ## Deploying with Git
 * Clone
 git clone https://github.com/tomoyan/blockchain-tools.git
+
+* Make changes to codes and commit.
+git add .
+git commit -m "commit everything"
+
+* Check remote -v
+git remote -v
+heroku-staging  https://git.heroku.com/blockchain-tools.git (fetch)
+heroku-staging  https://git.heroku.com/blockchain-tools.git (push)
+
+* Add a remote to local repository
+heroku git:remote -a floating-meadow-28045
+
+* Rename a Remote
+git remote rename heroku heroku-staging
+
+* Deploy to heroku
+git push heroku-staging master
