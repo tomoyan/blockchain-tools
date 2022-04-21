@@ -131,8 +131,9 @@ def post_reply(community_posts):
 @japansteemitがこの記事を**アップボート**しました。
 
 ![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
 
+Steemitの証人になったので投票お願いします！
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡
@@ -171,8 +172,9 @@ def post_comment(unvoted_posts):
         body = f"""
 @{post.author} さん、こんにちは。
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれます。
+パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
 
+Steemitの証人になったので投票お願いします！
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡

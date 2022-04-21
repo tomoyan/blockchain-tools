@@ -44,17 +44,19 @@ git commit -m "commit everything"
 
 * Check remote -v
 git remote -v
-heroku-staging  https://git.heroku.com/blockchain-tools.git (fetch)
-heroku-staging  https://git.heroku.com/blockchain-tools.git (push)
+heroku  https://git.heroku.com/floating-meadow-28045.git (fetch)
+heroku  https://git.heroku.com/floating-meadow-28045.git (push)
+origin  https://github.com/tomoyan/blockchain-tools.git (fetch)
+origin  https://github.com/tomoyan/blockchain-tools.git (push)
 
 * Add a remote to local repository
 heroku git:remote -a floating-meadow-28045
 
-* Rename a Remote
+* Rename a Remote (optional)
 git remote rename heroku heroku-staging
 
 * Deploy to heroku
-git push heroku-staging master
+git push heroku master
 
 * Push code changes to git
 git push
