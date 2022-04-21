@@ -52,9 +52,6 @@ origin  https://github.com/tomoyan/blockchain-tools.git (push)
 * Add a remote to local repository
 heroku git:remote -a floating-meadow-28045
 
-* Rename a Remote (optional)
-git remote rename heroku heroku-staging
-
 * Deploy to heroku
 git push heroku master
 
