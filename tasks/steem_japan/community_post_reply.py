@@ -19,13 +19,16 @@ nodelist = NodeList()
 nodelist.update_nodes()
 # nodes = nodelist.get_steem_nodes()
 nodes = [
+    'https://steem.moonjp.xyz',
     'https://api.steemitdev.com',
     'https://steem.justyy.workers.dev',
     'https://api.steem.fans',
     'https://api.steemit.com',
     'https://cn.steems.top',
     'https://api.steem.buzz',
-    'https://steem.61bts.com']
+    'https://steem.61bts.com'
+]
+
 random.shuffle(nodes)
 
 COMMUNITY_POST_KEY = os.environ.get('COMMUNITY_POST_KEY')
@@ -133,7 +136,7 @@ def post_reply(community_posts):
 ![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
 
-Steemitの証人になったので投票お願いします！
+Steemitの証人(witness)になったので投票お願いします！
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡
@@ -143,7 +146,9 @@ Steemitの証人になったので投票お願いします！
 * SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
-[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
+[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
+[3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
+[5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
 
 コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
@@ -174,7 +179,7 @@ def post_comment(unvoted_posts):
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
 
-Steemitの証人になったので投票お願いします！
+Steemitの証人(witness)になったので投票お願いします！
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡
@@ -184,7 +189,9 @@ Steemitの証人になったので投票お願いします！
 * SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
 [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
-[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP)
+[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
+[3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
+[5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
 
 コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)

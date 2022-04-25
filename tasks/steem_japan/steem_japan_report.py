@@ -26,7 +26,8 @@ nodes = [
     'https://api.steemit.com',
     'https://cn.steems.top',
     'https://api.steem.buzz',
-    'https://steem.61bts.com']
+    'https://steem.61bts.com'
+]
 
 
 def get_node():

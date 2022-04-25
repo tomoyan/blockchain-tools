@@ -19,13 +19,15 @@ nodelist = NodeList()
 nodelist.update_nodes()
 # nodes = nodelist.get_steem_nodes()
 nodes = [
+    'https://steem.moonjp.xyz',
     'https://api.steemitdev.com',
     'https://steem.justyy.workers.dev',
     'https://api.steem.fans',
     'https://api.steemit.com',
     'https://cn.steems.top',
     'https://api.steem.buzz',
-    'https://steem.61bts.com']
+    'https://steem.61bts.com'
+]
 
 
 def get_node():
