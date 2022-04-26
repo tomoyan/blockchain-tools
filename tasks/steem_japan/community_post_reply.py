@@ -29,12 +29,27 @@ nodes = [
     'https://steem.61bts.com'
 ]
 
-random.shuffle(nodes)
+
+def get_node():
+    result = nodes[0]
+    random.shuffle(nodes)
+
+    for node in nodes:
+        try:
+            response = requests.get(node, timeout=0.5)
+            if response:
+                result = node
+                break
+        except requests.exceptions.RequestException as e:
+            print(f'GET_NODE_ERR:{node} {e}')
+
+    return result
+
 
 COMMUNITY_POST_KEY = os.environ.get('COMMUNITY_POST_KEY')
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 
-STEEM = Steem(node=nodes, keys=[COMMUNITY_POST_KEY])
+STEEM = Steem(node=get_node(), keys=[COMMUNITY_POST_KEY])
 set_shared_blockchain_instance(STEEM)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 

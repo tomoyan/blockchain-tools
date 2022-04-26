@@ -31,14 +31,19 @@ nodes = [
 
 
 def get_node():
+    result = nodes[0]
     random.shuffle(nodes)
+
     for node in nodes:
         try:
-            response = requests.get(node, timeout=1)
+            response = requests.get(node, timeout=0.5)
             if response:
-                return node
+                result = node
+                break
         except requests.exceptions.RequestException as e:
             print(f'GET_NODE_ERR:{node} {e}')
+
+    return result
 
 
 POST_KEY = os.environ.get('POST_KEY')
