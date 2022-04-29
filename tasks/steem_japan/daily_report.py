@@ -205,6 +205,7 @@ def make_post_body(data):
 ---
 
 ## 今日コミュニティー投稿してくれたメンバー (24h)
+https://steemit.com/created/hive-161179
 {member_table}
 
 ### Steem Japanのキュレーショントレールをフォローしよう
