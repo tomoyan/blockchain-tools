@@ -218,6 +218,10 @@ https://steemit.com/created/hive-161179
 ### Steem Japanのキュレーショントレールをフォローしよう
 [![](https://i.imgur.com/Kowo3wZ.png)](https://tinyurl.com/curation-trail)
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
+#### ここからSPをデレゲートするとコミュニティーからUpvoteされます
+| SP デレゲーション | @japansteemit | コミュニティー |  アカウント |
+| - | - | - | - |
+| [100 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=100%20SP) | [500 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=500%20SP) | [1000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=1000%20SP) | [5000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=5000%20SP) |
 </center>
 """
 
