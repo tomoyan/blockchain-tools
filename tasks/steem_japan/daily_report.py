@@ -53,7 +53,7 @@ def get_sds_data(url):
 def get_community_members():
     # get community members who posted in the last 24 hours
     # return members list
-    print('GET_COMMUNITY_DATA')
+    print('get_community_data')
     members = []
 
     # last 24h data
@@ -93,7 +93,7 @@ def get_community_members():
 def get_account_info(members):
     # get members account details
     # return list
-    print('GET_ACCOUNT_INFO')
+    print('get_account_info')
     members_str = ','.join(members)
     url = (
         'https://sds.steemworld.org'
@@ -118,6 +118,7 @@ def get_account_info(members):
 
 
 def get_headline_news():
+    print('get_headline_news')
     headline = {
         'topic': '',
         'author': '',
@@ -157,7 +158,7 @@ def get_headline_news():
 
 
 def make_post_body(data):
-    print('GET_POST_BODY')
+    print('get_post_body')
 
     urltoimage = ''
     if data['news']['urlToImage']:
@@ -206,7 +207,13 @@ def make_post_body(data):
 
 ## 今日コミュニティー投稿してくれたメンバー (24h)
 https://steemit.com/created/hive-161179
+</center>
+
 {member_table}
+
+<center>
+
+---
 
 ### Steem Japanのキュレーショントレールをフォローしよう
 [![](https://i.imgur.com/Kowo3wZ.png)](https://tinyurl.com/curation-trail)
@@ -218,6 +225,7 @@ https://steemit.com/created/hive-161179
 
 
 def publish_post(post_body):
+    print('publish_post')
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
     title = f'Steem Japan コミュティーレポート {today}'
