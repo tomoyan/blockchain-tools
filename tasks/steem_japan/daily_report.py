@@ -40,6 +40,19 @@ STEEM = Steem(node=get_node(), keys=[POST_KEY])
 NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 
 
+def main():
+    print('START_DAILY_REPORT')
+    post_data = {}
+
+    members = get_community_members()
+    post_data['members'] = get_account_info(members)
+    post_data['news'] = get_headline_news()
+    post_body = make_post_body(post_data)
+    publish_post(post_body)
+
+    print('END_DAILY_REPORT')
+
+
 def get_sds_data(url):
     # get request to sds.steemworld.org
     json_data = {}
@@ -58,6 +71,7 @@ def get_community_members():
 
     # last 24h data
     start_epoch = datetime.now() - timedelta(days=1)
+    start_epoch = start_epoch.timestamp()
 
     url = (
         'https://sds.steemworld.org'
@@ -67,12 +81,11 @@ def get_community_members():
     )
     json_data = get_sds_data(url)
 
-    # {"link_id":0,"link_status":1,"author_status":2,"created":3,
-    # "payout":4,"payout_comments":5,"net_rshares":6,"reply_count":7,
-    # "resteem_count":8,"upvote_count":9,"downvote_count":10,
-    # "downvote_weight":11,"word_count":12,"is_muted":13,
-    # "is_pinned":14,"category":15,"community":16,"author":17,
-    # "permlink":18,"title":19,"image_url":20,"json_metadata":21,"body":22}
+    # {"link_id":0,"link_status":1,"author_status":2,"created":3,"payout":4,
+    # "payout_comments":5,"net_rshares":6,"reply_count":7,"resteem_count":8,
+    # "upvote_count":9,"downvote_count":10,"downvote_weight":11,"word_count":12,
+    # "is_muted":13,"is_pinned":14,"last_reply":15,"category":16,"community":17,
+    # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
     community_data = json_data['result']['rows']
 
     for data in community_data:
@@ -80,10 +93,10 @@ def get_community_members():
         if data[13]:
             continue
 
-        # last 24h posts ("author":17)
-        if data[3] > start_epoch.timestamp():
-            if data[17] not in members:
-                members.append(data[17])
+        # last 24h posts ("author":18)
+        if data[3] > start_epoch:
+            if data[18] not in members:
+                members.append(data[18])
         else:
             break
 
@@ -218,7 +231,7 @@ https://steemit.com/created/hive-161179
 ### Steem Japanのキュレーショントレールをフォローしよう
 [![](https://i.imgur.com/Kowo3wZ.png)](https://tinyurl.com/curation-trail)
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
-#### ここからSPをデレゲートするとコミュニティーからUpvoteされます
+#### STEEM POWERをデレゲートするとコミュニティーからUpvoteされます
 | SP デレゲーション | @japansteemit | コミュニティー |  アカウント |
 | - | - | - | - |
 | [100 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=100%20SP) | [500 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=500%20SP) | [1000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=1000%20SP) | [5000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=5000%20SP) |
@@ -242,19 +255,6 @@ def publish_post(post_body):
         body=body,
         tags=tags,
         self_vote=True)
-
-
-def main():
-    print('START_DAILY_REPORT')
-    post_data = {}
-
-    members = get_community_members()
-    post_data['members'] = get_account_info(members)
-    post_data['news'] = get_headline_news()
-    post_body = make_post_body(post_data)
-    publish_post(post_body)
-
-    print('END_DAILY_REPORT')
 
 
 if __name__ == '__main__':
