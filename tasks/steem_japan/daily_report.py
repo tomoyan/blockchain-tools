@@ -173,6 +173,12 @@ def get_headline_news():
 def make_post_body(data):
     print('get_post_body')
 
+    delegation_url = 'https://steemlogin.com'
+    delegation_url += '/sign'
+    delegation_url += '/delegateVestingShares'
+    delegation_url += '?delegatee=japansteemit'
+    delegation_url += '&vesting_shares'
+
     urltoimage = ''
     if data['news']['urlToImage']:
         urltoimage = f"<img src='{data['news']['urlToImage']}'> <br/>"
@@ -201,15 +207,14 @@ def make_post_body(data):
             |{member[2]}|{member[5]}|{pd}|\n"
 
     body = f"""
-<center>
-![](https://i.imgur.com/o8lNJ68.gif)
-## まずは今日のNewsAPIから ({data['news']['topic']}) <br/>
+## 今日のNewsAPI ({data['news']['topic']}) <br/>
 {data['news']['title']} <br/>
 {urltoimage}
 {description}
 {content}
 [続きはこちら]({data['news']['url']})
 
+![](https://i.imgur.com/o8lNJ68.gif)
 
 ### Steemitの仕組みや使い方などを日本語で説明しています
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
@@ -220,22 +225,17 @@ def make_post_body(data):
 
 ## 今日コミュニティー投稿してくれたメンバー (24h)
 https://steemit.com/created/hive-161179
-</center>
 
 {member_table}
 
-<center>
 
 ---
 
 ### Steem Japanのキュレーショントレールをフォローしよう
 [![](https://i.imgur.com/Kowo3wZ.png)](https://tinyurl.com/curation-trail)
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
-#### STEEM POWERをデレゲートするとコミュニティーからUpvoteされます
-| SP デレゲーション | @japansteemit | コミュニティー |  アカウント |
-| - | - | - | - |
-| [100 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=100%20SP) | [500 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=500%20SP) | [1000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=1000%20SP) | [5000 SP](https://steemlogin.com/sign/delegateVestingShares?delegator=&delegatee=japansteemit&vesting_shares=5000%20SP) |
-</center>
+####　SPをデレゲートするとコミュニティーからUpvoteされます
+[100 SP]({delegation_url}=100%20SP) [300 SP]({delegation_url}=300%20SP) [500 SP]({delegation_url}=500%20SP) [1000 SP]({delegation_url}=1000%20SP) [3000 SP]({delegation_url}=3000%20SP) [5000 SP]({delegation_url}=5000%20SP)
 """
 
     return body
