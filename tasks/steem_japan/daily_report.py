@@ -207,7 +207,7 @@ def make_post_body(data):
             |{member[2]}|{member[5]}|{pd}|\n"
 
     body = f"""
-## 今日のNewsAPI ({data['news']['topic']}) <br/>
+## 今日のニュースAPIから ({data['news']['topic']}) <br/>
 {data['news']['title']} <br/>
 {urltoimage}
 {description}
@@ -234,7 +234,7 @@ https://steemit.com/created/hive-161179
 ### Steem Japanのキュレーショントレールをフォローしよう
 [![](https://i.imgur.com/Kowo3wZ.png)](https://tinyurl.com/curation-trail)
 [![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
-####　SPをデレゲートするとコミュニティーからUpvoteされます
+#### SPをデレゲートするとコミュニティーからUpvoteされます
 [100 SP]({delegation_url}=100%20SP) [300 SP]({delegation_url}=300%20SP) [500 SP]({delegation_url}=500%20SP) [1000 SP]({delegation_url}=1000%20SP) [3000 SP]({delegation_url}=3000%20SP) [5000 SP]({delegation_url}=5000%20SP)
 """
 
