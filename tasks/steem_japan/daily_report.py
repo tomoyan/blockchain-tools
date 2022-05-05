@@ -39,6 +39,9 @@ USERNAME = os.environ.get('USERNAME')
 STEEM = Steem(node=get_node(), keys=[POST_KEY])
 NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 
+# Steem Japan
+COMMUNITY_ID = 'hive-161179'
+
 
 def main():
     print('START_DAILY_REPORT')
@@ -63,11 +66,37 @@ def get_sds_data(url):
     return json_data
 
 
+def get_community_roles(role):
+    # get role members and return list
+    print('get_community_roles', role)
+    members = []
+
+    url = (
+        'https://sds.steemworld.org'
+        '/communities_api'
+        '/getCommunityRoles'
+        f'/{COMMUNITY_ID}'
+    )
+    json_data = get_sds_data(url)
+    community_roles = json_data['result']['rows']
+    # {"cols":{"created":0,"account":1,"title":2,"role":3}
+
+    for row in community_roles:
+        if row[3] == role:
+            print(row[1])
+            members.append(row[1])
+
+    return members
+
+
 def get_community_members():
     # get community members who posted in the last 24 hours
     # return members list
     print('get_community_data')
     members = []
+
+    # get muted members
+    muted_members = get_community_roles('muted')
 
     # last 24h data
     start_epoch = datetime.now() - timedelta(days=1)
@@ -77,7 +106,7 @@ def get_community_members():
         'https://sds.steemworld.org'
         '/feeds_api'
         '/getCommunityPostsByCreated'
-        '/hive-161179'
+        f'/{COMMUNITY_ID}'
     )
     json_data = get_sds_data(url)
 
@@ -89,6 +118,10 @@ def get_community_members():
     community_data = json_data['result']['rows']
 
     for data in community_data:
+        # skip muted members
+        if data[18] in muted_members:
+            continue
+
         # skip muted posts ("is_muted":13)
         if data[13]:
             continue
