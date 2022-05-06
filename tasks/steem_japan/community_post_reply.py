@@ -149,21 +149,19 @@ def post_reply(community_posts):
 @japansteemitがこの記事を**アップボート**しました。
 
 ![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
+#steemexclusiveのタグを使うとSteemitチームがアップボートしてくれるかも。
 
 Steemitの証人(witness)になったので投票お願いします！
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡
-* 日本に関する記事 (日本語か英語)
-* Set 10-30% reward to @japansteemit
-* コミュニティーキュレーショントレールをフォロー [HERE]({TRAIL_URL})
-* SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
-[500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
+* SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
 [3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
 [5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
+* Set 10-30% beneficiary to @japansteemit
+* コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
 
 コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
@@ -192,21 +190,20 @@ def post_comment(unvoted_posts):
         body = f"""
 @{post.author} さん、こんにちは。
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-パワーアップして #steemexclusive と #club5050 のタグを使うとSteemitチームがアップボートしてくれるかも。
-
-Steemitの証人(witness)になったので投票お願いします！
-[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
-
 ### 💡 アップボートガイド 💡
-* 日本に関する記事 (日本語か英語)
-* Set 10-30% reward to @japansteemit
-* コミュニティーキュレーショントレールをフォロー [HERE]({TRAIL_URL})
-* SPデレゲーション [100 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=100%20SP) \
-[500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
+* SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
 [3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
 [5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
+* Set 10-30% beneficiary to @japansteemit
+* コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
+
+#steemexclusiveのタグを使うとSteemitチームがアップボートしてくれるかも。
+
+Steemitの証人(witness)になったので投票お願いします！
+[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
+
 
 コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)

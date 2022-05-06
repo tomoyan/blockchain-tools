@@ -230,7 +230,7 @@ def make_post_body(data):
 """
     for member in data['members']:
         avatar = \
-            f"<img src='https://steemitimages.com/u/{member[0]}/avatar/small'>"
+            f"<img src='https://steemitimages.com/u/{member[0]}/avatar/'>"
         pd = '-'
         if member[4] > 0:
             pd = '⬇️'
