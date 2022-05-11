@@ -64,6 +64,7 @@ TITLE = 'Steem Japan Community Reply'
 
 
 def main():
+    print('START COMMENT')
     community_posts = get_community_posts()
 
     # comment reply for voted posts
@@ -71,6 +72,8 @@ def main():
 
     # comment reply for unvoted posts
     post_comment(community_posts['unvoted'])
+
+    print('END COMMENT')
 
 
 def get_muted_members():
@@ -89,13 +92,38 @@ def get_muted_members():
     return muted
 
 
+def get_community_roles(role):
+    # get role members and return list
+    print('get_community_roles', role)
+    members = []
+    steem_japan = 'hive-161179'
+
+    url = (
+        'https://sds.steemworld.org'
+        '/communities_api'
+        '/getCommunityRoles'
+        f'/{steem_japan}'
+    )
+    response = requests.get(url)
+    json_data = response.json()
+    community_roles = json_data['result']['rows']
+    # {"cols":{"created":0,"account":1,"title":2,"role":3}
+
+    for row in community_roles:
+        if row[3] == role:
+            members.append(row[1])
+
+    return members
+
+
 def get_community_posts():
     # Get community posts for the last 24 hour
     # duration = 86400  # 1 day in seconds
     voted_discussions = []
     unvoted_discussions = []
     steem_japan = 'hive-161179'
-    muted = get_muted_members()
+    # muted = get_muted_members()
+    muted = get_community_roles('muted')
 
     # last 24h data
     start_epoch = datetime.now() - timedelta(days=1)

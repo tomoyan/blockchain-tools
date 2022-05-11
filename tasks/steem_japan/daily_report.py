@@ -83,7 +83,6 @@ def get_community_roles(role):
 
     for row in community_roles:
         if row[3] == role:
-            print(row[1])
             members.append(row[1])
 
     return members
