@@ -9,7 +9,6 @@ from beem.account import Account
 from beem.nodelist import NodeList
 # from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
-from beem.community import Community
 
 # Clear Caches
 # import beem.instance
@@ -24,8 +23,8 @@ nodes = [
     # 'https://api.steemitdev.com',
     # 'https://steem.justyy.workers.dev',
     # 'https://api.steem.fans',
-    'https://api.steemit.com',
     # 'https://cn.steems.top',
+    'https://api.steemit.com',
     'https://api.steem.buzz',
     'https://steem.61bts.com'
 ]
@@ -76,22 +75,6 @@ def main():
     print('END COMMUNITY_POST_REPLY')
 
 
-def get_muted_members():
-    muted = []
-    steem_japan = 'hive-161179'
-    community = Community(steem_japan, blockchain_instance=STEEM)
-
-    # Get a list of community roles
-    roles = community.get_community_roles()
-
-    # Find muted members
-    for role in roles:
-        if role[1] == 'muted':
-            muted.append(role[0])
-
-    return muted
-
-
 def get_community_roles(role):
     # get role members and return list
     print('get_community_roles', role)
@@ -117,13 +100,11 @@ def get_community_roles(role):
 
 
 def get_community_posts():
-    print('GET_COMMUNITY_POSTS')
+    print('get_community_posts')
     # Get community posts for the last 24 hour
-    # duration = 86400  # 1 day in seconds
     voted_discussions = []
     unvoted_discussions = []
     steem_japan = 'hive-161179'
-    # muted = get_muted_members()
     muted = get_community_roles('muted')
 
     # last 24h data
@@ -159,26 +140,6 @@ def get_community_posts():
                 })
         else:
             break
-
-    # Query community posts
-    # query = Query(tag=steem_japan)
-    # d = Discussions()
-    # posts = d.get_discussions('created', query, limit=100)
-
-    # # Store posts that are less than 1 hour old
-    # for post in posts:
-    #     # Skip muted members
-    #     if post.author in muted:
-    #         continue
-
-    #     if post.time_elapsed().total_seconds() < duration:
-    #         has_voted = ACCOUNT.has_voted(post)
-    #         if has_voted:
-    #             voted_discussions.append(post)
-    #         else:
-    #             unvoted_discussions.append(post)
-    #     else:
-    #         break
 
     return {
         'voted': voted_discussions,
