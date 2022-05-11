@@ -2,11 +2,12 @@ import os
 import time
 import requests
 import random
+from datetime import datetime, timedelta
 
 from beem import Steem
 from beem.account import Account
 from beem.nodelist import NodeList
-from beem.discussions import Query, Discussions
+# from beem.discussions import Query, Discussions
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
 
@@ -19,12 +20,12 @@ nodelist = NodeList()
 nodelist.update_nodes()
 # nodes = nodelist.get_steem_nodes()
 nodes = [
-    'https://steem.moonjp.xyz',
-    'https://api.steemitdev.com',
-    'https://steem.justyy.workers.dev',
+    # 'https://steem.moonjp.xyz',
+    # 'https://api.steemitdev.com',
+    # 'https://steem.justyy.workers.dev',
     'https://api.steem.fans',
     'https://api.steemit.com',
-    'https://cn.steems.top',
+    # 'https://cn.steems.top',
     'https://api.steem.buzz',
     'https://steem.61bts.com'
 ]
@@ -90,31 +91,65 @@ def get_muted_members():
 
 def get_community_posts():
     # Get community posts for the last 24 hour
-    duration = 86400  # 1 day in seconds
+    # duration = 86400  # 1 day in seconds
     voted_discussions = []
     unvoted_discussions = []
     steem_japan = 'hive-161179'
     muted = get_muted_members()
 
-    # Query community posts
-    query = Query(tag=steem_japan)
-    d = Discussions()
-    posts = d.get_discussions('created', query, limit=100)
+    # last 24h data
+    start_epoch = datetime.now() - timedelta(days=1)
+    start_epoch = start_epoch.timestamp()
 
-    # Store posts that are less than 1 hour old
-    for post in posts:
-        # Skip muted members
-        if post.author in muted:
+    url = (
+        'https://sds.steemworld.org'
+        '/feeds_api'
+        '/getCommunityPostsByCreated'
+        f'/{steem_japan}'
+    )
+
+    response = requests.get(url)
+    json_data = response.json()
+    community_data = json_data['result']['rows']
+
+    for data in community_data:
+        if data[18] in muted:
             continue
 
-        if post.time_elapsed().total_seconds() < duration:
-            has_voted = ACCOUNT.has_voted(post)
+        if data[3] > start_epoch:
+            has_voted = ACCOUNT.has_voted(f'{data[18]}/{data[19]}')
             if has_voted:
-                voted_discussions.append(post)
+                voted_discussions.append({
+                    'author': data[18],
+                    'identifier': f'{data[18]}/{data[19]}'
+                })
             else:
-                unvoted_discussions.append(post)
+                unvoted_discussions.append({
+                    'author': data[18],
+                    'identifier': f'{data[18]}/{data[19]}'
+                })
         else:
             break
+
+    # Query community posts
+    # query = Query(tag=steem_japan)
+    # d = Discussions()
+    # posts = d.get_discussions('created', query, limit=100)
+
+    # # Store posts that are less than 1 hour old
+    # for post in posts:
+    #     # Skip muted members
+    #     if post.author in muted:
+    #         continue
+
+    #     if post.time_elapsed().total_seconds() < duration:
+    #         has_voted = ACCOUNT.has_voted(post)
+    #         if has_voted:
+    #             voted_discussions.append(post)
+    #         else:
+    #             unvoted_discussions.append(post)
+    #     else:
+    #         break
 
     return {
         'voted': voted_discussions,
