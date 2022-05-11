@@ -208,7 +208,7 @@ def post_reply(community_posts):
     for post in community_posts:
         body = f"""
 ![]({img_url})
-@{post.author} さん、こんにちは。
+@{post['author']} さん、こんにちは。
 @japansteemitがこの記事を**アップボート**しました。
 
 ![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
@@ -237,7 +237,7 @@ Steemitの証人(witness)になったので投票お願いします！
                 author=COMMUNITY_NAME,
                 title=TITLE,
                 body=body,
-                reply_identifier=post.identifier,
+                reply_identifier=post['identifier'],
                 self_vote=False)
         except Exception:
             continue
@@ -251,7 +251,7 @@ def post_comment(unvoted_posts):
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
-@{post.author} さん、こんにちは。
+@{post['author']} さん、こんにちは。
 ![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
 ### 💡 アップボートガイド 💡
 * SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
@@ -279,7 +279,7 @@ Steemitの証人(witness)になったので投票お願いします！
                 author=COMMUNITY_NAME,
                 title=TITLE,
                 body=body,
-                reply_identifier=post.identifier,
+                reply_identifier=post['identifier'],
                 self_vote=False)
         except Exception:
             continue
