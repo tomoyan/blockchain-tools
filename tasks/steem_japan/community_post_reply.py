@@ -23,7 +23,7 @@ nodes = [
     # 'https://steem.moonjp.xyz',
     # 'https://api.steemitdev.com',
     # 'https://steem.justyy.workers.dev',
-    'https://api.steem.fans',
+    # 'https://api.steem.fans',
     'https://api.steemit.com',
     # 'https://cn.steems.top',
     'https://api.steem.buzz',
@@ -64,7 +64,7 @@ TITLE = 'Steem Japan Community Reply'
 
 
 def main():
-    print('START COMMENT')
+    print('START COMMUNITY_POST_REPLY')
     community_posts = get_community_posts()
 
     # comment reply for voted posts
@@ -73,7 +73,7 @@ def main():
     # comment reply for unvoted posts
     post_comment(community_posts['unvoted'])
 
-    print('END COMMENT')
+    print('END COMMUNITY_POST_REPLY')
 
 
 def get_muted_members():
@@ -117,6 +117,7 @@ def get_community_roles(role):
 
 
 def get_community_posts():
+    print('GET_COMMUNITY_POSTS')
     # Get community posts for the last 24 hour
     # duration = 86400  # 1 day in seconds
     voted_discussions = []
@@ -186,6 +187,7 @@ def get_community_posts():
 
 
 def post_reply(community_posts):
+    print('post_reply community_posts')
     # post a comment for voted posts
 
     # Get 'thank you' gif from giphy
@@ -248,6 +250,7 @@ Steemitの証人(witness)になったので投票お願いします！
 
 
 def post_comment(unvoted_posts):
+    print('post_comment unvoted_posts')
     # post a comment for unvoted posts
     for post in unvoted_posts:
         body = f"""
