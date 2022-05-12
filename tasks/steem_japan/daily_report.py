@@ -50,6 +50,7 @@ def main():
     members = get_community_members()
     post_data['members'] = get_account_info(members)
     post_data['news'] = get_headline_news()
+    post_data['posts'] = get_japanese_posts()
     post_body = make_post_body(post_data)
     publish_post(post_body)
 
@@ -86,6 +87,53 @@ def get_community_roles(role):
             members.append(row[1])
 
     return members
+
+
+def get_japanese_posts():
+    # search japanese tag posts in the last 24 hours
+    # return post list
+    print('get_japanese_posts')
+    posts = []
+
+    # get muted members
+    muted_members = get_community_roles('muted')
+
+    # last 24h data
+    start_epoch = datetime.now() - timedelta(days=1)
+    start_epoch = start_epoch.timestamp()
+
+    url = (
+        'https://sds.steemworld.org'
+        '/content_search_api'
+        '/getPostsByTagsText'
+        '/japanese'
+        '/japan'
+    )
+    json_data = get_sds_data(url)
+    post_data = json_data['result']['rows']
+
+    # {"link_id":0,"link_status":1,"author_status":2,"created":3,"payout":4,
+    # "payout_comments":5,"net_rshares":6,"reply_count":7,"resteem_count":8,
+    # "upvote_count":9,"downvote_count":10,"downvote_weight":11,"word_count":12,
+    # "is_muted":13,"is_pinned":14,"last_reply":15,"category":16,"community":17,
+    # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
+
+    for data in post_data:
+        # skip muted members
+        if data[18] in muted_members:
+            continue
+
+        # skip muted posts ("is_muted":13)
+        if data[13]:
+            continue
+
+        # last 24h posts ("author":18)
+        if data[3] > start_epoch:
+            posts.append(data)
+        else:
+            break
+
+    return posts
 
 
 def get_community_members():
@@ -238,6 +286,14 @@ def make_post_body(data):
             f"|{avatar}|{member[0]}|{member[1]}\
             |{member[2]}|{member[5]}|{pd}|\n"
 
+    post_table = f"""
+| ユーザー名 | タイトル |
+| --- | --- |
+"""
+    for post in data['posts']:
+        post_table += \
+            f"|{post[18]}|[{post[20]}](steemit.com/@{post[18]/{post[19]}})|\n"
+
     body = f"""
 ## 今日のニュースAPIから ({data['news']['topic']}) <br/>
 {data['news']['title']} <br/>
@@ -260,6 +316,8 @@ https://steemit.com/created/hive-161179
 
 {member_table}
 
+#japaneseタグの記事 (24h)
+{post_table}
 
 ---
 
