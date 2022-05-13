@@ -52,8 +52,7 @@ def main():
     post_data['news'] = get_headline_news()
     post_data['posts'] = get_japanese_posts()
     post_body = make_post_body(post_data)
-    print(post_body)
-    # publish_post(post_body)
+    publish_post(post_body)
 
     print('END_DAILY_REPORT')
 
