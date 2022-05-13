@@ -292,7 +292,7 @@ def make_post_body(data):
 """
     for post in data['posts']:
         post_table += \
-            f"|{post[18]}|[{post[20]}](steemit.com/@{post[18]/{post[19]}})|\n"
+            f"|{post[18]}|{post[20]}|\n"
 
     body = f"""
 ## 今日のニュースAPIから ({data['news']['topic']}) <br/>
