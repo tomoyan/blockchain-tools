@@ -3,7 +3,7 @@ import os
 import random
 import requests
 from datetime import datetime, timedelta
-
+import textwrap
 
 NODES = [
     'https://steem.moonjp.xyz',
@@ -52,7 +52,8 @@ def main():
     post_data['news'] = get_headline_news()
     post_data['posts'] = get_japanese_posts()
     post_body = make_post_body(post_data)
-    publish_post(post_body)
+    print(post_body)
+    # publish_post(post_body)
 
     print('END_DAILY_REPORT')
 
@@ -102,15 +103,16 @@ def get_japanese_posts():
     start_epoch = datetime.now() - timedelta(days=1)
     start_epoch = start_epoch.timestamp()
 
+    # japanese tag search
     url = (
         'https://sds.steemworld.org'
         '/content_search_api'
         '/getPostsByTagsText'
         '/japanese'
-        '/japan'
+        '/japanese'
     )
-    json_data = get_sds_data(url)
-    post_data = json_data['result']['rows']
+    japanese_json_data = get_sds_data(url)
+    post_data = japanese_json_data['result']['rows']
 
     # {"link_id":0,"link_status":1,"author_status":2,"created":3,"payout":4,
     # "payout_comments":5,"net_rshares":6,"reply_count":7,"resteem_count":8,
@@ -129,7 +131,35 @@ def get_japanese_posts():
 
         # last 24h posts ("author":18)
         if data[3] > start_epoch:
-            posts.append(data)
+            if data not in posts:
+                posts.append(data)
+        else:
+            break
+
+    # japan tag search
+    url = (
+        'https://sds.steemworld.org'
+        '/content_search_api'
+        '/getPostsByTagsText'
+        '/japan'
+        '/japan'
+    )
+    japan_json_data = get_sds_data(url)
+    post_data = japan_json_data['result']['rows']
+
+    for data in post_data:
+        # skip muted members
+        if data[18] in muted_members:
+            continue
+
+        # skip muted posts ("is_muted":13)
+        if data[13]:
+            continue
+
+        # last 24h posts ("author":18)
+        if data[3] > start_epoch:
+            if data not in posts:
+                posts.append(data)
         else:
             break
 
@@ -286,16 +316,16 @@ def make_post_body(data):
             f"|{avatar}|{member[0]}|{member[1]}\
             |{member[2]}|{member[5]}|{pd}|\n"
 
-    post_table = f"""
-| ユーザー名 | タイトル |
-| --- | --- |
-"""
+    jp_posts = ""
     for post in data['posts']:
-        post_table += \
-            f"|{post[18]}|{post[20]}|\n"
+        author = post[18]
+        title = textwrap.shorten(post[20], width=35, placeholder='...')
+        jp_posts += \
+            f"[{author} - {title}](steemit.com/@{post[18]}/{post[19]})\n"
 
     body = f"""
-## 今日のニュースAPIから ({data['news']['topic']}) <br/>
+### [Steem Japanのコミュニティーページから投稿しよう](https://steemit.com/created/hive-161179)
+### 今日のニュースAPIから ({data['news']['topic']}) <br/>
 {data['news']['title']} <br/>
 {urltoimage}
 {description}
@@ -316,8 +346,8 @@ https://steemit.com/created/hive-161179
 
 {member_table}
 
-#japaneseタグの記事 (24h)
-{post_table}
+### 👹 #japan タグと #japanese タグの投稿記事 ⛩️ (24h)
+{jp_posts}
 
 ---
 
