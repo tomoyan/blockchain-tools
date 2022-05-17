@@ -1,9 +1,12 @@
 from beem import Steem
+from beem.account import Account
+from beem.instance import set_shared_blockchain_instance
 import os
 import random
 import requests
 from datetime import datetime, timedelta
 import textwrap
+# from functools import cache
 
 NODES = [
     'https://steem.moonjp.xyz',
@@ -37,6 +40,7 @@ POST_KEY = os.environ.get('POST_KEY')
 USERNAME = os.environ.get('USERNAME')
 
 STEEM = Steem(node=get_node(), keys=[POST_KEY])
+set_shared_blockchain_instance(STEEM)
 NEWS_API_KEY = '1d6a61e9f7e6482f8d909cb4988cf577'
 
 # Steem Japan
@@ -50,7 +54,8 @@ def main():
     members = get_community_members()
     post_data['members'] = get_account_info(members)
     post_data['news'] = get_headline_news()
-    post_data['posts'] = get_japanese_posts()
+    post_data['posts'] = get_japanese_posts('japan')
+    post_data['posts'] += get_japanese_posts('japanese')
     post_body = make_post_body(post_data)
     publish_post(post_body)
 
@@ -67,6 +72,17 @@ def get_sds_data(url):
     return json_data
 
 
+# @cache
+def get_muted_members():
+    print('get_muted_members')
+    muted_members = []
+    ACCOUNT = Account(USERNAME, blockchain_instance=STEEM)
+    muted_members = ACCOUNT.get_mutings()
+
+    return muted_members
+
+
+# @cache
 def get_community_roles(role):
     # get role members and return list
     print('get_community_roles', role)
@@ -89,26 +105,28 @@ def get_community_roles(role):
     return members
 
 
-def get_japanese_posts():
+def get_japanese_posts(tag):
     # search japanese tag posts in the last 24 hours
     # return post list
-    print('get_japanese_posts')
+    print('get_japanese_posts', tag)
     posts = []
 
-    # get muted members
-    muted_members = get_community_roles('muted')
+    # get personally muted members
+    muted_members = get_muted_members()
+    # get muted community members
+    muted_members += get_community_roles('muted')
 
     # last 24h data
     start_epoch = datetime.now() - timedelta(days=1)
     start_epoch = start_epoch.timestamp()
 
-    # japanese tag search
+    # search post by tag
     url = (
         'https://sds.steemworld.org'
         '/content_search_api'
         '/getPostsByTagsText'
-        '/japanese'
-        '/japanese'
+        f'/{tag}'
+        f'/{tag}'
     )
     japanese_json_data = get_sds_data(url)
     post_data = japanese_json_data['result']['rows']
@@ -118,33 +136,6 @@ def get_japanese_posts():
     # "upvote_count":9,"downvote_count":10,"downvote_weight":11,"word_count":12,
     # "is_muted":13,"is_pinned":14,"last_reply":15,"category":16,"community":17,
     # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
-
-    for data in post_data:
-        # skip muted members
-        if data[18] in muted_members:
-            continue
-
-        # skip muted posts ("is_muted":13)
-        if data[13]:
-            continue
-
-        # last 24h posts ("author":18)
-        if data[3] > start_epoch:
-            if data not in posts:
-                posts.append(data)
-        else:
-            break
-
-    # japan tag search
-    url = (
-        'https://sds.steemworld.org'
-        '/content_search_api'
-        '/getPostsByTagsText'
-        '/japan'
-        '/japan'
-    )
-    japan_json_data = get_sds_data(url)
-    post_data = japan_json_data['result']['rows']
 
     for data in post_data:
         # skip muted members
