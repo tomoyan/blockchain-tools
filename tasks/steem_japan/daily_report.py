@@ -33,6 +33,7 @@ def get_node():
         except requests.exceptions.RequestException as e:
             print(f'GET_NODE_ERR:{node} {e}')
 
+    print('node:', result)
     return result
 
 
