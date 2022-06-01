@@ -141,6 +141,24 @@ def get_payout_data(payout_month=None):
     return payout_data
 
 
+def payout_data_cleanup():
+    print('payout_data_cleanup')
+    # Remove old data (more than 60 days)
+    TTL = 60
+
+    today = datetime.now()
+    payouts = db_prd.child(db_name).get()
+
+    for payout in payouts.each():
+        # key() is a date string 2021-09-01
+        key = payout.key()
+        date = datetime.strptime(key, '%Y-%m-%d')
+        date_diff = int((today - date).days)
+
+        if date_diff > TTL:
+            db_prd.child(db_name).child(key).remove()
+
+
 def process_delegation_payout():
     print('process_delegation_payout')
     minimum = 0.001
@@ -168,6 +186,8 @@ def process_delegation_payout():
             print('TRANSFER:', p, amount, memo)
         except Exception as err:
             print(err, p, amount, memo)
+
+    payout_data_cleanup()
 
 
 if __name__ == '__main__':
