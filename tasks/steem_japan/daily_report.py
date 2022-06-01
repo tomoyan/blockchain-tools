@@ -10,7 +10,7 @@ import textwrap
 
 NODES = [
     'https://api.steemit.com',
-    'https://api.steem.buzz',
+    # 'https://api.steem.buzz',
     # 'https://steem.moonjp.xyz',
     # 'https://api.steemitdev.com',
     # 'https://steem.justyy.workers.dev',

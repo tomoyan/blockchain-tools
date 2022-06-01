@@ -146,6 +146,10 @@ def process_delegation_payout():
     minimum = 0.001
     now = datetime.now()
 
+    # only runs on the first day of the month
+    if now.day != 1:
+        return
+
     # get last months payout data
     payout_month = now.month - 1
     payout_data = get_payout_data(payout_month)
