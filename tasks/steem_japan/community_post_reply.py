@@ -170,9 +170,9 @@ def post_reply(community_posts):
 @japansteemitがこの記事を**アップボート**しました。
 
 ![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-#steemexclusiveのタグを使うとSteemitチームがアップボートしてくれるかも。
 
-Steemitの証人(witness)になったので投票お願いします！
+### tomoyan.witnessに投票お願いします👇
+https://steemitwallet.com/~witnesses
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ### 💡 アップボートガイド 💡
@@ -184,7 +184,7 @@ Steemitの証人(witness)になったので投票お願いします！
 * Set 10-30% beneficiary to @japansteemit
 * コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
 
-コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
+分からない事は何でも質問して下さい🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
     """
@@ -221,13 +221,11 @@ def post_comment(unvoted_posts):
 * Set 10-30% beneficiary to @japansteemit
 * コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
 
-#steemexclusiveのタグを使うとSteemitチームがアップボートしてくれるかも。
-
-Steemitの証人(witness)になったので投票お願いします！
+### tomoyan.witnessに投票お願いします👇
+https://steemitwallet.com/~witnesses
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
-
-コミュニティーキュレーションのフォローやSPデレゲーションのご協力お願いします🙇
+分からない事は何でも質問して下さい🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
 [![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
         """
