@@ -18,7 +18,7 @@ diff-match-patch==20200713
 Dumper==1.2.0
 ecdsa==0.15
 Events==0.3
-Flask==1.1.2
+Flask==2.3.2
 Flask-Session==0.3.2
 flask-talisman==0.7.0
 Flask-WTF==0.14.3
